@@ -15,13 +15,27 @@ public class OptionParser {
         MoveDirection[] parsedMoveDirections = new MoveDirection[correctDirections];
         for (String stringMoveDirection : stringMoveDirections) {
             switch (stringMoveDirection) {
-                case "f" -> parsedMoveDirections[directionIndex] = MoveDirection.FORWARD;
-                case "b" -> parsedMoveDirections[directionIndex] = MoveDirection.BACKWARD;
-                case "r" -> parsedMoveDirections[directionIndex] = MoveDirection.RIGHT;
-                case "l" -> parsedMoveDirections[directionIndex] = MoveDirection.LEFT;
-                default -> directionIndex--;
+                case "f": {
+                    parsedMoveDirections[directionIndex] = MoveDirection.FORWARD;
+                    directionIndex++;
+                    break;
+                }
+                case "b": {
+                    parsedMoveDirections[directionIndex] = MoveDirection.BACKWARD;
+                    directionIndex++;
+                    break;
+                }
+                case "r": {
+                    parsedMoveDirections[directionIndex] = MoveDirection.RIGHT;
+                    directionIndex++;
+                    break;
+                }
+                case "l": {
+                    parsedMoveDirections[directionIndex] = MoveDirection.LEFT;
+                    directionIndex++;
+                    break;
+                }
             }
-            directionIndex++;
         }
 
         return parsedMoveDirections;
