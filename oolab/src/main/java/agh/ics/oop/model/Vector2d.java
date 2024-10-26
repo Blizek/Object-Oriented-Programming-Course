@@ -2,6 +2,9 @@ package agh.ics.oop.model;
 
 import java.util.Objects;
 
+/**
+ * Model class of 2 dimensions vector
+ */
 public class Vector2d {
     private final int x;
     private final int y;

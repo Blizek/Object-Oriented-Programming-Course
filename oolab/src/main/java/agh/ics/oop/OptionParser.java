@@ -2,7 +2,15 @@ package agh.ics.oop;
 
 import agh.ics.oop.model.MoveDirection;
 
+/**
+ * Util class that has method to parse directions as Strings (example: "f", "r" etc.) to enum MoveDirection object
+ */
 public class OptionParser {
+    /**
+     * Method to convert list of directions as Strings to list of directions but as enum MoveDirection objects
+     * @param stringMoveDirections Array of directions as Strings
+     * @return Array of directions as enum MoveDirection objects
+     */
     public static MoveDirection[] parseStringToMoveDirections(String[] stringMoveDirections) {
         int correctDirections = 0;
         for (String stringMoveDirection : stringMoveDirections) {
