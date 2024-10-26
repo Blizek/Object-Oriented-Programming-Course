@@ -55,9 +55,9 @@ public class Vector2d {
     }
 
     /**
-     * Method to create new Vector2d object which is a result of subtract two vectors
+     * Method to create new Vector2d object which is a result of subtraction two vectors
      * @param other vector which we subtract to this Vector2d
-     * @return new Vector2d object which is subtract of this and 'other' Vector2d
+     * @return new Vector2d object which is subtraction of this and 'other' Vector2d
      */
     public Vector2d subtract(Vector2d other) {
         return new Vector2d(x - other.x, y - other.y);
