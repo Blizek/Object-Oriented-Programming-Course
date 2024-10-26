@@ -83,9 +83,7 @@ public class Vector2d {
      * @return new Vector2d that has both variables opposite to this one
      */
     public Vector2d opposite() {
-        int opposite_x = x * (-1);
-        int opposite_y = y * (-1);
-        return new Vector2d(opposite_x, opposite_y);
+        return new Vector2d(-x, -y);
     }
 
     @Override
