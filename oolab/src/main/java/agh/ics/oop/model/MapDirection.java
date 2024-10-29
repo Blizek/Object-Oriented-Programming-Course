@@ -4,18 +4,22 @@ package agh.ics.oop.model;
  * Enum class that describes all geographical directions
  */
 public enum MapDirection {
-    NORTH,
-    SOUTH,
-    WEST,
-    EAST;
+    NORTH(new Vector2d(0, 1), "Północ"),
+    SOUTH(new Vector2d(0, -1), "Południe"),
+    WEST(new Vector2d(-1, 0), "Zachód"),
+    EAST(new Vector2d(1, 0), "Wschód");
+
+    private final Vector2d unitVector;
+    private final String directionName;
+
+    MapDirection(Vector2d unitVector, String directionName) {
+        this.unitVector = unitVector;
+        this.directionName = directionName;
+    }
+
 
     public String toString() {
-        return switch (this) {
-            case NORTH -> "Północ";
-            case SOUTH -> "Południe";
-            case WEST -> "Zachód";
-            case EAST -> "Wschód";
-        };
+        return directionName;
     }
 
     /**
@@ -49,11 +53,6 @@ public enum MapDirection {
      * @return Vector2d object that is unit vector of direction
      */
     public Vector2d toUnitVector() {
-        return switch (this) {
-            case NORTH -> new Vector2d(0, 1);
-            case SOUTH -> new Vector2d(0, -1);
-            case WEST -> new Vector2d(-1, 0);
-            case EAST -> new Vector2d(1, 0);
-        };
+        return unitVector;
     }
 }
