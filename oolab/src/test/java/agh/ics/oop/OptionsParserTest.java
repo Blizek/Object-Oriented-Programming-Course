@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OptionParserTest {
+class OptionsParserTest {
     /**
      * Test to check if OptionParser.parseStringToMoveDirections works properly (test covers when all data correct)
      */
@@ -15,7 +15,7 @@ class OptionParserTest {
         String[] correctData = {"f", "l", "f", "b", "r", "f"};
 
         // when
-        MoveDirection[] parsedCorrectData = OptionParser.parseStringToMoveDirections(correctData);
+        MoveDirection[] parsedCorrectData = OptionsParser.parseStringToMoveDirections(correctData);
         MoveDirection[] expectedCorrectData = {MoveDirection.FORWARD,
                                                 MoveDirection.LEFT,
                                                 MoveDirection.FORWARD,
@@ -37,7 +37,7 @@ class OptionParserTest {
         String[] correctAndWrongData = {"f", "l", "test", "b", "x", "f", "z"};
 
         // when
-        MoveDirection[] parsedCorrectAndWrongData = OptionParser.parseStringToMoveDirections(correctAndWrongData);
+        MoveDirection[] parsedCorrectAndWrongData = OptionsParser.parseStringToMoveDirections(correctAndWrongData);
         MoveDirection[] expectedCorrectAndWrongData = {MoveDirection.FORWARD,
                                                         MoveDirection.LEFT,
                                                         MoveDirection.BACKWARD,
@@ -56,7 +56,7 @@ class OptionParserTest {
         String[] emptyArray = {};
 
         // when
-        MoveDirection[] parsedEmptyArray = OptionParser.parseStringToMoveDirections(emptyArray);
+        MoveDirection[] parsedEmptyArray = OptionsParser.parseStringToMoveDirections(emptyArray);
         MoveDirection[] expectedEmptyArray = {};
 
         // then
@@ -72,7 +72,7 @@ class OptionParserTest {
         String[] onlyWrongData = {"pozdrowienia", "x", "podziękowania", "AGH", "e", "g"};
 
         // when
-        MoveDirection[] parsedOnlyWrongData = OptionParser.parseStringToMoveDirections(onlyWrongData);
+        MoveDirection[] parsedOnlyWrongData = OptionsParser.parseStringToMoveDirections(onlyWrongData);
         MoveDirection[] expectedOnlyWrongData = {};
 
         // then
