@@ -1,14 +1,21 @@
 package agh.ics.oop.model;
 
 public class Animal {
-    private MapDirection animalDirection;
-    private Vector2d animalPosition;
+    private MapDirection animalDirection; // by default set as MapDirection.NORTH
+    private Vector2d animalPosition; // by default set as Vector2d(2, 2)
 
+    /**
+     * Default constructor for animal class
+     */
     public Animal() {
         animalDirection = MapDirection.NORTH;
         animalPosition = new Vector2d(2, 2);
     }
 
+    /**
+     * Constructor with setting start possition
+     * @param startPosition animal position start
+     */
     public Animal(Vector2d startPosition) {
         animalDirection = MapDirection.NORTH;
         animalPosition = startPosition;

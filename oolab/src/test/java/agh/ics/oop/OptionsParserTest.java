@@ -3,6 +3,8 @@ package agh.ics.oop;
 import agh.ics.oop.model.MoveDirection;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class OptionsParserTest {
@@ -15,16 +17,16 @@ class OptionsParserTest {
         String[] correctData = {"f", "l", "f", "b", "r", "f"};
 
         // when
-        MoveDirection[] parsedCorrectData = OptionsParser.parseStringToMoveDirections(correctData);
-        MoveDirection[] expectedCorrectData = {MoveDirection.FORWARD,
+        List<MoveDirection> parsedCorrectData = OptionsParser.parseStringToMoveDirections(correctData);
+        List<MoveDirection> expectedCorrectData = List.of(MoveDirection.FORWARD,
                                                 MoveDirection.LEFT,
                                                 MoveDirection.FORWARD,
                                                 MoveDirection.BACKWARD,
                                                 MoveDirection.RIGHT,
-                                                MoveDirection.FORWARD};
+                                                MoveDirection.FORWARD);
 
         // then
-        assertArrayEquals(parsedCorrectData, expectedCorrectData);
+        assertEquals(parsedCorrectData, expectedCorrectData);
     }
 
     /**
@@ -37,14 +39,14 @@ class OptionsParserTest {
         String[] correctAndWrongData = {"f", "l", "test", "b", "x", "f", "z"};
 
         // when
-        MoveDirection[] parsedCorrectAndWrongData = OptionsParser.parseStringToMoveDirections(correctAndWrongData);
-        MoveDirection[] expectedCorrectAndWrongData = {MoveDirection.FORWARD,
+        List<MoveDirection> parsedCorrectAndWrongData = OptionsParser.parseStringToMoveDirections(correctAndWrongData);
+        List<MoveDirection> expectedCorrectAndWrongData = List.of(MoveDirection.FORWARD,
                                                         MoveDirection.LEFT,
                                                         MoveDirection.BACKWARD,
-                                                        MoveDirection.FORWARD};
+                                                        MoveDirection.FORWARD);
 
         // then
-        assertArrayEquals(parsedCorrectAndWrongData, expectedCorrectAndWrongData);
+        assertEquals(parsedCorrectAndWrongData, expectedCorrectAndWrongData);
     }
 
     /**
@@ -56,11 +58,11 @@ class OptionsParserTest {
         String[] emptyArray = {};
 
         // when
-        MoveDirection[] parsedEmptyArray = OptionsParser.parseStringToMoveDirections(emptyArray);
-        MoveDirection[] expectedEmptyArray = {};
+        List<MoveDirection> parsedEmptyArray = OptionsParser.parseStringToMoveDirections(emptyArray);
+        List<MoveDirection> expectedEmptyArray = List.of();
 
         // then
-        assertArrayEquals(parsedEmptyArray, expectedEmptyArray);
+        assertEquals(parsedEmptyArray, expectedEmptyArray);
     }
 
     /**
@@ -72,10 +74,10 @@ class OptionsParserTest {
         String[] onlyWrongData = {"pozdrowienia", "x", "podziękowania", "AGH", "e", "g"};
 
         // when
-        MoveDirection[] parsedOnlyWrongData = OptionsParser.parseStringToMoveDirections(onlyWrongData);
-        MoveDirection[] expectedOnlyWrongData = {};
+        List<MoveDirection> parsedOnlyWrongData = OptionsParser.parseStringToMoveDirections(onlyWrongData);
+        List<MoveDirection> expectedOnlyWrongData = List.of();
 
         // then
-        assertArrayEquals(parsedOnlyWrongData, expectedOnlyWrongData);
+        assertEquals(parsedOnlyWrongData, expectedOnlyWrongData);
     }
 }
