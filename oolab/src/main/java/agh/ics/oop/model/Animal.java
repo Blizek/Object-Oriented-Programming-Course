@@ -14,6 +14,22 @@ public class Animal {
         animalPosition = startPosition;
     }
 
+    public MapDirection getAnimalDirection() {
+        return animalDirection;
+    }
+
+    public void setAnimalDirection(MapDirection animalDirection) {
+        this.animalDirection = animalDirection;
+    }
+
+    public Vector2d getAnimalPosition() {
+        return animalPosition;
+    }
+
+    public void setAnimalPosition(Vector2d animalPosition) {
+        this.animalPosition = animalPosition;
+    }
+
     @Override
     public String toString() {
         return "Położenie zwierzaka: (%d, %d) z orientacją %s".formatted(animalPosition.getX(), animalPosition.getY(), animalDirection);

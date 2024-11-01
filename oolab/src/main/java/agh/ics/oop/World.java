@@ -22,5 +22,13 @@ public class World {
         System.out.println(animal);
         animal2.move(MoveDirection.RIGHT);
         System.out.println(animal2);
+        animal2.move(MoveDirection.FORWARD);
+        System.out.println(animal2);
+        animal2.move(MoveDirection.FORWARD);
+        System.out.println(animal2);
+        animal2.move(MoveDirection.FORWARD);
+        System.out.println(animal2);
+        animal2.move(MoveDirection.FORWARD);
+        System.out.println(animal2);
     }
 }
