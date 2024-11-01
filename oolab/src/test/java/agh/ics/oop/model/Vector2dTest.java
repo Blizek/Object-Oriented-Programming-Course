@@ -6,15 +6,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class Vector2dTest {
     // given
-    Vector2d v1 = new Vector2d(3, 6);
-    Vector2d v2 = new Vector2d(4, 8);
-    Vector2d v3 = new Vector2d(4, 10);
-    Vector2d v4 = new Vector2d(1, 10);
-    Vector2d v5 = new Vector2d(-1, -5);
-    Vector2d v6 = new Vector2d(-1, 7);
-    Vector2d v7 = new Vector2d(2, 7);
-    Vector2d v8 = new Vector2d(4, 8);
-    Vector2d v9 = new Vector2d(0, 3);
+    final Vector2d v1 = new Vector2d(3, 6);
+    final Vector2d v2 = new Vector2d(4, 8);
+    final Vector2d v3 = new Vector2d(4, 10);
+    final Vector2d v4 = new Vector2d(1, 10);
+    final Vector2d v5 = new Vector2d(-1, -5);
+    final Vector2d v6 = new Vector2d(-1, 7);
+    final Vector2d v7 = new Vector2d(2, 7);
+    final Vector2d v8 = new Vector2d(4, 8);
+    final Vector2d v9 = new Vector2d(0, 3);
 
     /**
      * Test to check if Vector2d.toString works properly (test for both positive number, both negative and
@@ -72,9 +72,11 @@ class Vector2dTest {
     void isAddTwoVectorsRight() {
         // when
         Vector2d summaryVector = v1.add(v5);
+        Vector2d summaryVector2 = v3.add(v7);
 
         // then
         assertEquals(summaryVector, new Vector2d(2, 1));
+        assertEquals(summaryVector2, new Vector2d(6, 17));
     }
 
     /**
@@ -85,9 +87,11 @@ class Vector2dTest {
     void isSubtractTwoVectorsRight() {
         // when
         Vector2d subtractionVector = v7.subtract(v3);
+        Vector2d subtractionVector2 = v1.subtract(v4);
 
         // then
         assertEquals(subtractionVector, new Vector2d(-2, -3));
+        assertEquals(subtractionVector2, new Vector2d(2, -4));
     }
 
     /**
