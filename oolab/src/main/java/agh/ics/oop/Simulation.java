@@ -8,9 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Simulation {
-    private List<MoveDirection> animalsMovesList;
-    private List<Animal> animalsList = new ArrayList<>();
+    private final List<MoveDirection> animalsMovesList; // list of all animals' moves
+    private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
 
+    /**
+     * Constructor for Simulation object
+     * @param animalsStartPositionsList list of all animals' start positions
+     * @param animalsMovesList list of all animals' moves
+     */
     public Simulation(List<Vector2d> animalsStartPositionsList, List<MoveDirection> animalsMovesList) {
         this.animalsMovesList = animalsMovesList;
         for (Vector2d animalStartPosition: animalsStartPositionsList) {
@@ -19,21 +24,12 @@ public class Simulation {
     }
 
     public List<Animal> getAnimalsList() {
-        return animalsList;
+        return List.copyOf(animalsList);
     }
 
-    public void setAnimalsList(List<Animal> animalsList) {
-        this.animalsList = animalsList;
-    }
-
-    public List<MoveDirection> getAnimalsMovesList() {
-        return animalsMovesList;
-    }
-
-    public void setAnimalsMovesList(List<MoveDirection> animalsMovesList) {
-        this.animalsMovesList = animalsMovesList;
-    }
-
+    /**
+     * Method to run simulation for every animal on list
+     */
     public void run(){
         if (animalsMovesList.isEmpty()) {
             return;

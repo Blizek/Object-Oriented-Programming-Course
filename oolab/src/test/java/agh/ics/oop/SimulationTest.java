@@ -11,23 +11,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SimulationTest {
+    /**
+     * Test to check if animals' positions and directions are correct
+     */
     @Test
-    void checkAnimalsDirection() {
-        // given
-        List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(3, 2), new Vector2d(1, 1));
-        List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.RIGHT, MoveDirection.LEFT);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
-
-        // when
-        simulation.run();
-
-        // then
-        assertEquals(MapDirection.EAST, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(MapDirection.WEST, simulation.getAnimalsList().get(1).getAnimalDirection());
-    }
-
-    @Test
-    void checkAnimalsPosition() {
+    void checkAnimalsDirectionAndPosition() {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 3), new Vector2d(0, 4));
         List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
@@ -38,9 +26,14 @@ class SimulationTest {
 
         // then
         assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(MapDirection.SOUTH, simulation.getAnimalsList().get(0).getAnimalDirection());
         assertEquals(new Vector2d(1, 4), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(MapDirection.WEST, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
+    /**
+     * Test to check if animal will try to go out of the map will be returned to previous position
+     */
     @Test
     void checkIfAnimalIsNotOutOfTheMap() {
         // given
@@ -56,6 +49,9 @@ class SimulationTest {
         assertEquals(new Vector2d(0, 3), simulation.getAnimalsList().get(1).getAnimalPosition());
     }
 
+    /**
+     * Test to check of directions parser works properly (as arguments has both wrong and correct data)
+     */
     @Test
     void checkStringDirectionParser() {
         // given
@@ -74,6 +70,9 @@ class SimulationTest {
         assertEquals(MapDirection.SOUTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
+    /**
+     * Test to check if animals will stay at positions when MoveDirections list will be empty
+     */
     @Test
     void checkIfNoAnimalsMoves() {
         // given
@@ -92,6 +91,9 @@ class SimulationTest {
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
+    /**
+     * Test to check if animals won't move because all passed directions are wrong
+     */
     @Test
     void checkIfOnlyWrongStringDirections() {
         // given
