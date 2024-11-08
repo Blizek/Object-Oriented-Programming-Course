@@ -62,12 +62,9 @@ public class Animal {
             case BACKWARD -> newAnimalPosition = animalPosition.subtract(animalDirection.toUnitVector()); // move backward
         }
 
-        // check if animal is out of map (if is move back to previous position)
-        if (!newAnimalPosition.precedes(TOP_RIGHT_CORNER) || !newAnimalPosition.follows(BOTTOM_LEFT_CORNER)) {
-            newAnimalPosition = animalPosition;
+        // if animals isn't out of the map set as position its new position
+        if (newAnimalPosition.follows(BOTTOM_LEFT_CORNER) && newAnimalPosition.precedes(TOP_RIGHT_CORNER)) {
+            animalPosition = newAnimalPosition;
         }
-
-        // set animal position
-        animalPosition = newAnimalPosition;
     }
 }
