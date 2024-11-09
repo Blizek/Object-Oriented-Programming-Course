@@ -1,9 +1,6 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -19,7 +16,8 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 3), new Vector2d(0, 4));
         List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
+        WorldMap map = new RectangularMap(5, 5);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
 
         // when
         simulation.run();
@@ -39,14 +37,15 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 3), new Vector2d(0, 4));
         List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
+        WorldMap map = new RectangularMap(5, 5);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
 
         // when
         simulation.run();
 
         // then
         assertEquals(new Vector2d(0, 3), simulation.getAnimalsList().get(0).getAnimalPosition());
-        assertEquals(new Vector2d(0, 3), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(0, 4), simulation.getAnimalsList().get(1).getAnimalPosition());
     }
 
     /**
@@ -57,10 +56,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(2, 1), new Vector2d(3, 0));
         String[] stringDirections = {"f", "r", "x", "b", "r", "l", "g"};
+        WorldMap map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -78,10 +78,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(4, 3), new Vector2d(0, 0));
         String[] stringDirections = {};
+        WorldMap map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -99,10 +100,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(4, 2));
         String[] stringDirections = {"e", "n", "g", "p", "o", "u"};
+        WorldMap map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
