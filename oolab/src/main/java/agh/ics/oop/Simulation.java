@@ -17,6 +17,7 @@ public class Simulation {
      * Constructor for Simulation object
      * @param animalsStartPositionsList list of all animals' start positions
      * @param animalsMovesList list of all animals' moves
+     * @param worldMap map
      */
     public Simulation(List<Vector2d> animalsStartPositionsList, List<MoveDirection> animalsMovesList, WorldMap worldMap) {
         this.animalsMovesList = animalsMovesList;

@@ -113,4 +113,39 @@ class SimulationTest {
         assertEquals(new Vector2d(4, 2), simulation.getAnimalsList().get(1).getAnimalPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
+
+    @Test
+    void tryToInitiallySetTwoAnimalsOnOnePosition() {
+        // given
+        List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(1, 1));
+        String[] stringDirections = {};
+        WorldMap map = new RectangularMap(5, 5);
+
+        // when
+        List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        simulation.run();
+
+        // then
+        assertEquals(1, simulation.getAnimalsList().size());
+    }
+
+    @Test
+    void tryToMoveAnimalOnOccupiedPosition() {
+        // given
+        List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(1, 2));
+        String[] stringDirections = {"f"};
+        WorldMap map = new RectangularMap(5, 5);
+
+        // when
+        List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
+        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        simulation.run();
+
+        // then
+        assertEquals(new Vector2d(1, 1), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(0).getAnimalDirection());
+        assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
+    }
 }

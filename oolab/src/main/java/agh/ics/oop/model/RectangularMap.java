@@ -7,14 +7,14 @@ import java.util.Map;
 
 public class RectangularMap implements WorldMap{
     private final Map<Vector2d, Animal> animals = new HashMap<>(); // map of all animals and its positions
-    private final Vector2d TOP_RIGHT_CORNER;
-    private final Vector2d BOTTOM_LEFT_CORNER;
+    private final Vector2d topRightCorner;
+    private final Vector2d bottomLeftCorner;
     private final MapVisualizer mapVisualizer = new MapVisualizer(this); // visualizer for game
 
     public RectangularMap(int mapWidth, int mapHeight) {
         // map has x values from 0 to mapWidth - 1 and y values from 0 to mapHeight - 1
-        TOP_RIGHT_CORNER = new Vector2d(mapWidth - 1, mapHeight - 1);
-        BOTTOM_LEFT_CORNER = new Vector2d(0, 0);
+        topRightCorner = new Vector2d(mapWidth - 1, mapHeight - 1);
+        bottomLeftCorner = new Vector2d(0, 0);
     }
 
 
@@ -44,7 +44,6 @@ public class RectangularMap implements WorldMap{
         animals.remove(animalStartPosition);
         Vector2d animalEndPosition = animal.getAnimalPosition();
         animals.put(animalEndPosition, animal);
-
     }
 
     /**
@@ -54,8 +53,7 @@ public class RectangularMap implements WorldMap{
      */
     @Override
     public boolean isOccupied(Vector2d position) {
-        Animal animalAtPosition = objectAt(position);
-        return animalAtPosition != null;
+        return objectAt(position) != null;
     }
 
     /**
@@ -76,7 +74,7 @@ public class RectangularMap implements WorldMap{
      */
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (!(position.precedes(TOP_RIGHT_CORNER) && position.follows(BOTTOM_LEFT_CORNER))) {
+        if (!(position.precedes(topRightCorner) && position.follows(bottomLeftCorner))) {
             return false;
         }
         if (isOccupied(position)) {
@@ -92,6 +90,6 @@ public class RectangularMap implements WorldMap{
      */
     @Override
     public String toString() {
-        return mapVisualizer.draw(BOTTOM_LEFT_CORNER, TOP_RIGHT_CORNER);
+        return mapVisualizer.draw(bottomLeftCorner, topRightCorner);
     }
 }

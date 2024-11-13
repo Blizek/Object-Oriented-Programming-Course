@@ -6,8 +6,6 @@ public class Animal {
 
     public static final Vector2d DEFAULT_ANIMAL_POSITION = new Vector2d(2, 2); // default animal's start position
     public static final MapDirection DEFAULT_ANIMAL_DIRECTION = MapDirection.NORTH; // default animal's start direction
-    public static final Vector2d BOTTOM_LEFT_CORNER = new Vector2d(0, 0); // bottom left corner of the map
-    public static final Vector2d TOP_RIGHT_CORNER = new Vector2d(4, 4); // top right corner of the map
 
     /**
      * Default constructor for animal class
@@ -57,24 +55,18 @@ public class Animal {
      * @param direction in which direction animal should move
      */
     public void move(MoveDirection direction, MoveValidator validator) {
-        Vector2d newAnimalPosition;
+        Vector2d newAnimalPosition = animalPosition;
 
         // all possible moves
         switch (direction) {
             case RIGHT -> animalDirection = animalDirection.next(); // turn right around your own axis
             case LEFT -> animalDirection = animalDirection.previous(); // turn left around your own axis
-            case FORWARD -> {
-                newAnimalPosition = animalPosition.add(animalDirection.toUnitVector()); // set new possible animal's position moving forward
-                if (validator.canMoveTo(newAnimalPosition)) { // check if it's possible to move
-                    animalPosition = newAnimalPosition; // if is move there
-                }
-            }
-            case BACKWARD -> {
-                newAnimalPosition = animalPosition.subtract(animalDirection.toUnitVector()); // set new possible animal's position moving backward
-                if (validator.canMoveTo(newAnimalPosition)) { // check if it's possible
-                    animalPosition = newAnimalPosition; // if is move there
-                }
-            }
+            case FORWARD -> newAnimalPosition = animalPosition.add(animalDirection.toUnitVector()); // set new possible animal's position moving forward
+            case BACKWARD -> newAnimalPosition = animalPosition.subtract(animalDirection.toUnitVector()); // set new possible animal's position moving backward
+        }
+
+        if (validator.canMoveTo(newAnimalPosition)) { // check if it's possible to move
+            animalPosition = newAnimalPosition; // if is move there
         }
     }
 }
