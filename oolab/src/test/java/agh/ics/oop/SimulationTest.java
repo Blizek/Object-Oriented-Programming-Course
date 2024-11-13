@@ -16,8 +16,8 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 3), new Vector2d(0, 4));
         List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.RIGHT, MoveDirection.LEFT, MoveDirection.RIGHT, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        WorldMap map = new RectangularMap(5, 5);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
 
         // when
         simulation.run();
@@ -37,8 +37,8 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 3), new Vector2d(0, 4));
         List<MoveDirection> animalsMovesDirectionsList = List.of(MoveDirection.LEFT, MoveDirection.FORWARD, MoveDirection.FORWARD, MoveDirection.BACKWARD, MoveDirection.FORWARD);
-        WorldMap map = new RectangularMap(5, 5);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
 
         // when
         simulation.run();
@@ -56,11 +56,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(2, 1), new Vector2d(3, 0));
         String[] stringDirections = {"f", "r", "x", "b", "r", "l", "g"};
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -78,11 +78,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(4, 3), new Vector2d(0, 0));
         String[] stringDirections = {};
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -100,11 +100,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(4, 2));
         String[] stringDirections = {"e", "n", "g", "p", "o", "u"};
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -119,11 +119,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(1, 1));
         String[] stringDirections = {};
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then
@@ -135,11 +135,11 @@ class SimulationTest {
         // given
         List<Vector2d> animalsStartPositionsList = List.of(new Vector2d(1, 1), new Vector2d(1, 2));
         String[] stringDirections = {"f"};
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap<Animal, Vector2d> map = new RectangularMap(5, 5);
 
         // when
         List<MoveDirection> animalsMovesDirectionsList = OptionsParser.parseStringToMoveDirections(stringDirections);
-        Simulation simulation = new Simulation(animalsStartPositionsList, animalsMovesDirectionsList, map);
+        Simulation<Animal, Vector2d> simulation = new Simulation<>(animalsStartPositionsList, animalsMovesDirectionsList, map);
         simulation.run();
 
         // then

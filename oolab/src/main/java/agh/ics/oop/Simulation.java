@@ -8,10 +8,10 @@ import agh.ics.oop.model.WorldMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation<T, P> {
     private final List<MoveDirection> animalsMovesList; // list of all animals' moves
-    private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
-    private final WorldMap worldMap; // map of the game
+    private final List<T> animalsList; // list of all animals
+    private final WorldMap<T, P> worldMap; // map of the game
 
     /**
      * Constructor for Simulation object
@@ -19,18 +19,13 @@ public class Simulation {
      * @param animalsMovesList list of all animals' moves
      * @param worldMap map
      */
-    public Simulation(List<Vector2d> animalsStartPositionsList, List<MoveDirection> animalsMovesList, WorldMap worldMap) {
+    public Simulation(List<P> animalsStartPositionsList, List<MoveDirection> animalsMovesList, WorldMap<T, P> worldMap) {
         this.animalsMovesList = animalsMovesList;
-        for (Vector2d animalStartPosition: animalsStartPositionsList) {
-            Animal newAnimal = new Animal(animalStartPosition);
-            if (worldMap.place(newAnimal)) { // if position on the map is free set there new animal
-                animalsList.add(newAnimal);
-            }
-        }
+        animalsList = worldMap.setObjectsOnMap(animalsStartPositionsList);
         this.worldMap = worldMap;
     }
 
-    public List<Animal> getAnimalsList() {
+    public List<T> getAnimalsList() {
         return List.copyOf(animalsList);
     }
 
@@ -45,12 +40,8 @@ public class Simulation {
         int animalsCount = animalsList.size();
         for (int i = 0; i < animalsMovesList.size(); i++) {
             int actualAnimalIndex = i % animalsCount;
-            Animal actualAnimal = animalsList.get(actualAnimalIndex);
+            T actualAnimal = animalsList.get(actualAnimalIndex);
             worldMap.move(actualAnimal, animalsMovesList.get(i)); // move this animal on the map
-            System.out.println("Zwierzę %d: (%d, %d), kierunek: %s".formatted(actualAnimalIndex,
-                                                                                actualAnimal.getAnimalPosition().getX(),
-                                                                                actualAnimal.getAnimalPosition().getY(),
-                                                                                actualAnimal.getAnimalDirection()));
             System.out.println(worldMap); // visualize the map
         }
     }

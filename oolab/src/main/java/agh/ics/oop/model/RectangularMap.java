@@ -2,10 +2,12 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class RectangularMap implements WorldMap{
+public class RectangularMap implements WorldMap<Animal, Vector2d> {
     private final Map<Vector2d, Animal> animals = new HashMap<>(); // map of all animals and its positions
     private final Vector2d topRightCorner;
     private final Vector2d bottomLeftCorner;
@@ -64,6 +66,18 @@ public class RectangularMap implements WorldMap{
     @Override
     public Animal objectAt(Vector2d position) {
         return animals.get(position);
+    }
+
+    @Override
+    public List<Animal> setObjectsOnMap(List<Vector2d> positions) {
+        List<Animal> animalsList = new ArrayList<>();
+        for (Vector2d animalStartPosition: positions) {
+            Animal newAnimal = new Animal(animalStartPosition);
+            if (place(newAnimal)) { // if position on the map is free set there new animal
+                animalsList.add(newAnimal);
+            }
+        }
+        return animalsList;
     }
 
     /**
