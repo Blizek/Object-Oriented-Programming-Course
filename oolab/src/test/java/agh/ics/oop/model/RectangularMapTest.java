@@ -51,8 +51,6 @@ class RectangularMapTest {
         RectangularMap map = new RectangularMap(5, 5);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(3, 4));
-
-        // when
         map.place(animal1);
         map.place(animal2);
 
@@ -60,5 +58,39 @@ class RectangularMapTest {
         assertTrue(map.isOccupied(new Vector2d(2, 2)));
         assertTrue(map.isOccupied(new Vector2d(3, 4)));
         assertFalse(map.isOccupied(new Vector2d(2, 0)));
+    }
+
+    @Test
+    void checkObjectOnPosition() {
+        // given
+        RectangularMap map = new RectangularMap(5, 5);
+        Animal animal = new Animal();
+        map.place(animal);
+
+        // then
+        assertNull(map.objectAt(new Vector2d(2, 3)));
+        assertEquals(animal, map.objectAt(new Vector2d(2, 2)));
+    }
+
+    @Test
+    void checkIfAnimalCanMove() {
+        // given
+        RectangularMap map = new RectangularMap(5, 5);
+        Animal animal1 = new Animal(new Vector2d(3, 4));
+        Animal animal2 = new Animal();
+        Animal animal3 = new Animal(new Vector2d(2, 1));
+        map.place(animal1);
+        map.place(animal2);
+        map.place(animal3);
+
+        // when
+        map.move(animal1, MoveDirection.FORWARD);
+        map.move(animal3, MoveDirection.FORWARD);
+        map.move(animal2, MoveDirection.FORWARD);
+
+        // then
+        assertEquals(new Vector2d(3, 4), animal1.getAnimalPosition());
+        assertEquals(new Vector2d(2, 3), animal2.getAnimalPosition());
+        assertEquals(new Vector2d(2, 1), animal3.getAnimalPosition());
     }
 }
