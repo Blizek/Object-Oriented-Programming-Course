@@ -114,6 +114,9 @@ class SimulationTest {
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
+    /**
+     * Test to cover edge case when want to set two animals on the map with same start positions
+     */
     @Test
     void tryToInitiallySetTwoAnimalsOnOnePosition() {
         // given
@@ -130,6 +133,9 @@ class SimulationTest {
         assertEquals(1, simulation.getAnimalsList().size());
     }
 
+    /**
+     * Test to cover case when want to move an animal to position where is another animal right now
+     */
     @Test
     void tryToMoveAnimalOnOccupiedPosition() {
         // given

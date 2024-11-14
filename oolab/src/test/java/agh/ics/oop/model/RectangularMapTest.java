@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RectangularMapTest {
+    /**
+     * Test to cover case when want to set two animals on one position at the start of the simulation
+     */
     @Test
     void checkSetTwoAnimalsOnOnePosition() {
         // given
-        RectangularMap map = new RectangularMap(5, 5);
+        RectangularMap map = new RectangularMap(6, 10);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal();
 
@@ -21,10 +24,13 @@ class RectangularMapTest {
         assertFalse(isAnimal2Set);
     }
 
+    /**
+     * Test to check if method 'move' works properly
+     */
     @Test
     void moveAnimalsOnMap() {
         // given
-        RectangularMap map = new RectangularMap(5, 5);
+        RectangularMap map = new RectangularMap(15, 5);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(3, 4));
 
@@ -45,10 +51,13 @@ class RectangularMapTest {
         assertEquals(MapDirection.EAST, animal2.getAnimalDirection());
     }
 
+    /**
+     * Test to check method 'isOccupied' works properly
+     */
     @Test
     void checkIfPositionIsOccupied() {
         // given
-        RectangularMap map = new RectangularMap(5, 5);
+        RectangularMap map = new RectangularMap(5, 15);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(3, 4));
         map.place(animal1);
@@ -60,6 +69,9 @@ class RectangularMapTest {
         assertFalse(map.isOccupied(new Vector2d(2, 0)));
     }
 
+    /**
+     * Test to check if method 'objectAt' works properly and returns correct Animal object on requested position
+     */
     @Test
     void checkObjectOnPosition() {
         // given
@@ -72,6 +84,10 @@ class RectangularMapTest {
         assertEquals(animal, map.objectAt(new Vector2d(2, 2)));
     }
 
+    /**
+     * Test to check if method 'canMove' works properly (this method is used by the 'move' method so to test it check
+     * if animal moves correctly (method 'move' was tested earlier) (method 'canMoveTo' blocks moving to illegal positions))
+     */
     @Test
     void checkIfAnimalCanMove() {
         // given
