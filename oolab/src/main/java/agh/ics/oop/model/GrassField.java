@@ -34,6 +34,10 @@ public class GrassField implements WorldMap {
         }
     }
 
+    public int getGrassAmount() {
+        return grassesMap.size();
+    }
+
     @Override
     public boolean place(Animal animal) {
         if (canMoveTo(animal.getPosition())) {
