@@ -48,8 +48,8 @@ public class Simulation {
             Animal actualAnimal = animalsList.get(actualAnimalIndex);
             worldMap.move(actualAnimal, animalsMovesList.get(i)); // move this animal on the map
             System.out.println("Zwierzę %d: (%d, %d), kierunek: %s".formatted(actualAnimalIndex,
-                                                                                actualAnimal.getAnimalPosition().getX(),
-                                                                                actualAnimal.getAnimalPosition().getY(),
+                                                                                actualAnimal.getPosition().getX(),
+                                                                                actualAnimal.getPosition().getY(),
                                                                                 actualAnimal.getAnimalDirection()));
             System.out.println(worldMap); // visualize the map
         }

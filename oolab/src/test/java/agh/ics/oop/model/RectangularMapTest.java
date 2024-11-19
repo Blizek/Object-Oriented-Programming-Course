@@ -45,9 +45,9 @@ class RectangularMapTest {
         map.move(animal2, MoveDirection.BACKWARD);
 
         // then
-        assertEquals(new Vector2d(3, 3), animal1.getAnimalPosition());
+        assertEquals(new Vector2d(3, 3), animal1.getPosition());
         assertEquals(MapDirection.WEST, animal1.getAnimalDirection());
-        assertEquals(new Vector2d(1, 4), animal2.getAnimalPosition());
+        assertEquals(new Vector2d(1, 4), animal2.getPosition());
         assertEquals(MapDirection.EAST, animal2.getAnimalDirection());
     }
 
@@ -105,8 +105,8 @@ class RectangularMapTest {
         map.move(animal2, MoveDirection.FORWARD);
 
         // then
-        assertEquals(new Vector2d(3, 4), animal1.getAnimalPosition());
-        assertEquals(new Vector2d(2, 3), animal2.getAnimalPosition());
-        assertEquals(new Vector2d(2, 1), animal3.getAnimalPosition());
+        assertEquals(new Vector2d(3, 4), animal1.getPosition());
+        assertEquals(new Vector2d(2, 3), animal2.getPosition());
+        assertEquals(new Vector2d(2, 1), animal3.getPosition());
     }
 }
