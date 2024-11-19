@@ -4,10 +4,8 @@ import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.*;
 
-public class GrassField implements WorldMap {
+public class GrassField extends AbstractWorldMap {
     private final HashMap<Vector2d, Grass> grassesMap;
-    private final HashMap<Vector2d, Animal> animalsMap = new HashMap<>();
-    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
     public GrassField(int grassCount) {
         grassesMap = new HashMap<>();
@@ -39,41 +37,13 @@ public class GrassField implements WorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) {
-        if (canMoveTo(animal.getPosition())) {
-            animalsMap.put(animal.getPosition(), animal);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void move(Animal animal, MoveDirection direction) {
-        Vector2d animalStartPosition = animal.getPosition();
-        animal.move(direction, this);
-        animalsMap.remove(animalStartPosition);
-        Vector2d animalEndPosition = animal.getPosition();
-        animalsMap.put(animalEndPosition, animal);
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
-    }
-
-    @Override
     public WorldElement objectAt(Vector2d position) {
-        Animal animalAtPosition = animalsMap.get(position);
+        Animal animalAtPosition = (Animal) super.objectAt(position);
         Grass grassAtPosition = grassesMap.get(position);
         if (animalAtPosition != null) {
             return animalAtPosition;
         }
         return grassAtPosition;
-    }
-
-    @Override
-    public boolean canMoveTo(Vector2d position) {
-        return !animalsMap.containsKey(position);
     }
 
     private Vector2d[] getMinAndMaxUsedPositions() {
@@ -102,5 +72,12 @@ public class GrassField implements WorldMap {
         Vector2d lowerLeftBound = mapBounds[0];
         Vector2d upperRightBound = mapBounds[1];
         return mapVisualizer.draw(lowerLeftBound, upperRightBound);
+    }
+
+    @Override
+    public List<WorldElement> getElements() {
+        List<WorldElement> fullElementsList = super.getElements();
+        fullElementsList.addAll(grassesMap.values());
+        return List.copyOf(fullElementsList);
     }
 }
