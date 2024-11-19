@@ -10,25 +10,11 @@ public class GrassField extends AbstractWorldMap {
     public GrassField(int grassCount) {
         grassesMap = new HashMap<>();
 
-        Random random = new Random();
-        int generatedGrassCounter = 0;
-        while (generatedGrassCounter < grassCount) {
-            int x = random.nextInt((int) Math.sqrt(10 * grassCount));
-            int y = random.nextInt((int) Math.sqrt(10 * grassCount));
-
-            boolean isGrassPositionFree = true;
-            Vector2d actualGrassPosition = new Vector2d(x, y);
-            for (Vector2d grassPosition : grassesMap.keySet()) {
-                if (Objects.equals(grassPosition, actualGrassPosition)) {
-                    isGrassPositionFree = false;
-                    break;
-                }
-            }
-
-            if (isGrassPositionFree) {
-                grassesMap.put(actualGrassPosition, new Grass(actualGrassPosition));
-                generatedGrassCounter++;
-            }
+        int maxWidth = (int) Math.sqrt(grassCount * 10) + 1;
+        int maxHeight = (int) Math.sqrt(grassCount * 10) + 1;
+        RandomPositionGenerator randomPositionGenerator = new RandomPositionGenerator(maxWidth, maxHeight, grassCount);
+        for(Vector2d grassPosition : randomPositionGenerator) {
+            grassesMap.put(grassPosition, new Grass(grassPosition));
         }
     }
 
