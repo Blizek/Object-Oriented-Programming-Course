@@ -1,41 +1,24 @@
 package agh.ics.oop;
 
-import agh.ics.oop.model.Animal;
-import agh.ics.oop.model.MapDirection;
-import agh.ics.oop.model.MoveDirection;
-import agh.ics.oop.model.Vector2d;
+import agh.ics.oop.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class World {
     public static void main(String[] args) {
-        Vector2d position1 = new Vector2d(1, 2);
+        Vector2d position1 = new Vector2d(2, 2);
+        Vector2d position2 = new Vector2d(1, 2);
+        WorldMap map = new RectangularMap(5, 5);
 
-        Animal animal = new Animal();
-        System.out.println(animal);
-        Animal animal2 = new Animal(position1);
-        System.out.println(animal.isAt(position1));
-        System.out.println(animal2.isAt(position1));
-        animal.move(MoveDirection.BACKWARD);
-        System.out.println("Zwierzak 1: %s".formatted(animal));
-        animal.move(MoveDirection.BACKWARD);
-        System.out.println("Zwierzak 1: %s".formatted(animal));
-        animal.move(MoveDirection.BACKWARD);
-        System.out.println("Zwierzak 1: %s".formatted(animal));
-        animal2.move(MoveDirection.RIGHT);
-        System.out.println("Zwierzak 2: %s".formatted(animal2));
-        animal2.move(MoveDirection.FORWARD);
-        System.out.println("Zwierzak 2: %s".formatted(animal2));
-        animal2.move(MoveDirection.FORWARD);
-        System.out.println("Zwierzak 2: %s".formatted(animal2));
-        animal2.move(MoveDirection.FORWARD);
-        System.out.println("Zwierzak 2: %s".formatted(animal2));
-        animal2.move(MoveDirection.FORWARD);
-        System.out.println("Zwierzak 2: %s".formatted(animal2));
+        String[] animalsDirectionsArgs = {"f", "b", "r", "l", "f", "f", "r", "f"};
 
-        List<MoveDirection> directions = OptionsParser.parseStringToMoveDirections(args);
-        List<Vector2d> positions = List.of(new Vector2d(2, 2), new Vector2d(3, 4));
-        Simulation simulation = new Simulation(positions, directions);
+        List<MoveDirection> animalsDirections = OptionsParser.parseStringToMoveDirections(animalsDirectionsArgs);
+        List<Vector2d> animalsStartPositions = new ArrayList<>();
+        animalsStartPositions.add(position1);
+        animalsStartPositions.add(position2);
+
+        Simulation simulation = new Simulation(animalsStartPositions, animalsDirections, map);
         simulation.run();
     }
 }

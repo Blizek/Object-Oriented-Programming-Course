@@ -6,8 +6,6 @@ public class Animal {
 
     public static final Vector2d DEFAULT_ANIMAL_POSITION = new Vector2d(2, 2); // default animal's start position
     public static final MapDirection DEFAULT_ANIMAL_DIRECTION = MapDirection.NORTH; // default animal's start direction
-    public static final Vector2d BOTTOM_LEFT_CORNER = new Vector2d(0, 0); // bottom left corner of the map
-    public static final Vector2d TOP_RIGHT_CORNER = new Vector2d(4, 4); // top right corner of the map
 
     /**
      * Default constructor for animal class
@@ -35,7 +33,12 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "Położenie zwierzaka: (%d, %d) z orientacją %s".formatted(animalPosition.getX(), animalPosition.getY(), animalDirection);
+        return switch (animalDirection) {
+            case NORTH -> "N";
+            case EAST -> "E";
+            case SOUTH -> "S";
+            case WEST -> "W";
+        };
     }
 
     /**
@@ -51,20 +54,19 @@ public class Animal {
      * Method to move animal on map
      * @param direction in which direction animal should move
      */
-    public void move(MoveDirection direction) {
+    public void move(MoveDirection direction, MoveValidator validator) {
         Vector2d newAnimalPosition = animalPosition;
 
         // all possible moves
         switch (direction) {
             case RIGHT -> animalDirection = animalDirection.next(); // turn right around your own axis
             case LEFT -> animalDirection = animalDirection.previous(); // turn left around your own axis
-            case FORWARD -> newAnimalPosition = animalPosition.add(animalDirection.toUnitVector()); // move forward
-            case BACKWARD -> newAnimalPosition = animalPosition.subtract(animalDirection.toUnitVector()); // move backward
+            case FORWARD -> newAnimalPosition = animalPosition.add(animalDirection.toUnitVector()); // set new possible animal's position moving forward
+            case BACKWARD -> newAnimalPosition = animalPosition.subtract(animalDirection.toUnitVector()); // set new possible animal's position moving backward
         }
 
-        // if animals isn't out of the map set as position its new position
-        if (newAnimalPosition.follows(BOTTOM_LEFT_CORNER) && newAnimalPosition.precedes(TOP_RIGHT_CORNER)) {
-            animalPosition = newAnimalPosition;
+        if (validator.canMoveTo(newAnimalPosition)) { // check if it's possible to move
+            animalPosition = newAnimalPosition; // if is move there
         }
     }
 }
