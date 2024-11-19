@@ -74,14 +74,7 @@ public class RectangularMap implements WorldMap{
      */
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (!(position.precedes(topRightCorner) && position.follows(bottomLeftCorner))) {
-            return false;
-        }
-        if (isOccupied(position)) {
-            return false;
-        }
-
-        return true;
+        return position.precedes(topRightCorner) && position.follows(bottomLeftCorner) && !isOccupied(position);
     }
 
     /**
