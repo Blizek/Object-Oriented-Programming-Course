@@ -24,7 +24,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public WorldElement objectAt(Vector2d position) {
-        Animal animalAtPosition = (Animal) super.objectAt(position);
+        WorldElement animalAtPosition = super.objectAt(position);
         Grass grassAtPosition = grassesMap.get(position);
         if (animalAtPosition != null) {
             return animalAtPosition;
@@ -32,7 +32,7 @@ public class GrassField extends AbstractWorldMap {
         return grassAtPosition;
     }
 
-    private Vector2d[] getMinAndMaxUsedPositions() {
+    private Vector2d[] getMapsLowerLeftAndUpperRight() {
         Vector2d[] minAndMaxUsedPositions = new Vector2d[2]; // index 0 - min value, index 1 - max value
 
         Set<Vector2d> allPositions = new HashSet<>();
@@ -54,7 +54,7 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public String toString() {
-        Vector2d[] mapBounds = getMinAndMaxUsedPositions();
+        Vector2d[] mapBounds = getMapsLowerLeftAndUpperRight();
         Vector2d lowerLeftBound = mapBounds[0];
         Vector2d upperRightBound = mapBounds[1];
         return mapVisualizer.draw(lowerLeftBound, upperRightBound);
@@ -64,6 +64,6 @@ public class GrassField extends AbstractWorldMap {
     public List<WorldElement> getElements() {
         List<WorldElement> fullElementsList = super.getElements();
         fullElementsList.addAll(grassesMap.values());
-        return List.copyOf(fullElementsList);
+        return fullElementsList;
     }
 }

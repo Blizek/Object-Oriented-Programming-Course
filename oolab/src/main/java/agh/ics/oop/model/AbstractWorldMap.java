@@ -2,12 +2,12 @@ package agh.ics.oop.model;
 
 import agh.ics.oop.model.util.MapVisualizer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 public abstract class AbstractWorldMap implements WorldMap {
-    protected final HashMap<Vector2d, Animal> animalsMap = new HashMap<>();
+    protected final Map<Vector2d, Animal> animalsMap = new HashMap<>();
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
 
     @Override

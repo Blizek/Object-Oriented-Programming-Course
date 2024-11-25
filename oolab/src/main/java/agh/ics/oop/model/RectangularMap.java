@@ -12,7 +12,7 @@ public class RectangularMap extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.follows(bottomLeftCorner) && position.precedes(topRightCorner) && super.canMoveTo(position);
+        return super.canMoveTo(position) && position.follows(bottomLeftCorner) && position.precedes(topRightCorner);
     }
 
     /**
