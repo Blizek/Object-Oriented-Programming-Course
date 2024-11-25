@@ -78,8 +78,8 @@ class AnimalTest {
         animal2.move(MoveDirection.BACKWARD, map2);
 
         // then
-        assertEquals(new Vector2d(2, 3), animal1.getAnimalPosition());
-        assertEquals(new Vector2d(4, 4), animal2.getAnimalPosition());
+        assertEquals(new Vector2d(2, 3), animal1.getPosition());
+        assertEquals(new Vector2d(4, 4), animal2.getPosition());
     }
 
     /**
@@ -101,9 +101,9 @@ class AnimalTest {
         animal2.move(MoveDirection.LEFT, map2);
 
         // then
-        assertEquals(new Vector2d(3, 2), animal1.getAnimalPosition());
+        assertEquals(new Vector2d(3, 2), animal1.getPosition());
         assertEquals(MapDirection.EAST, animal1.getAnimalDirection());
-        assertEquals(new Vector2d(3, 2), animal2.getAnimalPosition());
+        assertEquals(new Vector2d(3, 2), animal2.getPosition());
         assertEquals(MapDirection.SOUTH, animal2.getAnimalDirection());
     }
 
@@ -133,9 +133,9 @@ class AnimalTest {
         animal4.move(MoveDirection.FORWARD, map4);
 
         // then
-        assertEquals(downLeft, animal1.getAnimalPosition());
-        assertEquals(downLeft, animal2.getAnimalPosition());
-        assertEquals(upRight, animal3.getAnimalPosition());
-        assertEquals(upRight, animal4.getAnimalPosition());
+        assertEquals(downLeft, animal1.getPosition());
+        assertEquals(downLeft, animal2.getPosition());
+        assertEquals(upRight, animal3.getPosition());
+        assertEquals(upRight, animal4.getPosition());
     }
 }

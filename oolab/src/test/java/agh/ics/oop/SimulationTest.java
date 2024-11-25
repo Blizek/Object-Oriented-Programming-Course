@@ -23,9 +23,9 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(0).getPosition());
         assertEquals(MapDirection.SOUTH, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(new Vector2d(1, 4), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(1, 4), simulation.getAnimalsList().get(1).getPosition());
         assertEquals(MapDirection.WEST, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
@@ -44,8 +44,8 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(0, 3), simulation.getAnimalsList().get(0).getAnimalPosition());
-        assertEquals(new Vector2d(0, 4), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(0, 3), simulation.getAnimalsList().get(0).getPosition());
+        assertEquals(new Vector2d(0, 4), simulation.getAnimalsList().get(1).getPosition());
     }
 
     /**
@@ -64,9 +64,9 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(2, 1), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(new Vector2d(2, 1), simulation.getAnimalsList().get(0).getPosition());
         assertEquals(MapDirection.WEST, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(new Vector2d(3, 0), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(3, 0), simulation.getAnimalsList().get(1).getPosition());
         assertEquals(MapDirection.SOUTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
@@ -86,9 +86,9 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(4, 3), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(new Vector2d(4, 3), simulation.getAnimalsList().get(0).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(new Vector2d(0, 0), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(0, 0), simulation.getAnimalsList().get(1).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
@@ -108,9 +108,9 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(1, 1), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(new Vector2d(1, 1), simulation.getAnimalsList().get(0).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(new Vector2d(4, 2), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(4, 2), simulation.getAnimalsList().get(1).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 
@@ -149,9 +149,9 @@ class SimulationTest {
         simulation.run();
 
         // then
-        assertEquals(new Vector2d(1, 1), simulation.getAnimalsList().get(0).getAnimalPosition());
+        assertEquals(new Vector2d(1, 1), simulation.getAnimalsList().get(0).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(0).getAnimalDirection());
-        assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(1).getAnimalPosition());
+        assertEquals(new Vector2d(1, 2), simulation.getAnimalsList().get(1).getPosition());
         assertEquals(MapDirection.NORTH, simulation.getAnimalsList().get(1).getAnimalDirection());
     }
 }

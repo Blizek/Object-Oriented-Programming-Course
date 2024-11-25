@@ -9,7 +9,7 @@ public class World {
     public static void main(String[] args) {
         Vector2d position1 = new Vector2d(2, 2);
         Vector2d position2 = new Vector2d(1, 2);
-        WorldMap map = new RectangularMap(5, 5);
+        WorldMap map = new GrassField(10);
 
         String[] animalsDirectionsArgs = {"f", "b", "r", "l", "f", "f", "r", "f"};
 

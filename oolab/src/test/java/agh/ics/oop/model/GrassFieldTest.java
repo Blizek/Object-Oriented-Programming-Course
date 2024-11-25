@@ -4,24 +4,37 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RectangularMapTest {
+class GrassFieldTest {
+    /**
+     * Test to check if amount of grass on the field is correct
+     */
+    @Test
+    void checkGrassAmount() {
+        // given
+        GrassField field = new GrassField(6);
+        
+        // then
+        assertEquals(6, field.getGrassAmount());
+    }
+    
     /**
      * Test to cover case when want to set two animals on one position at the start of the simulation
      */
     @Test
     void checkSetTwoAnimalsOnOnePosition() {
         // given
-        RectangularMap map = new RectangularMap(6, 10);
+        GrassField field = new GrassField(10);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal();
 
         // when
-        boolean isAnimal1Set = map.place(animal1);
-        boolean isAnimal2Set = map.place(animal2);
+        boolean isAnimal1Set = field.place(animal1);
+        boolean isAnimal2Set = field.place(animal2);
 
         // then
         assertTrue(isAnimal1Set);
         assertFalse(isAnimal2Set);
+        assertEquals(10, field.getGrassAmount());
     }
 
     /**
@@ -30,25 +43,26 @@ class RectangularMapTest {
     @Test
     void moveAnimalsOnMap() {
         // given
-        RectangularMap map = new RectangularMap(15, 5);
+        GrassField field = new GrassField(15);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(3, 4));
 
         // when
-        map.place(animal1);
-        map.move(animal1, MoveDirection.FORWARD);
-        map.move(animal1, MoveDirection.LEFT);
-        map.move(animal1, MoveDirection.BACKWARD);
-        map.place(animal2);
-        map.move(animal2, MoveDirection.RIGHT);
-        map.move(animal2, MoveDirection.BACKWARD);
-        map.move(animal2, MoveDirection.BACKWARD);
+        field.place(animal1);
+        field.move(animal1, MoveDirection.FORWARD);
+        field.move(animal1, MoveDirection.LEFT);
+        field.move(animal1, MoveDirection.BACKWARD);
+        field.place(animal2);
+        field.move(animal2, MoveDirection.RIGHT);
+        field.move(animal2, MoveDirection.BACKWARD);
+        field.move(animal2, MoveDirection.BACKWARD);
 
         // then
         assertEquals(new Vector2d(3, 3), animal1.getPosition());
         assertEquals(MapDirection.WEST, animal1.getAnimalDirection());
         assertEquals(new Vector2d(1, 4), animal2.getPosition());
         assertEquals(MapDirection.EAST, animal2.getAnimalDirection());
+        assertEquals(15, field.getGrassAmount());
     }
 
     /**
@@ -57,16 +71,17 @@ class RectangularMapTest {
     @Test
     void checkIfPositionIsOccupied() {
         // given
-        RectangularMap map = new RectangularMap(5, 15);
+        GrassField field = new GrassField(3);
         Animal animal1 = new Animal();
         Animal animal2 = new Animal(new Vector2d(3, 4));
-        map.place(animal1);
-        map.place(animal2);
+        field.place(animal1);
+        field.place(animal2);
 
         // then
-        assertTrue(map.isOccupied(new Vector2d(2, 2)));
-        assertTrue(map.isOccupied(new Vector2d(3, 4)));
-        assertFalse(map.isOccupied(new Vector2d(2, 0)));
+        assertTrue(field.isOccupied(new Vector2d(2, 2)));
+        assertTrue(field.isOccupied(new Vector2d(3, 4)));
+        assertFalse(field.isOccupied(new Vector2d(2, 0)));
+        assertEquals(3, field.getGrassAmount());
     }
 
     /**
@@ -75,13 +90,14 @@ class RectangularMapTest {
     @Test
     void checkObjectOnPosition() {
         // given
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField field = new GrassField(9);
         Animal animal = new Animal();
-        map.place(animal);
+        field.place(animal);
 
         // then
-        assertNull(map.objectAt(new Vector2d(2, 3)));
-        assertEquals(animal, map.objectAt(new Vector2d(2, 2)));
+        assertNull(field.objectAt(new Vector2d(2, 3)));
+        assertEquals(animal, field.objectAt(new Vector2d(2, 2)));
+        assertEquals(9, field.getGrassAmount());
     }
 
     /**
@@ -91,23 +107,24 @@ class RectangularMapTest {
     @Test
     void checkIfAnimalCanMove() {
         // given
-        RectangularMap map = new RectangularMap(5, 5);
+        GrassField field = new GrassField(7);
         Animal animal1 = new Animal(new Vector2d(3, 4));
         Animal animal2 = new Animal();
         Animal animal3 = new Animal(new Vector2d(2, 1));
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
+        field.place(animal1);
+        field.place(animal2);
+        field.place(animal3);
 
         // when
-        map.move(animal1, MoveDirection.FORWARD);
-        map.move(animal3, MoveDirection.FORWARD);
-        map.move(animal2, MoveDirection.FORWARD);
+        field.move(animal1, MoveDirection.FORWARD);
+        field.move(animal3, MoveDirection.FORWARD);
+        field.move(animal2, MoveDirection.FORWARD);
 
         // then
-        assertEquals(new Vector2d(3, 4), animal1.getPosition());
+        assertEquals(new Vector2d(3, 5), animal1.getPosition());
         assertEquals(new Vector2d(2, 3), animal2.getPosition());
         assertEquals(new Vector2d(2, 1), animal3.getPosition());
+        assertEquals(7, field.getGrassAmount());
     }
 
     /**
@@ -116,28 +133,28 @@ class RectangularMapTest {
     @Test
     void checkAnimalsMovement() {
         // given
-        RectangularMap map = new RectangularMap(6, 9);
+        GrassField field = new GrassField(12);
         Animal animal1 = new Animal(new Vector2d(3, 4));
         Animal animal2 = new Animal();
         Animal animal3 = new Animal(new Vector2d(2, 1));
         Animal animal4 = new Animal(new Vector2d(5, 2));
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal3);
-        map.place(animal4);
+        field.place(animal1);
+        field.place(animal2);
+        field.place(animal3);
+        field.place(animal4);
 
         // when
-        map.move(animal4, MoveDirection.FORWARD);
-        map.move(animal1, MoveDirection.FORWARD);
-        map.move(animal2, MoveDirection.RIGHT);
-        map.move(animal4, MoveDirection.BACKWARD);
-        map.move(animal3, MoveDirection.LEFT);
-        map.move(animal1, MoveDirection.LEFT);
-        map.move(animal3, MoveDirection.RIGHT);
-        map.move(animal3, MoveDirection.FORWARD);
-        map.move(animal1, MoveDirection.FORWARD);
-        map.move(animal4, MoveDirection.BACKWARD);
-        map.move(animal2, MoveDirection.BACKWARD);
+        field.move(animal4, MoveDirection.FORWARD);
+        field.move(animal1, MoveDirection.FORWARD);
+        field.move(animal2, MoveDirection.RIGHT);
+        field.move(animal4, MoveDirection.BACKWARD);
+        field.move(animal3, MoveDirection.LEFT);
+        field.move(animal1, MoveDirection.LEFT);
+        field.move(animal3, MoveDirection.RIGHT);
+        field.move(animal3, MoveDirection.FORWARD);
+        field.move(animal1, MoveDirection.FORWARD);
+        field.move(animal4, MoveDirection.BACKWARD);
+        field.move(animal2, MoveDirection.BACKWARD);
 
         // then
         assertEquals(new Vector2d(2, 5), animal1.getPosition());
@@ -148,5 +165,7 @@ class RectangularMapTest {
         assertEquals(MapDirection.NORTH, animal3.getAnimalDirection());
         assertEquals(new Vector2d(5, 1), animal4.getPosition());
         assertEquals(MapDirection.NORTH, animal4.getAnimalDirection());
+        assertEquals(12, field.getGrassAmount());
     }
+
 }
