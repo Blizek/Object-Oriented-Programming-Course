@@ -4,7 +4,7 @@ import agh.ics.oop.model.Animal;
 import agh.ics.oop.model.MoveDirection;
 import agh.ics.oop.model.Vector2d;
 import agh.ics.oop.model.WorldMap;
-import agh.ics.oop.model.util.IncorrectPositionException;
+import agh.ics.oop.model.IncorrectPositionException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +25,8 @@ public class Simulation {
         for (Vector2d animalStartPosition: animalsStartPositionsList) {
             try {
                 Animal newAnimal = new Animal(animalStartPosition);
-                if (worldMap.place(newAnimal)) { // if position on the map is free set there new animal
-                    animalsList.add(newAnimal);
-                }
+                worldMap.place(newAnimal); // if position on the map is free set there new animal
+                animalsList.add(newAnimal);
             } catch (IncorrectPositionException e) {
                 System.out.println("Waring: " + e.getMessage());
             }

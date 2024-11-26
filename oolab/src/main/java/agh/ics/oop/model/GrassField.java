@@ -1,7 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.MapVisualizer;
-
 import java.util.*;
 
 public class GrassField extends AbstractWorldMap {
@@ -32,38 +30,32 @@ public class GrassField extends AbstractWorldMap {
         return grassAtPosition;
     }
 
-    private Vector2d[] getMapsLowerLeftAndUpperRight() {
-        Vector2d[] minAndMaxUsedPositions = new Vector2d[2]; // index 0 - min value, index 1 - max value
-
-        Set<Vector2d> allPositions = new HashSet<>();
-        allPositions.addAll(animalsMap.keySet());
-        allPositions.addAll(grassesMap.keySet());
-
-        for (Vector2d position : allPositions) {
-            if (minAndMaxUsedPositions[0] == null) {
-                minAndMaxUsedPositions[0] = position;
-                minAndMaxUsedPositions[1] = position;
-            } else {
-                minAndMaxUsedPositions[0] = position.lowerLeft(minAndMaxUsedPositions[0]);
-                minAndMaxUsedPositions[1] = position.upperRight(minAndMaxUsedPositions[1]);
-            }
-        }
-
-        return minAndMaxUsedPositions;
-    }
-
-    @Override
-    public String toString() {
-        Vector2d[] mapBounds = getMapsLowerLeftAndUpperRight();
-        Vector2d lowerLeftBound = mapBounds[0];
-        Vector2d upperRightBound = mapBounds[1];
-        return mapVisualizer.draw(lowerLeftBound, upperRightBound);
-    }
-
     @Override
     public List<WorldElement> getElements() {
         List<WorldElement> fullElementsList = super.getElements();
         fullElementsList.addAll(grassesMap.values());
         return fullElementsList;
+    }
+
+    @Override
+    public Boundary getCurrentBounds() {
+        Set<Vector2d> allPositions = new HashSet<>();
+        allPositions.addAll(animalsMap.keySet());
+        allPositions.addAll(grassesMap.keySet());
+
+        Vector2d lowerLeft = null;
+        Vector2d upperRight = null;
+
+        for (Vector2d position: allPositions) {
+            if (lowerLeft == null) {
+                lowerLeft = position;
+                upperRight = position;
+            } else {
+                lowerLeft = position.lowerLeft(lowerLeft);
+                upperRight = position.upperRight(upperRight);
+            }
+        }
+
+        return new Boundary(lowerLeft, upperRight);
     }
 }

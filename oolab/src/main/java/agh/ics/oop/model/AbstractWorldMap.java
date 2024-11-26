@@ -1,6 +1,5 @@
 package agh.ics.oop.model;
 
-import agh.ics.oop.model.util.IncorrectPositionException;
 import agh.ics.oop.model.util.MapVisualizer;
 
 import java.util.HashMap;
@@ -17,12 +16,12 @@ public abstract class AbstractWorldMap implements WorldMap {
     }
 
     @Override
-    public boolean place(Animal animal) throws IncorrectPositionException {
+    public void place(Animal animal) throws IncorrectPositionException {
         if (canMoveTo(animal.getPosition())){
             animalsMap.put(animal.getPosition(), animal);
-            return true;
+        } else {
+            throw new IncorrectPositionException(animal.getPosition());
         }
-        throw new IncorrectPositionException(animal.getPosition());
     }
 
     @Override
@@ -52,5 +51,16 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public List<WorldElement> getElements() {
         return List.copyOf(animalsMap.values());
+    }
+
+    @Override
+    public abstract Boundary getCurrentBounds();
+
+    @Override
+    public String toString() {
+        Boundary mapBounds = getCurrentBounds();
+        Vector2d lowerLeftBound = mapBounds.lowerLeft();
+        Vector2d upperRightBound = mapBounds.upperRight();
+        return mapVisualizer.draw(lowerLeftBound, upperRightBound);
     }
 }
