@@ -67,6 +67,6 @@ class OptionsParserTest {
         String[] onlyWrongData = {"pozdrowienia", "x", "podziękowania", "AGH", "e", "g"};
 
         // then
-        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parseStringToMoveDirections(onlyWrongData));
+        assertThrowsExactly(IllegalArgumentException.class, () -> OptionsParser.parseStringToMoveDirections(onlyWrongData));
     }
 }
