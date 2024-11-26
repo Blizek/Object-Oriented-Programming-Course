@@ -38,15 +38,8 @@ class OptionsParserTest {
         // given
         String[] correctAndWrongData = {"f", "l", "test", "b", "x", "f", "z"};
 
-        // when
-        List<MoveDirection> parsedCorrectAndWrongData = OptionsParser.parseStringToMoveDirections(correctAndWrongData);
-        List<MoveDirection> expectedCorrectAndWrongData = List.of(MoveDirection.FORWARD,
-                                                        MoveDirection.LEFT,
-                                                        MoveDirection.BACKWARD,
-                                                        MoveDirection.FORWARD);
-
         // then
-        assertEquals(parsedCorrectAndWrongData, expectedCorrectAndWrongData);
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parseStringToMoveDirections(correctAndWrongData));
     }
 
     /**
@@ -73,11 +66,7 @@ class OptionsParserTest {
         // given
         String[] onlyWrongData = {"pozdrowienia", "x", "podziękowania", "AGH", "e", "g"};
 
-        // when
-        List<MoveDirection> parsedOnlyWrongData = OptionsParser.parseStringToMoveDirections(onlyWrongData);
-        List<MoveDirection> expectedOnlyWrongData = List.of();
-
         // then
-        assertEquals(parsedOnlyWrongData, expectedOnlyWrongData);
+        assertThrows(IllegalArgumentException.class, () -> OptionsParser.parseStringToMoveDirections(onlyWrongData));
     }
 }
