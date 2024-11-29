@@ -20,7 +20,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         observers.remove(observer);
     }
 
-    public void mapChanged(String message) {
+    protected void mapChanged(String message) {
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this, message);
         }
@@ -55,8 +55,6 @@ public abstract class AbstractWorldMap implements WorldMap {
             mapChanged("Animal changed direction from %s to %s".formatted(animalStartDirection, animalEndDirection));
         } else if (!animalStartPosition.equals(animalEndPosition)){
             mapChanged("Animal moved from %s to %s".formatted(animalStartPosition, animalEndPosition));
-        } else {
-            mapChanged("Animal tried to do illegal move");
         }
     }
 
@@ -86,8 +84,6 @@ public abstract class AbstractWorldMap implements WorldMap {
     @Override
     public String toString() {
         Boundary mapBounds = getCurrentBounds();
-        Vector2d lowerLeftBound = mapBounds.lowerLeft();
-        Vector2d upperRightBound = mapBounds.upperRight();
-        return mapVisualizer.draw(lowerLeftBound, upperRightBound);
+        return mapVisualizer.draw(mapBounds.lowerLeft(), mapBounds.upperRight());
     }
 }
