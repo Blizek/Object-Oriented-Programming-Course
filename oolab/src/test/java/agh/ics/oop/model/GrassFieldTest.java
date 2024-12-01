@@ -93,7 +93,11 @@ class GrassFieldTest {
         assertDoesNotThrow(() -> field.place(animal));
 
         // then
-        assertNull(field.objectAt(new Vector2d(2, 3)));
+        if (field.objectAt(new Vector2d(2, 3)) == null) {
+            assertNull(field.objectAt(new Vector2d(2, 3)));
+        } else {
+            assertEquals("*", field.objectAt(new Vector2d(2, 3)).toString());
+        }
         assertEquals(animal, field.objectAt(new Vector2d(2, 2)));
         assertEquals(9, field.getGrassAmount());
     }

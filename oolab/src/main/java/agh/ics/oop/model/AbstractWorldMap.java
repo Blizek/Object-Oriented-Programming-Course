@@ -20,7 +20,7 @@ public abstract class AbstractWorldMap implements WorldMap {
         observers.remove(observer);
     }
 
-    protected void mapChanged(String message) {
+    protected void listenerObserver(String message) {
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this, message);
         }
@@ -35,7 +35,7 @@ public abstract class AbstractWorldMap implements WorldMap {
     public void place(Animal animal) throws IncorrectPositionException {
         if (canMoveTo(animal.getPosition())){
             animalsMap.put(animal.getPosition(), animal);
-            mapChanged("Animal was placed at " + animal.getPosition());
+            listenerObserver("Animal was placed at " + animal.getPosition());
         } else {
             throw new IncorrectPositionException(animal.getPosition());
         }
@@ -52,9 +52,9 @@ public abstract class AbstractWorldMap implements WorldMap {
         animalsMap.put(animalEndPosition, animal);
 
         if (!animalStartDirection.equals(animalEndDirection)) {
-            mapChanged("Animal changed direction from %s to %s".formatted(animalStartDirection, animalEndDirection));
+            listenerObserver("Animal changed direction from %s to %s".formatted(animalStartDirection, animalEndDirection));
         } else if (!animalStartPosition.equals(animalEndPosition)){
-            mapChanged("Animal moved from %s to %s".formatted(animalStartPosition, animalEndPosition));
+            listenerObserver("Animal moved from %s to %s".formatted(animalStartPosition, animalEndPosition));
         }
     }
 
