@@ -19,30 +19,30 @@ public class SimulationApp extends Application{
         BorderPane viewRoot = loader.load();
         SimulationPresenter presenter = loader.getController();
 
-        try {
-            Vector2d position1 = new Vector2d(2, 2);
-            Vector2d position2 = new Vector2d(1, 2);
-
-            GrassField grassField = new GrassField(10);
-
-            grassField.addObserver(presenter);
-
-            List<MoveDirection> animalsDirections = OptionsParser.parseStringToMoveDirections(getParameters().getRaw().toArray(new String[0]));
-
-            List<Vector2d> animalsStartPositions = new ArrayList<>();
-            animalsStartPositions.add(position1);
-            animalsStartPositions.add(position2);
-
-            Simulation simulation = new Simulation(animalsStartPositions, animalsDirections, grassField);
-            List<Simulation> simulations = new ArrayList<>();
-            simulations.add(simulation);
-            SimulationEngine engine = new SimulationEngine(simulations);
-            engine.runAsyncInThreadPool();
-            engine.awaitSimulationEnd();
-            System.out.println("System zakończył działanie");
-        } catch (IllegalArgumentException | InterruptedException e) {
-            System.out.println(e.getMessage());
-        }
+//        try {
+//            Vector2d position1 = new Vector2d(2, 2);
+//            Vector2d position2 = new Vector2d(1, 2);
+//
+//            GrassField grassField = new GrassField(10);
+//
+//            grassField.addObserver(presenter);
+//
+//            List<MoveDirection> animalsDirections = OptionsParser.parseStringToMoveDirections(getParameters().getRaw().toArray(new String[0]));
+//
+//            List<Vector2d> animalsStartPositions = new ArrayList<>();
+//            animalsStartPositions.add(position1);
+//            animalsStartPositions.add(position2);
+//
+//            Simulation simulation = new Simulation(animalsStartPositions, animalsDirections, grassField);
+//            List<Simulation> simulations = new ArrayList<>();
+//            simulations.add(simulation);
+//            SimulationEngine engine = new SimulationEngine(simulations);
+//            engine.runAsyncInThreadPool();
+//            engine.awaitSimulationEnd();
+//            System.out.println("System zakończył działanie");
+//        } catch (IllegalArgumentException | InterruptedException e) {
+//            System.out.println(e.getMessage());
+//        }
 
         configureStage(primaryStage, viewRoot);
         primaryStage.show();

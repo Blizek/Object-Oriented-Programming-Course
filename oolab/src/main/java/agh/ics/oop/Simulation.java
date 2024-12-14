@@ -51,6 +51,11 @@ public class Simulation implements Runnable{
             int actualAnimalIndex = i % animalsCount;
             Animal actualAnimal = animalsList.get(actualAnimalIndex);
             worldMap.move(actualAnimal, animalsMovesList.get(i)); // move this animal on the map
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 }
