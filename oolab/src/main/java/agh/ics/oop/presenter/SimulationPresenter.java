@@ -12,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.text.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,21 +38,19 @@ public class SimulationPresenter implements MapChangeListener {
         mapGrid.getRowConstraints().clear();
     }
 
-    public void drawMap() {
-        clearGrid();
-        Boundary mapBoundary = worldMap.getCurrentBounds();
-        lowerLeft = mapBoundary.lowerLeft();
-        upperRight = mapBoundary.upperRight();
-
-        // GridPane.setHalignment(label, HPos.CENTER);
+    private void drawColumns() {
         for (int x = lowerLeft.getX(); x <= upperRight.getX() + 1; x++) {
             mapGrid.getColumnConstraints().add(new ColumnConstraints(35));
         }
-        // Create a new grid based on the current dimensions of the map
+    }
+
+    private void drawRows() {
         for (int y = lowerLeft.getY(); y <= upperRight.getY() + 1; y++) {
             mapGrid.getRowConstraints().add(new RowConstraints(35));
         }
+    }
 
+    private void numerateColumnAndRow() {
         Label label = new Label("y/x");
         mapGrid.add(label, 0, 0);
         GridPane.setHalignment(label, HPos.CENTER);
@@ -67,18 +66,32 @@ public class SimulationPresenter implements MapChangeListener {
             mapGrid.add(label, 0, upperRight.getY() - y + 1);
             GridPane.setHalignment(label, HPos.CENTER);
         }
+    }
 
-        for (int x = lowerLeft.getX(); x <= upperRight.getX(); x++) {
-            for (int y = upperRight.getY(); y >= lowerLeft.getY(); y--) {
-                Vector2d currentPosition = new Vector2d(x, y);
-                WorldElement elementAtPosition = worldMap.objectAt(currentPosition);
-                if (elementAtPosition != null) {
-                    label = new Label(elementAtPosition.toString());
-                    mapGrid.add(label, x - lowerLeft.getX() + 1, upperRight.getY() - y + 1);
-                    GridPane.setHalignment(label, HPos.CENTER);
-                }
+    private void fillTMap() {
+        List<WorldElement> elements = worldMap.getElements();
+        for (WorldElement element : elements){
+            if(element instanceof Animal || worldMap.objectAt(element.getPosition()) instanceof Grass){
+                Text text = new Text(element.toString());
+                GridPane.setHalignment(text, HPos.CENTER);
+                mapGrid.add(text, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
             }
         }
+    }
+
+    private void drawMap() {
+        clearGrid();
+        
+        Boundary mapBoundary = worldMap.getCurrentBounds();
+        lowerLeft = mapBoundary.lowerLeft();
+        upperRight = mapBoundary.upperRight();
+
+        drawColumns();
+        drawRows();
+
+        numerateColumnAndRow();
+
+        fillTMap();
     }
 
     @Override
