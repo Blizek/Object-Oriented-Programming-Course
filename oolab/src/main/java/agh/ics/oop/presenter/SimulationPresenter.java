@@ -68,7 +68,7 @@ public class SimulationPresenter implements MapChangeListener {
         }
     }
 
-    private void fillTMap() {
+    private void fillMap() {
         List<WorldElement> elements = worldMap.getElements();
         for (WorldElement element : elements){
             if(element instanceof Animal || worldMap.objectAt(element.getPosition()) instanceof Grass){
@@ -91,7 +91,7 @@ public class SimulationPresenter implements MapChangeListener {
 
         numerateColumnAndRow();
 
-        fillTMap();
+        fillMap();
     }
 
     @Override
