@@ -35,6 +35,10 @@ public class GameMap {
             grassesMap.put(grassPosition, new Grass(grassPosition,builder.grassEnergy));
         }
     }
+    public void move(Animal animal) {
+        Vector2d previousAnimalPosition = animal.getPosition();
+        animal.move();
+    }
 
     public static class Builder{
         private Vector2d topRightCorner;

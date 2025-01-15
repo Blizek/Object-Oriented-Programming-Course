@@ -5,7 +5,7 @@ import projekt.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Simulation {
+public class Simulation implements Runnable {
     private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
     private final GameMap gameMap = new GameMap(); // map of the game
 
@@ -21,16 +21,14 @@ public class Simulation {
      * Method to run simulation for every animal on list
      */
     public void run(){
-        if (animalsMovesList.isEmpty()) {
+        if (animalsList.isEmpty()) {
             return;
         }
 
         int animalsCount = animalsList.size();
         try {
-            for (int i = 0; i < animalsMovesList.size(); i++) {
-                int actualAnimalIndex = i % animalsCount;
-                Animal actualAnimal = animalsList.get(actualAnimalIndex);
-                gameMap.move(actualAnimal, animalsMovesList.get(i)); // move this animal on the map
+            for (Animal actualAnimal: animalsList) {
+                gameMap.move(actualAnimal); // move this animal on the map
                 Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
