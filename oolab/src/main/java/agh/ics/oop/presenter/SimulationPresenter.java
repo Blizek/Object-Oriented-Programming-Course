@@ -72,9 +72,12 @@ public class SimulationPresenter implements MapChangeListener {
         List<WorldElement> elements = worldMap.getElements();
         for (WorldElement element : elements){
             if(element instanceof Animal || worldMap.objectAt(element.getPosition()) instanceof Grass){
-                Text text = new Text(element.toString());
-                GridPane.setHalignment(text, HPos.CENTER);
-                mapGrid.add(text, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
+                WorldElementBox elementBox = new WorldElementBox(element);
+                mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
+                GridPane.setHalignment(elementBox, HPos.CENTER);
+//                Text text = new Text(element.toString());
+//                GridPane.setHalignment(text, HPos.CENTER);
+//                mapGrid.add(text, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
             }
         }
     }
@@ -115,6 +118,7 @@ public class SimulationPresenter implements MapChangeListener {
 
             GrassField map = new GrassField(10);
             map.addObserver(this);
+            map.addObserver(new FileMapDisplay(map));
             setWorldMap(map);
 
             Simulation simulation = new Simulation(animalsStartPositions, animalsMovesAsList, map);
