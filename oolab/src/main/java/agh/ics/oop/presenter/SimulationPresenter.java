@@ -75,9 +75,6 @@ public class SimulationPresenter implements MapChangeListener {
                 WorldElementBox elementBox = new WorldElementBox(element);
                 mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
                 GridPane.setHalignment(elementBox, HPos.CENTER);
-//                Text text = new Text(element.toString());
-//                GridPane.setHalignment(text, HPos.CENTER);
-//                mapGrid.add(text, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
             }
         }
     }
