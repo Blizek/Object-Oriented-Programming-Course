@@ -118,7 +118,7 @@ public class GameMap {
             }
         }
 
-        animal.move();
+        animal.move(topRightCorner);
         animal.postMoveEnergyUpdate();
 
         // tutaj ustaw zwierzaka

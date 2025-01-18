@@ -81,9 +81,13 @@ public class Simulation implements Runnable {
                 for (Grass grass : gameMap.getGrassesMap().values()) {
                     if (gameMap.isOccupied(grass.getPosition())) {
                         List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
-                        Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
-                        chosenAnimal.eat(grass.getEnergy());
-                        gameMap.removeGrass(grass.getPosition());
+//                        Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
+                        Animal chosenAnimal = animalsOnPosition == null ? null : animalsOnPosition.get(0);
+                        if (chosenAnimal != null) {
+                            chosenAnimal.eat(grass.getEnergy());
+                            gameMap.removeGrass(grass.getPosition());
+                        }
+
                     }
                 }
 

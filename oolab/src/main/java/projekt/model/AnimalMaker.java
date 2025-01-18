@@ -30,6 +30,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
     }
 
     public Animal makeAnimalFromParents(Animal mother, Animal father){
+        System.out.println("Making child");
         int combinedEnergy = mother.getEnergy() + father.getEnergy();
 
         List<Integer> motherGenome = mother.getGenome();
@@ -51,14 +52,14 @@ public class AnimalMaker implements ElementMaker<Animal> {
             for(int i = 0; i < fatherGenes; i++){
                 childGenome.add(fatherGenome.get(i));
             }
-            for(int i = fatherGenes; i < GenomeCount; i++){
+            for(int i = fatherGenes; i < GenomeCount; i--){
                 childGenome.add(motherGenome.get(i));
             }
         }else{
             for(int i = 0; i < motherGenes; i++){
                 childGenome.add(motherGenome.get(i));
             }
-            for(int i = motherGenes; i < GenomeCount; i++){
+            for(int i = motherGenes; i < GenomeCount; i--){
                 childGenome.add(fatherGenome.get(i));
             }
         }
