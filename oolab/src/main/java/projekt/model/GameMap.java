@@ -1,7 +1,6 @@
 package projekt.model;
 
 
-import agh.ics.oop.model.IncorrectPositionException;
 import projekt.model.util.MapVisualizer;
 
 import java.util.*;
@@ -13,7 +12,7 @@ public class GameMap {
 
     private final HashMap<Vector2d, Grass> grassesMap;
 
-    private final Map<Vector2d, Animal> animalsMap = new HashMap<>();
+    private final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
 
     private final Boundary mapBoundary;
 
@@ -34,33 +33,52 @@ public class GameMap {
         equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
         equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
 
-        RandomPositionGenerator grassRandomPositionGenerator = new RandomPositionGenerator(topRightCorner, builder.startGrassCount);
+        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, builder.startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
         for(Vector2d grassPosition : grassRandomPositionGenerator) {
             grassesMap.put(grassPosition, new Grass(grassPosition,builder.grassEnergy));
         }
     }
 
     public void place(Animal animal) {
-        animalsMap.put(animal.getPosition(), animal);
+        animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
     }
 
     public void removeDeadAnimal(Animal animal) {
-        animalsMap.remove(animal.getPosition(), animal);
+        List<Animal> animals = animalsMap.get(animal.getPosition());
+        if (animals != null) {
+            animals.remove(animal);
+            if (animals.isEmpty()) {
+                animalsMap.remove(animal.getPosition());
+            }
+        }
     }
 
 
     public void move(Animal animal) {
         Vector2d previousAnimalPosition = animal.getPosition();
         Direction previousAnimalDirection = animal.getDirection();
-        animalsMap.remove(previousAnimalPosition, animal);
+
+        List<Animal> animalsAtPreviousPosition = animalsMap.get(previousAnimalPosition);
+        if (animalsAtPreviousPosition != null) {
+            animalsAtPreviousPosition.remove(animal);
+            if (animalsAtPreviousPosition.isEmpty()) {
+                animalsMap.remove(previousAnimalPosition);
+            }
+        }
+
         animal.move();
         animal.postMoveEnergyUpdate();
-        animalsMap.put(animal.getPosition(), animal);
+
+        animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
+
+
+
+
         if (!previousAnimalDirection.equals(animal.getDirection())) {
-            System.out.println("Animal changed direction from %s to %s".formatted(previousAnimalDirection, animal.getDirection()));
+            System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
         }
         if (!previousAnimalPosition.equals(animal.getPosition())){
-            System.out.println("Animal moved from %s to %s".formatted(previousAnimalPosition, animal.getPosition()));
+            System.out.printf("Animal moved from %s to %s%n", previousAnimalPosition, animal.getPosition());
         }
         System.out.println("Animal's energy: " + animal.getEnergy());
         System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
@@ -70,17 +88,22 @@ public class GameMap {
         return objectAt(position) != null;
     }
 
-    public WorldElement objectAt(Vector2d position) {
-        WorldElement animalAtPosition = animalsMap.get(position);
-        Grass grassAtPosition = grassesMap.get(position);
-        if (animalAtPosition != null) {
-            return animalAtPosition;
+
+    public List<WorldElement> objectAt(Vector2d position) {
+        List<WorldElement> elementsAtPosition = new ArrayList<>();
+        List<Animal> animalsAtPosition = animalsMap.get(position);
+        if (animalsAtPosition != null) {
+            elementsAtPosition.addAll(animalsAtPosition);
         }
-        return grassAtPosition;
+        Grass grassAtPosition = grassesMap.get(position);
+        if (grassAtPosition != null) {
+            elementsAtPosition.add(grassAtPosition);
+        }
+        return elementsAtPosition;
     }
 
     public Boundary getMapBoundary() {
-        return new Boundary(bottomLeftCorner, topRightCorner);
+        return mapBoundary;
     }
 
     @Override

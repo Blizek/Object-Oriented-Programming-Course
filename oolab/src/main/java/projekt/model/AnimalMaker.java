@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 public class AnimalMaker implements ElementMaker<Animal> {
-    private int minMutationCount;
-    private int maxMutationCount;
-    private int GenomeCount;
-    private int startAnimalEnergy;
+    private final int minMutationCount;
+    private final int maxMutationCount;
+    private final int GenomeCount;
+    private final int startAnimalEnergy;
 
     public AnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy){
         this.minMutationCount = minMutationCount;
@@ -22,7 +22,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
         for(int i = 0; i < GenomeCount; i++){
             genome.add((int)(Math.random() * 8));
         }
-        return new Animal(position, startAnimalEnergy, genome);
+        return new Animal(position, startAnimalEnergy, genome, null, null);
     }
 
     public Animal fromParentsMake(Animal mother, Animal father){
@@ -58,7 +58,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
                 childGenome.add(fatherGenome.get(i));
             }
         }
-        return new Animal(mother.getPosition(), startAnimalEnergy, childGenome);
+        return new Animal(mother.getPosition(), startAnimalEnergy, childGenome, mother, father);
     }
 
 }
