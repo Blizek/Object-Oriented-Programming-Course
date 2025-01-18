@@ -2,9 +2,7 @@ package projekt;
 
 import projekt.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Simulation implements Runnable {
     private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
@@ -12,37 +10,36 @@ public class Simulation implements Runnable {
     private final HashMap<Vector2d, Animal> animalsMap;
 
     private final GameMap gameMap; // map of the game
-    private final int eatenGrassEnergy;
     private final int grassGrownAmount;
-    private final int startAnimalsAmount;
-    private final int startAnimalEnergy;
     private final int minEnergyToFullAnimal;
-    private final int sexEnergyCost;
-    private final int minMutationAmount;
-    private final int maxMutationAmount;
-    private final int animalGenomeLength;
+    private final AnimalMaker animalMaker;
+    private final GrassMaker grassMaker;
 
     private Simulation(Builder builder) {
         gameMap = builder.map;
-        eatenGrassEnergy = builder.eatenGrassEnergy;
+        int eatenGrassEnergy = builder.eatenGrassEnergy;
         grassGrownAmount = builder.grassGrownAmount;
-        startAnimalsAmount = builder.startAnimalsAmount;
-        startAnimalEnergy = builder.startAnimalEnergy;
+        int startAnimalsAmount = builder.startAnimalsAmount;
+        int startAnimalEnergy = builder.startAnimalEnergy;
         minEnergyToFullAnimal = builder.minEnergyToFullAnimal;
-        sexEnergyCost = builder.sexEnergyCost;
-        minMutationAmount = builder.minMutationAmount;
-        maxMutationAmount = builder.maxMutationAmount;
-        animalGenomeLength = builder.animalGenomeLength;
+        int sexEnergyCost = builder.sexEnergyCost;
+        int minMutationAmount = builder.minMutationAmount;
+        int maxMutationAmount = builder.maxMutationAmount;
+        int animalGenomeLength = builder.animalGenomeLength;
 
         animalsMap = new HashMap<>();
+        animalMaker = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
+        grassMaker = new GrassMaker(eatenGrassEnergy);
 
         Boundary mapBoundary = gameMap.getMapBoundary();
-        Vector2d bottomLeftCorner = mapBoundary.lowerLeft();
         Vector2d topRightCorner = mapBoundary.upperRight();
 
-        RandomPositionGenerator animalsRandomPositionGenerator = new RandomPositionGenerator(topRightCorner, startAnimalsAmount);
-        for(Vector2d animalPosition : animalsRandomPositionGenerator) {
-            Animal newAnimal = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy).make(animalPosition);
+        Random random = new Random();
+        for (int i = 0; i < startAnimalsAmount; i++) {
+            int randomwidth = random.nextInt(0, topRightCorner.getX());
+            int randomheight = random.nextInt(0, topRightCorner.getY());
+            Vector2d animalPosition = new Vector2d(randomwidth, randomheight);
+            Animal newAnimal = animalMaker.makeAnimal(animalPosition);
             animalsMap.put(animalPosition, newAnimal);
             gameMap.place(newAnimal);
             animalsList.add(newAnimal);
@@ -80,6 +77,33 @@ public class Simulation implements Runnable {
                     gameMap.move(animal);
                     Thread.sleep(0);
                 }
+
+                for (Grass grass : gameMap.getGrassesMap().values()) {
+                    if (gameMap.isOccupied(grass.getPosition())) {
+                        List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
+                        Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
+                        chosenAnimal.eat(grass.getEnergy());
+                        gameMap.removeGrass(grass.getPosition());
+                    }
+                }
+
+                for (List<Animal> animalsOnPosition: gameMap.getAnimalsMap().values()){
+                    List<Animal> filteredAnimals = new ArrayList<>();
+                    for (Animal animal : animalsList) {
+                        if (animal.getEnergy() < minEnergyToFullAnimal) {
+                            filteredAnimals.add(animal);
+                        }
+                    }
+                    for (int i = 1; i < filteredAnimals.size(); i += 2) {
+                        Animal mother = filteredAnimals.get(i);
+                        Animal father = filteredAnimals.get(i - 1);
+                        Animal child = animalMaker.makeAnimalFromParents(mother, father);
+                        gameMap.place(child);
+                        animalsList.add(child);
+                    }
+                }
+
+
 
                 for (Animal animal: animalsList) {
                     if (animal.getEnergy() <= 0) {
@@ -166,4 +190,5 @@ public class Simulation implements Runnable {
             return new Simulation(this);
         }
     }
+
 }

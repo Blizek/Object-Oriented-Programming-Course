@@ -1,15 +1,14 @@
 package projekt.model;
 
-import java.util.HashMap;
-
-public class GrassMaker implements ElementMaker<Grass> {
+public class GrassMaker implements ElementMaker {
     private final int grassEnergy;
-    public GrassMaker(int grassEnergy){
+
+    public GrassMaker(int grassEnergy) {
         this.grassEnergy = grassEnergy;
     }
+
     @Override
-    public Grass make(Vector2d position) {
-        // Implement the method logic here
-        return null;
+    public Grass makeAnimal(Vector2d position) {
+        return new Grass(position, grassEnergy);
     }
 }

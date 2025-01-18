@@ -10,31 +10,46 @@ import java.util.Scanner;
 public class World {
     public static void main(String[] args) {
         Scanner scanner  = new Scanner(System.in);
+        int mapHeight = 10;
+        int mapWidth = 10;
+        int startGrassAmount = 20;
+        int eatenGrassEnergy = 20;
+        int grassGrownAmount = 4;
+        int startAnimalsAmount = 5;
+        int startAnimalEnergy = 50;
+        int minEnergyToFullAnimal = 50;
+        int sexEnergyCost = 10;
+        int minMutationAmount = 0;
+        int maxMutationAmount = 5;
+        int animalGenomeLength = 8;
 
-        System.out.println("Wysokość mapy:");
-        int mapHeight = scanner.nextInt();
-        System.out.println("Szerokość mapy:");
-        int mapWidth = scanner.nextInt();
-        System.out.println("Startowa liczba roślin:");
-        int startGrassAmount = scanner.nextInt();
-        System.out.println("Energia zapewniania przez zjedzenie jednej rośliny:");
-        int eatenGrassEnergy = scanner.nextInt();
-        System.out.println("Liczba roślin wyrastająca każdego dnia:");
-        int grassGrownAmount = scanner.nextInt();
-        System.out.println("Startowa liczba zwierzaków:");
-        int startAnimalsAmount = scanner.nextInt();
-        System.out.println("Startowa energia zwierzaków:");
-        int startAnimalEnergy = scanner.nextInt();
-        System.out.println("Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania:");
-        int minEnergyToFullAnimal = scanner.nextInt();
-        System.out.println("Energia rodziców zużywana by stworzyć potomka:");
-        int sexEnergyCost = scanner.nextInt();
-        System.out.println("Minimalna liczba mutacji u potomków:");
-        int minMutationAmount = scanner.nextInt();
-        System.out.println("Maksymalna liczba mutacji u potomków:");
-        int maxMutationAmount = scanner.nextInt();
-        System.out.println("Długość genomu zwierzaków:");
-        int animalGenomeLength = scanner.nextInt();
+        System.out.println("chcesz stworzyc wlasna mape? (t/n)");
+        if ( scanner.nextLine().equals("t") ) {
+            System.out.println("Wysokość mapy:");
+            mapHeight = scanner.nextInt();
+            System.out.println("Szerokość mapy:");
+            mapWidth = scanner.nextInt();
+            System.out.println("Startowa liczba roślin:");
+            startGrassAmount = scanner.nextInt();
+            System.out.println("Energia zapewniania przez zjedzenie jednej rośliny:");
+            eatenGrassEnergy = scanner.nextInt();
+            System.out.println("Liczba roślin wyrastająca każdego dnia:");
+            grassGrownAmount = scanner.nextInt();
+            System.out.println("Startowa liczba zwierzaków:");
+            startAnimalsAmount = scanner.nextInt();
+            System.out.println("Startowa energia zwierzaków:");
+            startAnimalEnergy = scanner.nextInt();
+            System.out.println("Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania:");
+            minEnergyToFullAnimal = scanner.nextInt();
+            System.out.println("Energia rodziców zużywana by stworzyć potomka:");
+            sexEnergyCost = scanner.nextInt();
+            System.out.println("Minimalna liczba mutacji u potomków:");
+            minMutationAmount = scanner.nextInt();
+            System.out.println("Maksymalna liczba mutacji u potomków:");
+            maxMutationAmount = scanner.nextInt();
+            System.out.println("Długość genomu zwierzaków:");
+            animalGenomeLength = scanner.nextInt();
+        }
 
         try {
             GameMap map = new GameMap.Builder()

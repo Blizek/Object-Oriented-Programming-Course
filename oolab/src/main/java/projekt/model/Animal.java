@@ -29,6 +29,10 @@ public class Animal implements WorldElement{
         return animalPosition;
     }
 
+    public void setAnimalPosition(int x, int y) {
+        animalPosition = new Vector2d(x, y);
+    }
+
     @Override
     public int getEnergy(){
         return animalEnergy;
@@ -62,6 +66,10 @@ public class Animal implements WorldElement{
         return animalDirection;
     }
 
+    public void loseEnergy(int energy){
+        animalEnergy -= energy;
+    }
+
     public List<Integer> getGenome() {
         return genome;
     }
@@ -73,9 +81,20 @@ public class Animal implements WorldElement{
         genomePlace = (genomePlace + 1) % genome.size();
     }
 
-    public void move(){
+    public void move(Vector2d topRightCorner){
         changeDirection();
-        animalPosition = animalPosition.add(animalDirection.toUnitVector());
+        Vector2d newAnimalPosition = animalPosition.add(animalDirection.toUnitVector());
+        if (newAnimalPosition.getY() < 0 || newAnimalPosition.getY() > topRightCorner.getY()){
+            animalDirection = Direction.getOppositeDirection(animalDirection);
+        }
+        else if (newAnimalPosition.getX() < 0) {
+            animalPosition = animalPosition.add(new Vector2d(topRightCorner.getX(), 0));
+        }
+        else if (newAnimalPosition.getX() > topRightCorner.getX()) {
+            animalPosition = animalPosition.subtract(new Vector2d(topRightCorner.getX(), 0));
+        } else {
+            animalPosition = newAnimalPosition;
+        }
         daysLived += 1;
     }
 

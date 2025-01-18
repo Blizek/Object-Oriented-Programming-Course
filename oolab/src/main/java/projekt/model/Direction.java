@@ -24,4 +24,10 @@ public enum Direction {
     public String toString() {
         return directionName;
     }
+
+    public static Direction getOppositeDirection(Direction startDirection) {
+        int directionValue = startDirection.ordinal();
+        int newDirectionValue = (directionValue + 4) % 8; // moving 4 next directions gives opposite direction
+        return Direction.values()[newDirectionValue];
+    }
 }

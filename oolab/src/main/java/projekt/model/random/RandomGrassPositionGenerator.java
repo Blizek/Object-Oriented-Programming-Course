@@ -1,4 +1,7 @@
-package projekt.model;
+package projekt.model.random;
+
+import projekt.model.Grass;
+import projekt.model.Vector2d;
 
 import java.util.*;
 
@@ -16,7 +19,6 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
         this.grassCount = grassCount;
         this.equatorLowerLeft = equatorLowerLeft;
         this.equatorUpperRight = equatorUpperRight;
-
         for (int i = 0; i < this.topRightCorner.getX(); i++) {
             for (int j = 0; j < this.topRightCorner.getY(); j++) {
                 Vector2d currentPosition = new Vector2d(i, j);
@@ -45,7 +47,6 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
                 List<List<Vector2d>> freePositions = new ArrayList<>();
                 freePositions.add(outsideJungleFreePositions);
                 freePositions.add(inJungleFreePositions);
-
                 int listIndex;
                 listIndex = (randomGrownPlace <= 1) ? 0 : 1;
 
@@ -53,10 +54,10 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
                 int randomIndex = random.nextInt(grownPlaces.size());
                 Vector2d tempLastVector2d = grownPlaces.getLast();
                 Vector2d randomPosition = grownPlaces.get(randomIndex);
-                grownPlaces.set(freePositions.size() - 1, randomPosition);
+                grownPlaces.set(grownPlaces.size() - 1, randomPosition);
                 grownPlaces.set(randomIndex, tempLastVector2d);
                 currentGrassCounter++;
-                return outsideJungleFreePositions.removeLast();
+                return grownPlaces.removeLast();
             }
         };
     }
