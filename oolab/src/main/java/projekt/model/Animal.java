@@ -20,9 +20,18 @@ public class Animal implements WorldElement{
     public Vector2d getPosition() {
         return animalPosition;
     }
+
     @Override
     public int getEnergy(){
         return animalEnergy;
+    }
+
+    public void postMoveEnergyUpdate() {
+        this.animalEnergy -= 10;
+    }
+
+    public Direction getDirection() {
+        return animalDirection;
     }
 
     public List<Integer> getGenome() {
@@ -43,5 +52,19 @@ public class Animal implements WorldElement{
 
     public void eat(int energy){
         animalEnergy += energy;
+    }
+
+    @Override
+    public String toString() {
+        return switch (animalDirection) {
+            case NORTH -> "N";
+            case NORTHEAST -> "NE";
+            case EAST -> "E";
+            case SOUTHEAST -> "SE";
+            case SOUTH -> "S";
+            case SOUTHWEST -> "SW";
+            case WEST -> "W";
+            case NORTHWEST -> "NW";
+        };
     }
 }
