@@ -6,7 +6,8 @@ import java.util.*;
 
 public class Simulation implements Runnable {
     private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
-    private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all animals
+    private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all dead that day animals
+    private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day
     private final HashMap<Vector2d, Animal> animalsMap;
 
     private final GameMap gameMap; // map of the game
@@ -81,20 +82,26 @@ public class Simulation implements Runnable {
                 for (Grass grass : gameMap.getGrassesMap().values()) {
                     if (gameMap.isOccupied(grass.getPosition())) {
                         List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
-//                        Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
-                        Animal chosenAnimal = animalsOnPosition == null ? null : animalsOnPosition.get(0);
-                        if (chosenAnimal != null) {
-                            chosenAnimal.eat(grass.getEnergy());
-                            gameMap.removeGrass(grass.getPosition());
+                        if (animalsOnPosition != null) {
+                            Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
+                            // Animal chosenAnimal = animalsOnPosition == null ? null : animalsOnPosition.get(0);
+                            if (chosenAnimal != null) {
+                                chosenAnimal.eat(grass.getEnergy());
+                                newEatenGrass.add(grass);
+                            }
                         }
-
                     }
                 }
 
+                for (Grass grass: newEatenGrass) {
+                    gameMap.removeGrass(grass.getPosition());
+                }
+                newEatenGrass.clear();
+
                 for (List<Animal> animalsOnPosition: gameMap.getAnimalsMap().values()){
                     List<Animal> filteredAnimals = new ArrayList<>();
-                    for (Animal animal : animalsList) {
-                        if (animal.getEnergy() < minEnergyToFullAnimal) {
+                    for (Animal animal : animalsOnPosition) {
+                        if (animal.getEnergy() > minEnergyToFullAnimal) {
                             filteredAnimals.add(animal);
                         }
                     }

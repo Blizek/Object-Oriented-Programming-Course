@@ -10,15 +10,15 @@ import java.util.Scanner;
 public class World {
     public static void main(String[] args) {
         Scanner scanner  = new Scanner(System.in);
-        int mapHeight = 10;
-        int mapWidth = 10;
-        int startGrassAmount = 20;
+        int mapHeight = 4;
+        int mapWidth = 4;
+        int startGrassAmount = 6;
         int eatenGrassEnergy = 20;
         int grassGrownAmount = 4;
         int startAnimalsAmount = 5;
         int startAnimalEnergy = 50;
-        int minEnergyToFullAnimal = 50;
-        int sexEnergyCost = 10;
+        int minEnergyToFullAnimal = 10;
+        int sexEnergyCost = 5;
         int minMutationAmount = 0;
         int maxMutationAmount = 5;
         int animalGenomeLength = 8;
@@ -55,6 +55,7 @@ public class World {
             GameMap map = new GameMap.Builder()
                     .setTopRightCorner(mapWidth, mapHeight)
                     .setStartGrassCount(startGrassAmount)
+                    .setGrassEnergy(eatenGrassEnergy)
                     .build();
 
             Simulation simulation = new Simulation.Builder()

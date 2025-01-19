@@ -51,6 +51,10 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
                 listIndex = (randomGrownPlace <= 1) ? 0 : 1;
 
                 List<Vector2d> grownPlaces = freePositions.get(listIndex);
+                if (grownPlaces.isEmpty()) {
+                    if (listIndex == 0) grownPlaces = freePositions.get(1);
+                    else grownPlaces = freePositions.get(0);
+                }
                 int randomIndex = random.nextInt(grownPlaces.size());
                 Vector2d tempLastVector2d = grownPlaces.getLast();
                 Vector2d randomPosition = grownPlaces.get(randomIndex);

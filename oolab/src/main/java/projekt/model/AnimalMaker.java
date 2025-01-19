@@ -38,28 +38,37 @@ public class AnimalMaker implements ElementMaker<Animal> {
 
         List<Integer> childGenome = new ArrayList<>();
 
-        float fatherPercent = (float) father.getEnergy() / combinedEnergy;
-        float motherPercent = (float) mother.getEnergy() / combinedEnergy;
+        int fatherGenes;
+        int motherGenes;
+        if (mother.getEnergy() == father.getEnergy()) {
+            fatherGenes = (int) (0.5 * GenomeCount);
+            motherGenes = (int) (0.5 * GenomeCount);
+        } else {
+            float fatherPercent = (float) father.getEnergy() / combinedEnergy;
+            float motherPercent = (float) mother.getEnergy() / combinedEnergy;
 
-        int fatherGenes = (int) fatherPercent * GenomeCount;
-        int motherGenes = (int) motherPercent * GenomeCount;
+            fatherGenes = (int) (fatherPercent * GenomeCount);
+            motherGenes = (int) (motherPercent * GenomeCount);
+        }
 
 
         Random random = new Random();
         int geneSide = random.nextInt(2);
 
+        System.out.println(fatherGenes);
+        System.out.println(motherGenes);
         if(geneSide == 0){
             for(int i = 0; i < fatherGenes; i++){
                 childGenome.add(fatherGenome.get(i));
             }
-            for(int i = fatherGenes; i < GenomeCount; i--){
+            for(int i = fatherGenes; i < GenomeCount; i++){
                 childGenome.add(motherGenome.get(i));
             }
         }else{
             for(int i = 0; i < motherGenes; i++){
                 childGenome.add(motherGenome.get(i));
             }
-            for(int i = motherGenes; i < GenomeCount; i--){
+            for(int i = motherGenes; i < GenomeCount; i++){
                 childGenome.add(fatherGenome.get(i));
             }
         }
@@ -97,7 +106,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
         Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father);
         mother.setChildren(child);
         father.setChildren(child);
-
+        System.out.println("New animal created at " + child.getPosition());
 
         return child;
     }

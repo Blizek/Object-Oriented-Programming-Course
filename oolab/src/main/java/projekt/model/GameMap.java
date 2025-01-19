@@ -77,10 +77,10 @@ public class GameMap {
 //            this.grassGrowthCount = grassGrowthCount;
 //            return this;
 //        }
-//        public Builder setGrassEnergy(int grassEnergy){
-//            this.grassEnergy = grassEnergy;
-//            return this;
-//        }
+        public Builder setGrassEnergy(int grassEnergy){
+            this.grassEnergy = grassEnergy;
+            return this;
+        }
 
         public GameMap build(){
             return new GameMap(this);

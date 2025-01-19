@@ -39,7 +39,7 @@ public class Animal implements WorldElement{
     }
 
     public void postMoveEnergyUpdate() {
-        this.animalEnergy -= 10;
+        this.animalEnergy -= 2;
     }
 
     public Animal getMother(){
@@ -99,7 +99,9 @@ public class Animal implements WorldElement{
     }
 
     public void eat(int energy){
+        System.out.println("Energia przed jedzeniem " + animalEnergy);
         animalEnergy += energy;
+        System.out.println("Eenrgia po jedzeniu " + animalEnergy);
     }
 
     @Override
