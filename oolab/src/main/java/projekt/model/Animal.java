@@ -24,6 +24,10 @@ public class Animal implements WorldElement{
         this.genomePlace = (int)(Math.random() * genome.size());
     }
 
+    public int getDaysLived() {
+        return daysLived;
+    }
+
     @Override
     public Vector2d getPosition() {
         return animalPosition;
@@ -38,8 +42,12 @@ public class Animal implements WorldElement{
         return animalEnergy;
     }
 
-    public void postMoveEnergyUpdate() {
-        this.animalEnergy -= 2;
+    public int getChildrenCount() {
+        return children.size();
+    }
+
+    public void moveEnergyUpdate(float energyLossMultiplier) {
+        this.animalEnergy -= (int) (10*energyLossMultiplier);
     }
 
     public Animal getMother(){

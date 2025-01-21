@@ -1,20 +1,23 @@
 package projekt;
 
 import projekt.model.*;
+import projekt.model.maps.EarthMap;
+import projekt.model.maps.PoleMap;
 
 import java.util.*;
+import java.util.function.Function;
 
 public class Simulation implements Runnable {
     private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
     private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all dead that day animals
     private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day
     private final HashMap<Vector2d, Animal> animalsMap;
+    private long day = 0;
 
-    private final GameMap gameMap; // map of the game
+    private final EarthMap gameMap; // map of the game
     private final int grassGrownAmount;
     private final int minEnergyToFullAnimal;
     private final AnimalMaker animalMaker;
-    private final GrassMaker grassMaker;
 
     private Simulation(Builder builder) {
         gameMap = builder.map;
@@ -27,10 +30,10 @@ public class Simulation implements Runnable {
         int minMutationAmount = builder.minMutationAmount;
         int maxMutationAmount = builder.maxMutationAmount;
         int animalGenomeLength = builder.animalGenomeLength;
+        boolean isSlightCorrection = builder.isSlightCorrection;
 
         animalsMap = new HashMap<>();
-        animalMaker = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
-        grassMaker = new GrassMaker(eatenGrassEnergy);
+        animalMaker = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, isSlightCorrection);
 
         Boundary mapBoundary = gameMap.getMapBoundary();
         Vector2d topRightCorner = mapBoundary.upperRight();
@@ -56,11 +59,23 @@ public class Simulation implements Runnable {
      */
     @Override
     public void run(){
-        int actualAnimalsCount = animalsList.size();
 
         try {
-            while (actualAnimalsCount > 0) {
+            while (day < 20) {
+                day++;
                 System.out.println("New day");
+                for (Animal animal: animalsList) {
+                    if (animal.getEnergy() <= 0) {
+                        newDeadAnimalsList.add(animal);
+                        gameMap.removeDeadAnimal(animal);
+                    }
+                }
+
+                for (Animal animal: newDeadAnimalsList) {
+                    animalsList.remove(animal);
+                }
+                newDeadAnimalsList.clear();
+
                 for (Animal animal : animalsList) {
                     gameMap.move(animal);
                     Thread.sleep(0);
@@ -70,7 +85,7 @@ public class Simulation implements Runnable {
                     List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
                     if (animalsOnPosition != null) {
                         // Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
-                        Animal chosenAnimal = grass.setAnimalToEat(animalsOnPosition);
+                        Animal chosenAnimal = setAnimalToEat(animalsOnPosition);
                         if (chosenAnimal != null) {
                             chosenAnimal.eat(grass.getEnergy());
                             newEatenGrass.add(grass);
@@ -99,21 +114,7 @@ public class Simulation implements Runnable {
                     }
                 }
 
-                for (Animal animal: animalsList) {
-                    if (animal.getEnergy() <= 0) {
-                        newDeadAnimalsList.add(animal);
-                        gameMap.removeDeadAnimal(animal);
-                    }
-                }
-
-                for (Animal animal: newDeadAnimalsList) {
-                    animalsList.remove(animal);
-                }
-                newDeadAnimalsList.clear();
-
-                actualAnimalsCount = animalsList.size();
-
-                // gameMap.addNewGrasses();
+                 gameMap.addNewGrasses();
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
@@ -121,7 +122,7 @@ public class Simulation implements Runnable {
     }
 
     public static class Builder {
-        private GameMap map;
+        private EarthMap map;
         private int eatenGrassEnergy;
         private int grassGrownAmount;
         private int startAnimalsAmount;
@@ -131,8 +132,9 @@ public class Simulation implements Runnable {
         private int minMutationAmount;
         private int maxMutationAmount;
         private int animalGenomeLength;
+        private boolean isSlightCorrection;
 
-        public Builder setMap(GameMap map) {
+        public Builder setMap(EarthMap map) {
             this.map = map;
             return this;
         }
@@ -182,9 +184,56 @@ public class Simulation implements Runnable {
             return this;
         }
 
+        public Builder setSlightCorrection(boolean isSlightCorrection) {
+            this.isSlightCorrection = isSlightCorrection;
+            return this;
+        }
+
         public Simulation build() {
             return new Simulation(this);
         }
+    }
+
+    private Animal setAnimalToEat(List<Animal> animalsToEat) {
+        List<Animal> animalsWithMaxEnergy = getAnimalsWithMaxValue(animalsToEat, Animal::getEnergy);
+        for (Animal animal: animalsToEat) {
+            System.out.println(animal.getEnergy());
+        }
+        if (animalsWithMaxEnergy.size() == 1) {
+            return animalsWithMaxEnergy.getFirst();
+        }
+        List<Animal> animalsWithMaxAge = getAnimalsWithMaxValue(animalsWithMaxEnergy, Animal::getDaysLived);
+        if (animalsWithMaxAge.size() == 1) {
+            return animalsWithMaxAge.getFirst();
+        }
+        List<Animal> animalsWithMaxChildren = getAnimalsWithMaxValue(animalsWithMaxAge, Animal::getChildrenCount);
+        if (animalsWithMaxChildren.size() == 1) {
+            return animalsWithMaxChildren.getFirst();
+        }
+        Random random = new Random();
+        return animalsWithMaxChildren.get(random.nextInt(animalsWithMaxChildren.size()));
+    }
+
+
+
+    private List<Animal> getAnimalsWithMaxValue(List<Animal> animals, Function<Animal, Integer> getter) {
+        int maxAnimalValue = getter.apply(animals.getFirst());
+        List<Animal> animalsWithMaxValue = new ArrayList<>();
+        animalsWithMaxValue.add(animals.getFirst());
+
+        for (int i = 1; i < animals.size(); i++) {
+            Animal currentAnimal = animals.get(i);
+            int currentValue = getter.apply(currentAnimal);
+            if (currentValue > maxAnimalValue) {
+                animalsWithMaxValue.clear();
+                animalsWithMaxValue.add(currentAnimal);
+                maxAnimalValue = currentValue;
+            } else if (currentValue == maxAnimalValue) {
+                animalsWithMaxValue.add(currentAnimal);
+            }
+        }
+
+        return animalsWithMaxValue;
     }
 
 }

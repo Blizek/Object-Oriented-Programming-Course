@@ -1,7 +1,7 @@
 package projekt;
 
-import projekt.model.GameMap;
-import projekt.model.Vector2d;
+import projekt.model.maps.EarthMap;
+import projekt.model.maps.PoleMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class World {
     public static void main(String[] args) {
         Scanner scanner  = new Scanner(System.in);
-        int mapHeight = 1;
-        int mapWidth = 1;
-        int startGrassAmount = 4;
+        int mapHeight = 5;
+        int mapWidth = 5;
+        int startGrassAmount = 6;
         int eatenGrassEnergy = 20;
         int grassGrownAmount = 4;
         int startAnimalsAmount = 5;
@@ -52,12 +52,7 @@ public class World {
         }
 
         try {
-            GameMap map = new GameMap.Builder()
-                    .setTopRightCorner(mapWidth, mapHeight)
-                    .setStartGrassCount(startGrassAmount)
-                    .setGrassEnergy(eatenGrassEnergy)
-                    .setGrassGrowthCount(grassGrownAmount)
-                    .build();
+            EarthMap map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
 
             Simulation simulation = new Simulation.Builder()
                     .setMap(map)
@@ -77,10 +72,8 @@ public class World {
 
             System.out.println(map);
 
-//            SimulationEngine simEngine = new SimulationEngine(simulations);
-//            simEngine.runAsyncInThreadPool();
-//            simEngine.awaitSimulationEnd();
-            simulation.run();
+            SimulationEngine engine = new SimulationEngine(simulations);
+            engine.runAsync();
             System.out.println("System zakończył działanie");
         } catch (IllegalArgumentException e /*| InterruptedException e*/) {
             System.out.println(e.getMessage());

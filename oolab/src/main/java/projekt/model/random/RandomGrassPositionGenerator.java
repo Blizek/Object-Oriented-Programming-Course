@@ -19,8 +19,8 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
         this.grassCount = grassCount;
         this.equatorLowerLeft = equatorLowerLeft;
         this.equatorUpperRight = equatorUpperRight;
-        for (int i = 0; i < this.topRightCorner.getX(); i++) {
-            for (int j = 0; j < this.topRightCorner.getY(); j++) {
+        for (int i = 0; i <= this.topRightCorner.getX(); i++) {
+            for (int j = 0; j <= this.topRightCorner.getY(); j++) {
                 Vector2d currentPosition = new Vector2d(i, j);
                 if (!occupiedPositions.containsKey(currentPosition)) {
                     if (isPositionInJungle(currentPosition)) {
@@ -38,7 +38,7 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
             private int currentGrassCounter = 0;
             @Override
             public boolean hasNext() {
-                return currentGrassCounter < grassCount ;//&& (!outsideJungleFreePositions.isEmpty() || !inJungleFreePositions.isEmpty());
+                return currentGrassCounter < grassCount && (!outsideJungleFreePositions.isEmpty() || !inJungleFreePositions.isEmpty());
             }
 
             @Override

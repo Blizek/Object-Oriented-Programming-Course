@@ -12,13 +12,15 @@ public class AnimalMaker implements ElementMaker<Animal> {
     private final int GenomeCount;
     private final int startAnimalEnergy;
     private final int sexEnergyCost;
+    private final boolean isSlightCorrection;
 
-    public AnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost){
+    public AnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, boolean modifier) {
         this.minMutationCount = minMutationCount;
         this.maxMutationCount = maxMutationCount;
         this.GenomeCount = GenomeCount;
         this.startAnimalEnergy = startAnimalEnergy;
         this.sexEnergyCost = sexEnergyCost;
+        this.isSlightCorrection = modifier;
     }
     @Override
     public Animal makeAnimal(Vector2d position) {
@@ -65,6 +67,9 @@ public class AnimalMaker implements ElementMaker<Animal> {
                 childGenome.add(fatherGenome.get(i));
             }
         }
+
+
+
         int mutations = random.nextInt(minMutationCount, maxMutationCount + 1);
 
         RandomGenomeMutationSelector genesIndexForFullMutations = new RandomGenomeMutationSelector(childGenome.size(), mutations);
@@ -75,6 +80,29 @@ public class AnimalMaker implements ElementMaker<Animal> {
             childGenome.set(mutationIndex, newGene);
         }
 
+        if(isSlightCorrection){
+            slightCorrection(childGenome);
+        }
+
+        father.loseEnergy(sexEnergyCost);
+        mother.loseEnergy(sexEnergyCost);
+
+        Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father);
+        mother.setChildren(child);
+        father.setChildren(child);
+        addDescendantCount(father);
+        addDescendantCount(mother);
+        return child;
+    }
+    private void addDescendantCount(Animal animal){
+        animal.newDescendant();
+        if (animal.getMother() == null) return; // obviously, if there is no mother, there is no father
+        addDescendantCount(animal.getMother());
+        addDescendantCount(animal.getFather());
+    }
+
+    private void slightCorrection(List<Integer> childGenome){
+        Random random = new Random();
         int isNewGene; // if we change gene or not
         int isOneDownOrUp; // if the gene changes one up or one down
         for (int i = 0; i < childGenome.size(); i++) {
@@ -93,15 +121,5 @@ public class AnimalMaker implements ElementMaker<Animal> {
                 childGenome.set(i, genome_i);
             }
         }
-
-        father.loseEnergy(sexEnergyCost);
-        mother.loseEnergy(sexEnergyCost);
-
-        Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father);
-        mother.setChildren(child);
-        father.setChildren(child);
-
-        return child;
     }
-
 }

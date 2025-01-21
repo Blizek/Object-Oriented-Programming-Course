@@ -1,24 +1,25 @@
-package projekt.model;
+package projekt.model.maps;
 
 
+import projekt.model.*;
 import projekt.model.random.RandomGrassPositionGenerator;
 import projekt.model.util.MapVisualizer;
 
 import java.util.*;
 
 
-public class GameMap {
-    private final MapVisualizer mapVisualizer = new MapVisualizer(this);
+public class EarthMap {
+    protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
     private final UUID id = UUID.randomUUID();
 
-    private final HashMap<Vector2d, Grass> grassesMap;
+    protected final HashMap<Vector2d, Grass> grassesMap;
 
-    private final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
+    protected final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
 
     private final Boundary mapBoundary;
 
-    private final Vector2d bottomLeftCorner = new Vector2d(0, 0);
-    private final Vector2d topRightCorner;
+    protected final Vector2d bottomLeftCorner = new Vector2d(0, 0);
+    protected final Vector2d topRightCorner;
 
     private final Vector2d equatorLowerLeft;
     private final Vector2d equatorUpperRight;
@@ -26,17 +27,17 @@ public class GameMap {
     private final int grassGrowthCount;
     private final int grassEnergy;
 
-    private GameMap(Builder builder){
+    public EarthMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
         grassesMap = new HashMap<>();
-        topRightCorner = builder.topRightCorner;
+        topRightCorner = new Vector2d(width, height);;
         mapBoundary = new Boundary(bottomLeftCorner, topRightCorner);
-        grassGrowthCount = builder.grassGrowthCount;
-        grassEnergy = builder.grassEnergy;
+        this.grassGrowthCount = grassGrowthCount;
+        this.grassEnergy = grassEnergy;
 
         equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
         equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
 
-        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, builder.startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
+        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
         for(Vector2d grassPosition : grassRandomPositionGenerator) {
             grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
         }
@@ -46,12 +47,16 @@ public class GameMap {
         return mapBoundary;
     }
 
+    public int getMapArea() {
+        return topRightCorner.getX() * topRightCorner.getY();
+    }
+
     public HashMap<Vector2d, Grass> getGrassesMap() {
-        return grassesMap;
+        return new HashMap<>(grassesMap);
     }
 
     public Map<Vector2d, List<Animal>> getAnimalsMap() {
-        return animalsMap;
+        return new HashMap<>(animalsMap);
     }
 
     @Override
@@ -59,36 +64,7 @@ public class GameMap {
         return mapVisualizer.draw(bottomLeftCorner, topRightCorner);
     }
 
-    public static class Builder{
-        private Vector2d topRightCorner;
-        private int startGrassCount;
-        private int grassGrowthCount;
-        private int grassEnergy;
 
-        public Builder setTopRightCorner(int width, int height){
-            this.topRightCorner = new Vector2d(width, height);
-            return this;
-        }
-
-        public Builder setStartGrassCount(int startGrassCount){
-            this.startGrassCount = startGrassCount;
-            return this;
-        }
-
-        public Builder setGrassGrowthCount(int grassGrowthCount){
-            this.grassGrowthCount = grassGrowthCount;
-            return this;
-        }
-
-        public Builder setGrassEnergy(int grassEnergy){
-            this.grassEnergy = grassEnergy;
-            return this;
-        }
-
-        public GameMap build(){
-            return new GameMap(this);
-        }
-    }
 
     public void place(Animal animal) {
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
@@ -120,6 +96,7 @@ public class GameMap {
         Vector2d previousAnimalPosition = animal.getPosition();
         Direction previousAnimalDirection = animal.getDirection();
 
+
         List<Animal> animalsAtPreviousPosition = animalsMap.get(previousAnimalPosition);
         if (animalsAtPreviousPosition != null) {
             animalsAtPreviousPosition.remove(animal);
@@ -129,9 +106,7 @@ public class GameMap {
         }
 
         animal.move(topRightCorner);
-        animal.postMoveEnergyUpdate();
-
-        // tutaj ustaw zwierzaka
+        animal.moveEnergyUpdate(1.0f);
 
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
 
@@ -145,9 +120,11 @@ public class GameMap {
         System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
     }
 
+
     public boolean isOccupied(Vector2d position) {
         return objectAt(position) != null;
     }
+
 
     public List<WorldElement> objectAt(Vector2d position) {
         List<WorldElement> elementsAtPosition = new ArrayList<>();
@@ -166,5 +143,9 @@ public class GameMap {
         return animalsMap.get(position);
     }
 
+
+    public UUID getId() {
+        return id;
+    }
 
 }

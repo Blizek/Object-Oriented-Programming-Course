@@ -1,10 +1,10 @@
 package projekt.model.util;
 
-import projekt.model.GameMap;
+import projekt.model.maps.EarthMap;
 import projekt.model.Vector2d;
 
 /**
- * The map visualizer converts the {@link GameMap} map into a string
+ * The map visualizer converts the {@link EarthMap} map into a string
  * representation.
  *
  * @author apohllo, idzik
@@ -13,14 +13,14 @@ public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
     private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
-    private final GameMap map;
+    private final EarthMap map;
 
     /**
      * Initializes the MapVisualizer with an instance of map to visualize.
      *
      * @param map
      */
-    public MapVisualizer(GameMap map) {
+    public MapVisualizer(EarthMap map) {
         this.map = map;
     }
 
