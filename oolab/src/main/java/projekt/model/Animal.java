@@ -88,10 +88,10 @@ public class Animal implements WorldElement{
             animalDirection = Direction.getOppositeDirection(animalDirection);
         }
         else if (newAnimalPosition.getX() < 0) {
-            animalPosition = animalPosition.add(new Vector2d(topRightCorner.getX(), 0));
+            animalPosition = animalPosition.add(new Vector2d(topRightCorner.getX(), animalDirection.toUnitVector().getY()));
         }
         else if (newAnimalPosition.getX() > topRightCorner.getX()) {
-            animalPosition = animalPosition.subtract(new Vector2d(topRightCorner.getX(), 0));
+            animalPosition = animalPosition.subtract(new Vector2d(topRightCorner.getX(), -animalDirection.toUnitVector().getY()));
         } else {
             animalPosition = newAnimalPosition;
         }
@@ -99,9 +99,7 @@ public class Animal implements WorldElement{
     }
 
     public void eat(int energy){
-        System.out.println("Energia przed jedzeniem " + animalEnergy);
         animalEnergy += energy;
-        System.out.println("Eenrgia po jedzeniu " + animalEnergy);
     }
 
     @Override

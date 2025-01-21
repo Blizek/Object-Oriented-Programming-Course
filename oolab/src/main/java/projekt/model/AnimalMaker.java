@@ -30,7 +30,6 @@ public class AnimalMaker implements ElementMaker<Animal> {
     }
 
     public Animal makeAnimalFromParents(Animal mother, Animal father){
-        System.out.println("Making child");
         int combinedEnergy = mother.getEnergy() + father.getEnergy();
 
         List<Integer> motherGenome = mother.getGenome();
@@ -40,23 +39,17 @@ public class AnimalMaker implements ElementMaker<Animal> {
 
         int fatherGenes;
         int motherGenes;
-        if (mother.getEnergy() == father.getEnergy()) {
-            fatherGenes = (int) (0.5 * GenomeCount);
-            motherGenes = (int) (0.5 * GenomeCount);
-        } else {
-            float fatherPercent = (float) father.getEnergy() / combinedEnergy;
-            float motherPercent = (float) mother.getEnergy() / combinedEnergy;
 
-            fatherGenes = (int) (fatherPercent * GenomeCount);
-            motherGenes = (int) (motherPercent * GenomeCount);
-        }
+        float fatherPercent = (float) father.getEnergy() / combinedEnergy;
+        float motherPercent = (float) mother.getEnergy() / combinedEnergy;
+
+        fatherGenes = (int) (fatherPercent * GenomeCount);
+        motherGenes = (int) (motherPercent * GenomeCount);
 
 
         Random random = new Random();
         int geneSide = random.nextInt(2);
 
-        System.out.println(fatherGenes);
-        System.out.println(motherGenes);
         if(geneSide == 0){
             for(int i = 0; i < fatherGenes; i++){
                 childGenome.add(fatherGenome.get(i));
@@ -85,9 +78,9 @@ public class AnimalMaker implements ElementMaker<Animal> {
         int isNewGene; // if we change gene or not
         int isOneDownOrUp; // if the gene changes one up or one down
         for (int i = 0; i < childGenome.size(); i++) {
-            isNewGene = random.nextInt(); // 1 -> change the gene, 0 -> continue
+            isNewGene = random.nextInt(2); // 1 -> change the gene, 0 -> continue
             if (isNewGene == 1) {
-                isOneDownOrUp = random.nextInt(); // 1 -> increase gene about 1, 0 -> decrease gene about 1
+                isOneDownOrUp = random.nextInt(2); // 1 -> increase gene about 1, 0 -> decrease gene about 1
                 int change;
                 if (isOneDownOrUp == 1) {
                     change = 1;
@@ -96,6 +89,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
                 }
                 int genome_i = childGenome.get(i);
                 genome_i = (genome_i + change) % 8;
+                if (genome_i == -1) genome_i = 7;
                 childGenome.set(i, genome_i);
             }
         }
@@ -106,7 +100,6 @@ public class AnimalMaker implements ElementMaker<Animal> {
         Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father);
         mother.setChildren(child);
         father.setChildren(child);
-        System.out.println("New animal created at " + child.getPosition());
 
         return child;
     }
