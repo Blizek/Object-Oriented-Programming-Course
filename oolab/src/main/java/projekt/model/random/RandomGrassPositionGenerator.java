@@ -38,7 +38,7 @@ public class RandomGrassPositionGenerator implements Iterable<Vector2d> {
             private int currentGrassCounter = 0;
             @Override
             public boolean hasNext() {
-                return currentGrassCounter < grassCount;
+                return currentGrassCounter < grassCount ;//&& (!outsideJungleFreePositions.isEmpty() || !inJungleFreePositions.isEmpty());
             }
 
             @Override

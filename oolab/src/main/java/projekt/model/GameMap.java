@@ -24,19 +24,21 @@ public class GameMap {
     private final Vector2d equatorUpperRight;
 
     private final int grassGrowthCount;
+    private final int grassEnergy;
 
     private GameMap(Builder builder){
         grassesMap = new HashMap<>();
         topRightCorner = builder.topRightCorner;
         mapBoundary = new Boundary(bottomLeftCorner, topRightCorner);
         grassGrowthCount = builder.grassGrowthCount;
+        grassEnergy = builder.grassEnergy;
 
         equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
         equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
 
         RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, builder.startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
         for(Vector2d grassPosition : grassRandomPositionGenerator) {
-            grassesMap.put(grassPosition, new Grass(grassPosition,builder.grassEnergy));
+            grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
         }
     }
 
@@ -73,10 +75,11 @@ public class GameMap {
             return this;
         }
 
-//        public Builder setGrassGrowthCount(int grassGrowthCount){
-//            this.grassGrowthCount = grassGrowthCount;
-//            return this;
-//        }
+        public Builder setGrassGrowthCount(int grassGrowthCount){
+            this.grassGrowthCount = grassGrowthCount;
+            return this;
+        }
+
         public Builder setGrassEnergy(int grassEnergy){
             this.grassEnergy = grassEnergy;
             return this;
@@ -93,6 +96,13 @@ public class GameMap {
 
     public void removeGrass(Vector2d position) {
         grassesMap.remove(position);
+    }
+
+    public void addNewGrasses() {
+        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, grassGrowthCount, grassesMap, equatorLowerLeft, equatorUpperRight);
+        for(Vector2d grassPosition : grassRandomPositionGenerator) {
+            grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
+        }
     }
 
     public void removeDeadAnimal(Animal animal) {
@@ -139,7 +149,6 @@ public class GameMap {
         return objectAt(position) != null;
     }
 
-
     public List<WorldElement> objectAt(Vector2d position) {
         List<WorldElement> elementsAtPosition = new ArrayList<>();
         List<Animal> animalsAtPosition = animalsMap.get(position);
@@ -152,6 +161,7 @@ public class GameMap {
         }
         return elementsAtPosition;
     }
+
     public List<Animal> animalAt(Vector2d position) {
         return animalsMap.get(position);
     }

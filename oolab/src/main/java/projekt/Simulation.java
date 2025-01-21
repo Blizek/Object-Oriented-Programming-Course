@@ -56,19 +56,6 @@ public class Simulation implements Runnable {
      */
     @Override
     public void run(){
-//        if (animalsList.isEmpty()) {
-//            return;
-//        }
-//
-//        int animalsCount = animalsList.size();
-//        try {
-//            for (Animal actualAnimal: animalsList) {
-//                gameMap.move(actualAnimal); // move this animal on the map
-//                Thread.sleep(1000);
-//            }
-//        } catch (InterruptedException e) {
-//            System.out.println(e.getMessage());
-//        }
         int actualAnimalsCount = animalsList.size();
 
         try {
@@ -80,15 +67,13 @@ public class Simulation implements Runnable {
                 }
 
                 for (Grass grass : gameMap.getGrassesMap().values()) {
-                    if (gameMap.isOccupied(grass.getPosition())) {
-                        List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
-                        if (animalsOnPosition != null) {
-                            Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
-                            // Animal chosenAnimal = animalsOnPosition == null ? null : animalsOnPosition.get(0);
-                            if (chosenAnimal != null) {
-                                chosenAnimal.eat(grass.getEnergy());
-                                newEatenGrass.add(grass);
-                            }
+                    List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
+                    if (animalsOnPosition != null) {
+                        // Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
+                        Animal chosenAnimal = grass.setAnimalToEat(animalsOnPosition);
+                        if (chosenAnimal != null) {
+                            chosenAnimal.eat(grass.getEnergy());
+                            newEatenGrass.add(grass);
                         }
                     }
                 }
@@ -114,8 +99,6 @@ public class Simulation implements Runnable {
                     }
                 }
 
-
-
                 for (Animal animal: animalsList) {
                     if (animal.getEnergy() <= 0) {
                         newDeadAnimalsList.add(animal);
@@ -129,6 +112,8 @@ public class Simulation implements Runnable {
                 newDeadAnimalsList.clear();
 
                 actualAnimalsCount = animalsList.size();
+
+                // gameMap.addNewGrasses();
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());

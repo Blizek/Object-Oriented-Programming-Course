@@ -10,9 +10,9 @@ import java.util.Scanner;
 public class World {
     public static void main(String[] args) {
         Scanner scanner  = new Scanner(System.in);
-        int mapHeight = 4;
-        int mapWidth = 4;
-        int startGrassAmount = 6;
+        int mapHeight = 1;
+        int mapWidth = 1;
+        int startGrassAmount = 4;
         int eatenGrassEnergy = 20;
         int grassGrownAmount = 4;
         int startAnimalsAmount = 5;
@@ -56,6 +56,7 @@ public class World {
                     .setTopRightCorner(mapWidth, mapHeight)
                     .setStartGrassCount(startGrassAmount)
                     .setGrassEnergy(eatenGrassEnergy)
+                    .setGrassGrowthCount(grassGrownAmount)
                     .build();
 
             Simulation simulation = new Simulation.Builder()
