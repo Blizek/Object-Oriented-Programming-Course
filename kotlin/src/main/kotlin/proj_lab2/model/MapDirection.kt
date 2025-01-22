@@ -8,6 +8,8 @@ enum class MapDirection(private val unitVector: Vector2d, private val directionN
 
     override fun toString() = directionName
 
+    fun getUnitVector(direction: MapDirection) = direction.unitVector
+
     fun next(): MapDirection = when (this) {
         NORTH -> EAST
         EAST -> SOUTH
@@ -21,6 +23,4 @@ enum class MapDirection(private val unitVector: Vector2d, private val directionN
         SOUTH -> EAST
         EAST -> NORTH
     }
-
-    fun toUnitVector(): Vector2d = unitVector
 }

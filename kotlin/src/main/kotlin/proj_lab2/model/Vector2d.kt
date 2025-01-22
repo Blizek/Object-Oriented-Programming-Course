@@ -3,7 +3,7 @@ package proj_lab2.model
 import kotlin.math.max
 import kotlin.math.min
 
-data class Vector2d(val x: Int, val y: Int) {
+data class Vector2d(private val x: Int, private val y: Int) {
     override fun toString(): String {
         return String.format("%d, %d", x, y)
     }
@@ -38,8 +38,10 @@ data class Vector2d(val x: Int, val y: Int) {
         return 0
     }
 
-    fun getVectorX(): Int = x
+    fun getX(): Int = x
 
-    fun getVectorY(): Int = y
+    fun getY(): Int = y
 
 }
+
+fun MapDirection.toUnitVector(): Vector2d = getUnitVector(this)
