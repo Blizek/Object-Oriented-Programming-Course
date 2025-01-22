@@ -1,6 +1,7 @@
 package projekt;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import projekt.presenter.ConfigPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +14,7 @@ public class GameApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("fxml/config.fxml"));
         BorderPane viewRoot = loader.load();
         ConfigPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
@@ -23,7 +24,8 @@ public class GameApp extends Application {
     private void configureStage(Stage primaryStage, BorderPane viewRoot) {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Simulation app");
+        primaryStage.setTitle("Darwin World");
+        primaryStage.getIcons().add(new Image("img/logo.png"));
         primaryStage.minWidthProperty().bind(viewRoot.minWidthProperty());
         primaryStage.minHeightProperty().bind(viewRoot.minHeightProperty());
     }
