@@ -11,7 +11,7 @@ interface WorldMap : MoveValidator {
      * @param animal The animal to place on the map.
      * @throws IncorrectPositionException if the position is invalid for placement.
      */
-    fun place(animal: Animal)
+    fun place(animal: Animal) : Boolean
 
     /**
      * Moves an animal (if it is present on the map) according to the specified direction.

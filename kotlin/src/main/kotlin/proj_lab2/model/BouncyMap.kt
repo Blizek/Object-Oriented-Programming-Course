@@ -6,36 +6,37 @@ import proj_lab2.randomPosition
 class BouncyMap (private val width: Int, private val height: Int): WorldMap {
 
     private var animalsMap: MutableMap<Vector2d, Animal> = HashMap()
-    private var topRightCorner = Vector2d(width - 1, height - 1) // ponieważ dolny lewy róg to (0, 0) to aby były odpowiednie wymiary należy odjąć od obu 1
+    private var topRightCorner = Vector2d(width, height)
     private var bottomLeftCorner = Vector2d(0, 0)
 
     override fun canMoveTo(position: Vector2d): Boolean =
         position.follows(bottomLeftCorner) && position.precedes(topRightCorner)
 
-    override fun place(animal: Animal) {
-        if (!canMoveTo(animal.position)) return
-        if (isOccupied(animal.position)){
+    override fun place(animal: Animal): Boolean {
+        if (!canMoveTo(animal.getAnimalPosition())) return false
+        if (isOccupied(animal.getAnimalPosition())){
 
             val possiblePosition = animalsMap.randomFreePosition(Vector2d(width, height))
             when(possiblePosition){
                 null -> {
                     val newPosition = animalsMap.randomPosition()!!
-                    animal.position = newPosition
-                    animalsMap[animal.position] = animal
+                    animal.setAnimalPosition(newPosition)
+                    animalsMap[animal.getAnimalPosition()] = animal
                 }
                 else -> {
-                    animal.position = possiblePosition
-                    animalsMap[animal.position] = animal
+                    animal.setAnimalPosition(possiblePosition)
+                    animalsMap[animal.getAnimalPosition()] = animal
                 }
             }
         }else {
-            animalsMap[animal.position] = animal
+            animalsMap[animal.getAnimalPosition()] = animal
         }
+        return true
     }
 
     override fun move(animal: Animal, direction: MoveDirection) {
         if (animalsMap.containsValue(animal)) {
-            animalsMap.remove(animal.position)
+            animalsMap.remove(animal.getAnimalPosition())
             animal.move(this, direction)
             place(animal)
         }
