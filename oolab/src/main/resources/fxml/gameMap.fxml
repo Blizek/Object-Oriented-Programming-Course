@@ -211,55 +211,55 @@
                <children>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pozycja" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pozycja:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(2, 2)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kierunek" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="N" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kierunek:" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Północ" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Genom" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Genom:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5 7 6 3 3 2 0 1" />
                      </children>
                   </HBox>
                   <HBox fx:id="gameStats1" prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualny gen" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualny gen:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość energii" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość energii:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2137" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczb zjedzonych roślin" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczb zjedzonych roślin:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2115" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba dzieci" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba dzieci:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba potomków" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba potomków:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5743" />
                      </children>
                   </HBox>
                   <HBox prefHeight="26.0" prefWidth="247.0">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ile dni żyje" />
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ile dni żyje:" />
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="739" />
                      </children>
                   </HBox>
