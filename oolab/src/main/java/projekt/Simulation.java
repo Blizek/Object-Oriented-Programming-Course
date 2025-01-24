@@ -1,9 +1,10 @@
 package projekt;
 
 import projekt.model.*;
+import projekt.model.animalMakers.AbstractAnimalMaker;
+import projekt.model.animalMakers.AnimalMakerFullRandom;
+import projekt.model.animalMakers.AnimalMakerSlightCorrection;
 import projekt.model.maps.AbstractMap;
-import projekt.model.maps.EarthMap;
-import projekt.model.maps.PoleMap;
 
 import java.util.*;
 import java.util.function.Function;
@@ -18,7 +19,7 @@ public class Simulation implements Runnable {
     private final AbstractMap gameMap; // map of the game
     private final int grassGrownAmount;
     private final int minEnergyToFullAnimal;
-    private final AnimalMaker animalMaker;
+    private final AbstractAnimalMaker animalMaker;
     private final int gameplaySpeed;
 
     private Simulation(Builder builder) {
@@ -36,7 +37,9 @@ public class Simulation implements Runnable {
         gameplaySpeed = builder.gameplaySpeed;
 
         animalsMap = new HashMap<>();
-        animalMaker = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, isSlightCorrection);
+        if (isSlightCorrection)
+            animalMaker = new AnimalMakerSlightCorrection(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
+        else animalMaker = new AnimalMakerFullRandom(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
 
         Boundary mapBoundary = gameMap.getMapBoundary();
         Vector2d topRightCorner = mapBoundary.upperRight();

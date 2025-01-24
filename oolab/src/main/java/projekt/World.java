@@ -69,6 +69,7 @@ public class World {
                     .setMaxMutationAmount(maxMutationAmount)
                     .setAnimalGenomeLength(animalGenomeLength)
                     .setGameplaySpeed(gameplaySpeed)
+                    .setSlightCorrection(false)
                     .build();
 
             List<Simulation> simulations = new ArrayList<>();

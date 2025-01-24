@@ -1,28 +1,27 @@
-package projekt.model;
+package projekt.model.animalMakers;
 
-import projekt.model.random.RandomGenomeMutationSelector;
+import projekt.model.Animal;
+import projekt.model.Vector2d;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class AnimalMaker implements ElementMaker<Animal> {
-    private final int minMutationCount;
-    private final int maxMutationCount;
-    private final int GenomeCount;
-    private final int startAnimalEnergy;
-    private final int sexEnergyCost;
-    private final boolean isSlightCorrection;
+public abstract class AbstractAnimalMaker {
+    protected final int minMutationCount;
+    protected final int maxMutationCount;
+    protected final int GenomeCount;
+    protected final int startAnimalEnergy;
+    protected final int sexEnergyCost;
 
-    public AnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, boolean modifier) {
+    public AbstractAnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost) {
         this.minMutationCount = minMutationCount;
         this.maxMutationCount = maxMutationCount;
         this.GenomeCount = GenomeCount;
         this.startAnimalEnergy = startAnimalEnergy;
         this.sexEnergyCost = sexEnergyCost;
-        this.isSlightCorrection = modifier;
     }
-    @Override
+
     public Animal makeAnimal(Vector2d position) {
         List<Integer> genome = new ArrayList<>();
         for(int i = 0; i < GenomeCount; i++){
@@ -31,7 +30,7 @@ public class AnimalMaker implements ElementMaker<Animal> {
         return new Animal(position, startAnimalEnergy, genome, null, null);
     }
 
-    public Animal makeAnimalFromParents(Animal mother, Animal father){
+    protected List<Integer> prepareAnimalGenome(Animal mother, Animal father) {
         int combinedEnergy = mother.getEnergy() + father.getEnergy();
 
         List<Integer> motherGenome = mother.getGenome();
@@ -67,22 +66,11 @@ public class AnimalMaker implements ElementMaker<Animal> {
                 childGenome.add(fatherGenome.get(i));
             }
         }
+        return childGenome;
+    }
 
-
-
-        int mutations = random.nextInt(minMutationCount, maxMutationCount + 1);
-
-        RandomGenomeMutationSelector genesIndexForFullMutations = new RandomGenomeMutationSelector(childGenome.size(), mutations);
-
-        int newGene;
-        for (int mutationIndex: genesIndexForFullMutations) {
-            newGene = random.nextInt(8);
-            childGenome.set(mutationIndex, newGene);
-        }
-
-        if(isSlightCorrection){
-            slightCorrection(childGenome);
-        }
+    public Animal makeAnimalFromParents(Animal mother, Animal father) {
+        List<Integer> childGenome = prepareAnimalGenome(mother, father);
 
         father.loseEnergy(sexEnergyCost);
         mother.loseEnergy(sexEnergyCost);
@@ -94,32 +82,11 @@ public class AnimalMaker implements ElementMaker<Animal> {
         addDescendantCount(mother);
         return child;
     }
+
     private void addDescendantCount(Animal animal){
         animal.newDescendant();
         if (animal.getMother() == null) return; // obviously, if there is no mother, there is no father
         addDescendantCount(animal.getMother());
         addDescendantCount(animal.getFather());
-    }
-
-    private void slightCorrection(List<Integer> childGenome){
-        Random random = new Random();
-        int isNewGene; // if we change gene or not
-        int isOneDownOrUp; // if the gene changes one up or one down
-        for (int i = 0; i < childGenome.size(); i++) {
-            isNewGene = random.nextInt(2); // 1 -> change the gene, 0 -> continue
-            if (isNewGene == 1) {
-                isOneDownOrUp = random.nextInt(2); // 1 -> increase gene about 1, 0 -> decrease gene about 1
-                int change;
-                if (isOneDownOrUp == 1) {
-                    change = 1;
-                } else {
-                    change = -1;
-                }
-                int genome_i = childGenome.get(i);
-                genome_i = (genome_i + change) % 8;
-                if (genome_i == -1) genome_i = 7;
-                childGenome.set(i, genome_i);
-            }
-        }
     }
 }
