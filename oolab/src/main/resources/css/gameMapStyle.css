@@ -1,0 +1,89 @@
+/* General AnchorPane */
+AnchorPane {
+    -fx-background-color: #23272a;
+    -fx-border-color: #4b4f53;
+    -fx-border-radius: 10px;
+    -fx-padding: 0; /* Usunięcie odstępów wewnętrznych */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 2);
+}
+
+/* Text Styling */
+Text {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 14px;
+    -fx-fill: #ffffff;
+    -fx-font-weight: normal; /* Normalny tekst */
+}
+
+/* Teksty w gameStats */
+#gameStats Text {
+    -fx-font-weight: normal; /* Normalna czcionka */
+}
+
+/* VBox Styling - Zwiększenie odstępu od góry */
+VBox {
+    -fx-background-color: #23272a;
+    -fx-border-color: #4b4f53;
+    -fx-border-radius: 10px;
+    -fx-padding: 10 0 0 0; /* Dodanie odstępu od góry */
+    -fx-spacing: 15; /* Większe odstępy między wierszami */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 2);
+}
+
+/* HBox Styling */
+HBox {
+    -fx-spacing: 10; /* Większe odstępy między elementami w HBox */
+    -fx-padding: 0 0 0 5; /* Odsunięcie całego HBox od lewej krawędzi i od góry */
+    -fx-alignment: center-left; /* Wyrównanie do lewej strony */
+}
+
+/* Pierwszy tekst w każdym HBox - Specyficzne odsunięcie */
+HBox Text:first-child {
+    -fx-translate-x: 10; /* Dodatkowe przesunięcie pierwszego tekstu od lewej strony */
+}
+
+
+/* Button Styling */
+Button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: #ffffff;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 5px;
+    -fx-padding: 4 8;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 2);
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #388e3c;
+}
+
+Button:focused {
+    -fx-background-color: #4caf50;
+}
+
+/* ScrollPane Styling */
+ScrollPane {
+    -fx-background-color: #23272a;
+    -fx-border-color: #4b4f53;
+    -fx-border-radius: 5px;
+    -fx-padding: 0;
+}
+
+ScrollPane .viewport {
+    -fx-background-color: #23272a;
+}
+
+/* Checkbox Styling */
+CheckBox {
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-size: 12px;
+    -fx-text-fill: #dcdcdc;
+    -fx-padding: 0;
+}
+
+CheckBox:selected {
+    -fx-mark-color: #5865f2;
+}

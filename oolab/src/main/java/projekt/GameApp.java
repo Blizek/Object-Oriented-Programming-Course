@@ -15,7 +15,7 @@ public class GameApp extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getClassLoader().getResource("fxml/config.fxml"));
+        loader.setLocation(getClass().getClassLoader().getResource("fxml/gameMap.fxml"));
         AnchorPane viewRoot = loader.load();
         ConfigPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
