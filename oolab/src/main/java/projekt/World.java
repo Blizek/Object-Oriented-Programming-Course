@@ -22,6 +22,7 @@ public class World {
         int minMutationAmount = 0;
         int maxMutationAmount = 5;
         int animalGenomeLength = 8;
+        int gameplaySpeed = 1000;
 
         System.out.println("chcesz stworzyc wlasna mape? (t/n)");
         if ( scanner.nextLine().equals("t") ) {
@@ -49,6 +50,8 @@ public class World {
             maxMutationAmount = scanner.nextInt();
             System.out.println("Długość genomu zwierzaków:");
             animalGenomeLength = scanner.nextInt();
+            System.out.println("Szybkość rozgrywki:");
+            gameplaySpeed = scanner.nextInt();
         }
 
         try {
@@ -65,6 +68,7 @@ public class World {
                     .setMinMutationAmount(minMutationAmount)
                     .setMaxMutationAmount(maxMutationAmount)
                     .setAnimalGenomeLength(animalGenomeLength)
+                    .setGameplaySpeed(gameplaySpeed)
                     .build();
 
             List<Simulation> simulations = new ArrayList<>();

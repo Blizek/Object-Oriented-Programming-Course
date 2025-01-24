@@ -2,6 +2,7 @@ package projekt;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
 import projekt.presenter.ConfigPresenter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -15,13 +16,13 @@ public class GameApp extends Application {
     public void start(Stage primaryStage) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/config.fxml"));
-        BorderPane viewRoot = loader.load();
+        AnchorPane viewRoot = loader.load();
         ConfigPresenter presenter = loader.getController();
         configureStage(primaryStage, viewRoot);
         primaryStage.show();
     }
 
-    private void configureStage(Stage primaryStage, BorderPane viewRoot) {
+    private void configureStage(Stage primaryStage, AnchorPane viewRoot) {
         var scene = new Scene(viewRoot);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Darwin World");

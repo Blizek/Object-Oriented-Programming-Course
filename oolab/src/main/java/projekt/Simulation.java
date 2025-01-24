@@ -18,6 +18,7 @@ public class Simulation implements Runnable {
     private final int grassGrownAmount;
     private final int minEnergyToFullAnimal;
     private final AnimalMaker animalMaker;
+    private final int gameplaySpeed;
 
     private Simulation(Builder builder) {
         gameMap = builder.map;
@@ -31,6 +32,7 @@ public class Simulation implements Runnable {
         int maxMutationAmount = builder.maxMutationAmount;
         int animalGenomeLength = builder.animalGenomeLength;
         boolean isSlightCorrection = builder.isSlightCorrection;
+        gameplaySpeed = builder.gameplaySpeed;
 
         animalsMap = new HashMap<>();
         animalMaker = new AnimalMaker(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, isSlightCorrection);
@@ -78,7 +80,7 @@ public class Simulation implements Runnable {
 
                 for (Animal animal : animalsList) {
                     gameMap.move(animal);
-                    Thread.sleep(0);
+                    Thread.sleep(gameplaySpeed);
                 }
 
                 for (Grass grass : gameMap.getGrassesMap().values()) {
@@ -133,6 +135,7 @@ public class Simulation implements Runnable {
         private int maxMutationAmount;
         private int animalGenomeLength;
         private boolean isSlightCorrection;
+        private int gameplaySpeed;
 
         public Builder setMap(EarthMap map) {
             this.map = map;
@@ -186,6 +189,11 @@ public class Simulation implements Runnable {
 
         public Builder setSlightCorrection(boolean isSlightCorrection) {
             this.isSlightCorrection = isSlightCorrection;
+            return this;
+        }
+
+        public Builder setGameplaySpeed(int gameplaySpeed) {
+            this.gameplaySpeed = gameplaySpeed;
             return this;
         }
 
