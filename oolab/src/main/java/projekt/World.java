@@ -1,5 +1,6 @@
 package projekt;
 
+import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 import projekt.model.maps.PoleMap;
 
@@ -55,7 +56,7 @@ public class World {
         }
 
         try {
-            PoleMap map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+            AbstractMap map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
 
             Simulation simulation = new Simulation.Builder()
                     .setMap(map)

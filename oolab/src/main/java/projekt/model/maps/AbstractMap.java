@@ -8,17 +8,40 @@ import java.util.*;
 
 public abstract class AbstractMap {
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
-    private final UUID id = UUID.randomUUID();
-
+    protected final UUID id = UUID.randomUUID();
     protected final HashMap<Vector2d, Grass> grassesMap = new HashMap<>();
-
     protected final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
-
     protected final Vector2d bottomLeftCorner = new Vector2d(0, 0);
+    protected final Vector2d topRightCorner;
+    protected final Boundary mapBoundary;
+    protected final Vector2d equatorLowerLeft;
+    protected final Vector2d equatorUpperRight;
 
-    public abstract Boundary getMapBoundary();
+    protected final int grassGrowthCount;
+    protected final int grassEnergy;
 
-    public abstract int getMapArea();
+    public AbstractMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
+        topRightCorner = new Vector2d(width, height);;
+        mapBoundary = new Boundary(bottomLeftCorner, topRightCorner);
+        this.grassGrowthCount = grassGrowthCount;
+        this.grassEnergy = grassEnergy;
+
+        equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
+        equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
+
+        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
+        for(Vector2d grassPosition : grassRandomPositionGenerator) {
+            grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
+        }
+    }
+
+    public Boundary getMapBoundary() {
+        return mapBoundary;
+    }
+
+    public int getMapArea() {
+        return topRightCorner.getX() * topRightCorner.getY();
+    }
 
     public HashMap<Vector2d, Grass> getGrassesMap() {
         return new HashMap<>(grassesMap);
@@ -36,7 +59,12 @@ public abstract class AbstractMap {
         grassesMap.remove(position);
     }
 
-    public abstract void addNewGrasses();
+    public void addNewGrasses() {
+        RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, grassGrowthCount, grassesMap, equatorLowerLeft, equatorUpperRight);
+        for(Vector2d grassPosition : grassRandomPositionGenerator) {
+            grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
+        }
+    }
 
     public void removeDeadAnimal(Animal animal) {
         List<Animal> animals = animalsMap.get(animal.getPosition());
@@ -51,7 +79,13 @@ public abstract class AbstractMap {
 
     public void move(Animal animal) {
         Vector2d previousAnimalPosition = animal.getPosition();
+        Direction previousAnimalDirection = animal.getDirection();
+        preMove(animal, previousAnimalPosition);
+        animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
+        postMove(animal, previousAnimalPosition, previousAnimalDirection);
+    }
 
+    protected void preMove(Animal animal, Vector2d previousAnimalPosition) {
         List<Animal> animalsAtPreviousPosition = animalsMap.get(previousAnimalPosition);
         if (animalsAtPreviousPosition != null) {
             animalsAtPreviousPosition.remove(animal);
@@ -59,6 +93,19 @@ public abstract class AbstractMap {
                 animalsMap.remove(previousAnimalPosition);
             }
         }
+
+        animal.move(topRightCorner);
+    }
+
+    protected void postMove(Animal animal, Vector2d previousAnimalPosition, Direction previousAnimalDirection) {
+        if (!previousAnimalDirection.equals(animal.getDirection())) {
+            System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
+        }
+        if (!previousAnimalPosition.equals(animal.getPosition())){
+            System.out.printf("Animal moved from %s to %s%n", previousAnimalPosition, animal.getPosition());
+        }
+        System.out.println("Animal's energy: " + animal.getEnergy());
+        System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
     }
 
 
