@@ -88,20 +88,6 @@
                      <GridPane alignment="CENTER" hgap="5.0" layoutX="10.0" layoutY="10.0" prefHeight="741.0" prefWidth="800.0" vgap="5.0">
                          <!-- Oznaczenia kolumn -->
                          <children>
-                             <Text style="-fx-text-alignment: center;" text="0" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                             <Text style="-fx-text-alignment: center;" text="1" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-                             <Text style="-fx-text-alignment: center;" text="2" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-                             <Text style="-fx-text-alignment: center;" text="3" GridPane.columnIndex="4" GridPane.rowIndex="6" />
-                             <Text style="-fx-text-alignment: center;" text="4" GridPane.columnIndex="5" GridPane.rowIndex="6" />
-
-
-                             <!-- Oznaczenia wierszy -->
-                             <Text text="4" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                             <Text text="3" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                             <Text text="2" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                             <Text text="1" GridPane.columnIndex="0" GridPane.rowIndex="4" />
-                             <Text text="0" GridPane.columnIndex="0" GridPane.rowIndex="5" />
-
                              <!-- Komórki siatki -->
                              <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                              <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
@@ -193,6 +179,7 @@
                         <RowConstraints />
                         <RowConstraints />
                         <RowConstraints />
+                        <RowConstraints />
                      </rowConstraints>
                      </GridPane>
                  </children>
@@ -265,9 +252,10 @@
                   </HBox>
                </children>
             </VBox>
-            <Button layoutX="51.0" layoutY="599.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="173.0" text="Zatrzymaj rozgrywkę" />
-            <Button layoutX="51.0" layoutY="672.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="173.0" text="Zakończ rozgrywkę" />
-            <Button layoutX="40.0" layoutY="744.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="195.0" text="Zapisz i zakończ rozgrywkę" />
+            <Button layoutX="40.0" layoutY="753.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Zakończ rozgrywkę" />
+            <Button layoutX="40.0" layoutY="706.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Zatrzymaj rozgrywkę" />
+            <Button layoutX="14.0" layoutY="658.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Pokaż zwierzaki z dominującym genem" />
+            <Button layoutX="40.0" layoutY="610.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Pokaż preferowane pola traw" />
          </children>
       </AnchorPane>
    </children>

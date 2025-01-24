@@ -1,5 +1,6 @@
 package projekt.model.util;
 
+import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 import projekt.model.Vector2d;
 
@@ -13,14 +14,14 @@ public class MapVisualizer {
     private static final String EMPTY_CELL = " ";
     private static final String FRAME_SEGMENT = "-";
     private static final String CELL_SEGMENT = "|";
-    private final EarthMap map;
+    private final AbstractMap map;
 
     /**
      * Initializes the MapVisualizer with an instance of map to visualize.
      *
      * @param map
      */
-    public MapVisualizer(EarthMap map) {
+    public MapVisualizer(AbstractMap map) {
         this.map = map;
     }
 

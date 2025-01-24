@@ -1,6 +1,7 @@
 package projekt;
 
 import projekt.model.*;
+import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 import projekt.model.maps.PoleMap;
 
@@ -14,7 +15,7 @@ public class Simulation implements Runnable {
     private final HashMap<Vector2d, Animal> animalsMap;
     private long day = 0;
 
-    private final EarthMap gameMap; // map of the game
+    private final AbstractMap gameMap; // map of the game
     private final int grassGrownAmount;
     private final int minEnergyToFullAnimal;
     private final AnimalMaker animalMaker;
@@ -124,7 +125,7 @@ public class Simulation implements Runnable {
     }
 
     public static class Builder {
-        private EarthMap map;
+        private AbstractMap map;
         private int eatenGrassEnergy;
         private int grassGrownAmount;
         private int startAnimalsAmount;
@@ -137,7 +138,7 @@ public class Simulation implements Runnable {
         private boolean isSlightCorrection;
         private int gameplaySpeed;
 
-        public Builder setMap(EarthMap map) {
+        public Builder setMap(AbstractMap map) {
             this.map = map;
             return this;
         }

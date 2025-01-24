@@ -1,11 +1,21 @@
 package projekt.presenter;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import projekt.Simulation;
+import projekt.SimulationEngine;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ConfigPresenter {
@@ -23,6 +33,9 @@ public class ConfigPresenter {
 
     @FXML
     Button historyGameLoad, startNewGame;
+
+    private final List<Simulation> simulations = new ArrayList<>();
+    private SimulationEngine simulationEngine;
 
     public void initialize() {
         setNumericOnly(mapHeight);
@@ -55,6 +68,31 @@ public class ConfigPresenter {
                 System.out.println("Zwykła mutacja");
             }
             System.out.println("Gotowa rozgrywka");
+            Thread simulationThread = new Thread(() -> {
+                try {
+                    javafx.application.Platform.runLater(() -> {
+                        try {
+                            FXMLLoader loader = new FXMLLoader();
+                            loader.setLocation(getClass().getClassLoader().getResource("fxml/gameMap.fxml"));
+                            AnchorPane root = loader.load();
+
+                            Stage stage = new Stage();
+                            stage.setScene(new Scene(root));
+                            stage.setTitle("Symulacja");
+                            stage.show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+
+                    // Uruchamianie logiki symulacji
+                    //newSimulation.run();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+            simulationThread.start();
         } else {
             System.out.println("Niegotowa rozgrywka");
         }

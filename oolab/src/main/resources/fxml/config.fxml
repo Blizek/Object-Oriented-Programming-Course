@@ -16,7 +16,7 @@
             <children>
                 <ScrollPane layoutX="28.0" layoutY="84.0" prefHeight="652.0" prefWidth="309.0" />
                 <Button fx:id="historyGameLoad" layoutX="107.0" layoutY="765.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Wczytaj" />
-                <Text layoutX="49.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wczytaj zapisaną rozgrywkę" textAlignment="CENTER" wrappingWidth="267.9999999999999" />
+                <Text layoutX="49.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wczytaj zapisaną konfiguracją" textAlignment="CENTER" wrappingWidth="267.9999999999999" />
             </children>
         </AnchorPane>
 
@@ -82,16 +82,17 @@
         </VBox>
 
         <!-- Przycisk startu rozgrywki -->
-        <Button fx:id="startNewGame" layoutX="685.0" layoutY="808.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zacznij rozgrywkę" />
+        <Button fx:id="startNewGame" layoutX="886.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zacznij rozgrywkę" />
 
         <Text layoutX="738.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Konfiguruj rozgrywkę" />
 
-        <AnchorPane layoutX="501.0" layoutY="579.0" prefHeight="200.0" prefWidth="589.0">
+        <AnchorPane layoutX="406.0" layoutY="579.0" prefHeight="200.0" prefWidth="859.0">
             <children>
-                <Text layoutX="238.0" layoutY="34.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warianty rozgrywki" />
-                <CheckBox layoutX="31.0" layoutY="63.0" mnemonicParsing="false" text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)" fx:id="coldWarGameplay" />
-                <CheckBox layoutX="31.0" layoutY="118.0" mnemonicParsing="false" text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)" fx:id="geneticChangeGameplay" />
+                <Text layoutX="347.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warianty rozgrywki" />
+                <CheckBox fx:id="coldWarGameplay" layoutX="203.0" layoutY="71.0" mnemonicParsing="false" text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)" />
+                <CheckBox fx:id="geneticChangeGameplay" layoutX="174.0" layoutY="127.0" mnemonicParsing="false" text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)" />
             </children>
         </AnchorPane>
+      <Button fx:id="startNewGame1" layoutX="538.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zapisz konfigurację" />
     </children>
 </AnchorPane>

@@ -55,7 +55,7 @@ public class World {
         }
 
         try {
-            EarthMap map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+            PoleMap map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
 
             Simulation simulation = new Simulation.Builder()
                     .setMap(map)
