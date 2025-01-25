@@ -1,5 +1,9 @@
 package projekt.presenter;
 
+import com.google.gson.Gson;
+
+import java.io.*;
+
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +21,9 @@ import projekt.SimulationEngine;
 import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 import projekt.model.maps.PoleMap;
+import projekt.model.util.ConfigData;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +82,7 @@ public class ConfigPresenter {
         setNumericOnly(maxMutationAmountInput);
         setNumericOnly(animalGenomeLengthInput);
         setNumericOnly(gameplaySpeedInput);
+        getSavedConfigs();
     }
 
     @FXML
@@ -83,13 +90,11 @@ public class ConfigPresenter {
         getInputValues();
         if (checkInputCorrectness()) {
 
-            if (coldWarGameplayCheckbox.isSelected()) {
-                map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+            if (isColdWarGameplay) {
+                map = new PoleMap(mapWidth - 1, mapHeight - 1, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             } else {
-                map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+                map = new EarthMap(mapWidth - 1, mapHeight - 1, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             }
-
-            isSlightCorrection = geneticChangeGameplayCheckbox.isSelected();
 
             Thread simulationThread = new Thread(() -> {
                 try {
@@ -242,6 +247,8 @@ public class ConfigPresenter {
         maxMutationAmount = Integer.parseInt(maxMutationAmountInput.getText());
         animalGenomeLength = Integer.parseInt(animalGenomeLengthInput.getText());
         gameplaySpeed = Integer.parseInt(gameplaySpeedInput.getText());
+        isColdWarGameplay = coldWarGameplayCheckbox.isSelected();
+        isSlightCorrection = geneticChangeGameplayCheckbox.isSelected();
     }
 
     private void startSimulationWindow() throws IOException {
@@ -266,7 +273,7 @@ public class ConfigPresenter {
                 .setMaxMutationAmount(maxMutationAmount)
                 .setAnimalGenomeLength(animalGenomeLength)
                 .setGameplaySpeed(gameplaySpeed)
-                .setSlightCorrection(false)
+                .setSlightCorrection(isSlightCorrection)
                 .build();
 
         presenter.startSimulation(simulation, map);
@@ -284,13 +291,52 @@ public class ConfigPresenter {
         }
 
         if (isConfigCorrect) {
-            System.out.println("Zapisano konfigurację");
+            saveToJson("savedConfigs/" + configNameInput.getText() + ".json");
         } else {
             System.out.println("Popraw błędy");
         }
     }
+    public void getSavedConfigs() {
+        File folder = new File("savedConfigs");
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File file : listOfFiles) {
+                System.out.println(file.getName());
+            }
+        }
+    }
 
-    public void saveToDirectory(){
 
+    public void saveToJson(String filePath) {
+        getInputValues();
+        ConfigData configData = new ConfigData();
+        configData.setMapHeight(mapHeight);
+        configData.setMapWidth(mapWidth);
+        configData.setStartGrassAmount(startGrassAmount);
+        configData.setEatenGrassEnergy(eatenGrassEnergy);
+        configData.setGrassGrownAmount(grassGrownAmount);
+        configData.setStartAnimalsAmount(startAnimalsAmount);
+        configData.setStartAnimalEnergy(startAnimalEnergy);
+        configData.setMinEnergyToFullAnimal(minEnergyToFullAnimal);
+        configData.setSexEnergyCost(sexEnergyCost);
+        configData.setMinMutationAmount(minMutationAmount);
+        configData.setMaxMutationAmount(maxMutationAmount);
+        configData.setAnimalGenomeLength(animalGenomeLength);
+        configData.setGameplaySpeed(gameplaySpeed);
+        configData.setColdWarGameplay(isColdWarGameplay);
+        configData.setSlightCorrection(isSlightCorrection);
+        Gson gson = new Gson();
+        try {
+            // Create the directory if it doesn't exist
+            File file = new File(filePath);
+            file.getParentFile().mkdirs();
+
+            try (FileWriter writer = new FileWriter(file)) {
+                gson.toJson(configData, writer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        getSavedConfigs();
     }
 }

@@ -4,7 +4,10 @@ import projekt.model.*;
 import projekt.model.random.RandomGrassPositionGenerator;
 import projekt.model.util.MapVisualizer;
 
+import javax.swing.text.Position;
 import java.util.*;
+
+import static projekt.model.util.AnimalUtils.setDominantAnimal;
 
 public abstract class AbstractMap {
     protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
@@ -68,8 +71,15 @@ public abstract class AbstractMap {
     public List<WorldElement> getElements(){
         ArrayList<WorldElement> elements = new ArrayList<>();
         elements.addAll(grassesMap.values());
-        elements.addAll(animalsMap.values().stream().flatMap(Collection::stream).toList());
-        System.out.println(elements);
+        Map<Vector2d, Animal> dominantAnimalsMap = new HashMap<>();
+
+        for (Map.Entry<Vector2d, List<Animal>> entry : animalsMap.entrySet()) {
+            Vector2d position = entry.getKey();
+            List<Animal> animalsAtPosition = entry.getValue();
+            Animal dominantAnimal = setDominantAnimal(animalsAtPosition);
+            dominantAnimalsMap.put(position, dominantAnimal);
+        }
+        elements.addAll(dominantAnimalsMap.values());
         return elements;
     }
 

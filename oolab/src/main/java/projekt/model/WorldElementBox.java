@@ -14,7 +14,7 @@ import java.util.Map;
 public class WorldElementBox extends VBox {
     private static final Map<String, Image> loadedImages = new HashMap<>();
 
-    public WorldElementBox(WorldElement element) {
+    public WorldElementBox(WorldElement element, double boxSize) {
         String imagePath = "/img/" + element.getImageName();
 
         Image image = loadedImages.computeIfAbsent(imagePath, path -> {
@@ -29,12 +29,10 @@ public class WorldElementBox extends VBox {
         });
 
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(100);
-        imageView.setFitWidth(100);
+        imageView.setFitHeight(boxSize);
+        imageView.setFitWidth(boxSize);
 
-        Label positionLabel = new Label(element.getPosition().toString());
-
-        this.getChildren().addAll(imageView, positionLabel);
+        this.getChildren().addAll(imageView);
         this.setAlignment(Pos.CENTER);
 
     }

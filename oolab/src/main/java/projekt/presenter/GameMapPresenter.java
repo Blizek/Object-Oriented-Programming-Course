@@ -105,6 +105,9 @@ public class GameMapPresenter implements MapChangeListener {
     @FXML
     private Text watchingAnimalLifetimeText;
 
+    private double worldElementBoxHeight;
+    private double worldElementBoxWidth;
+
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
         mapGrid.getColumnConstraints().clear();
@@ -146,7 +149,7 @@ public class GameMapPresenter implements MapChangeListener {
         for (WorldElement element : elements){
             if(element instanceof Animal || element instanceof Grass){
                 if (element instanceof Grass) System.out.println("chuj");
-                WorldElementBox elementBox = new WorldElementBox(element);
+                WorldElementBox elementBox = new WorldElementBox(element, Math.min(worldElementBoxHeight, worldElementBoxWidth));
                 mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
                 GridPane.setHalignment(elementBox, HPos.CENTER);
             }
@@ -179,6 +182,17 @@ public class GameMapPresenter implements MapChangeListener {
             Boundary mapBoundary = worldMap.getMapBoundary();
             lowerLeft = mapBoundary.lowerLeft();
             upperRight = mapBoundary.upperRight();
+
+            int columnsCounter = upperRight.getY() + 1;
+            int rowsCounter = upperRight.getX() + 1;
+
+            double gridWidth = 812;
+            double gridHeight = 753;
+            double horizontalSpacing = 10;
+            double verticalSpacing = 10;
+
+            worldElementBoxWidth = (gridWidth - (columnsCounter - 1) * horizontalSpacing) / rowsCounter;
+            worldElementBoxHeight = (gridHeight - (rowsCounter - 1) * verticalSpacing) / rowsCounter;
 
             List<Simulation> simulations = new ArrayList<>();
             simulations.add(simulation);
