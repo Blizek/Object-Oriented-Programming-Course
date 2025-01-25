@@ -4,10 +4,8 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
@@ -21,43 +19,43 @@
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Łączna liczba zwierząt:" />
-                        <Text fx:id="animalsCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
+                        <Text fx:id="animalsCounterText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox fx:id="gameStats" prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Łączna liczba traw:" />
-                        <Text fx:id="grassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="50" />
+                        <Text fx:id="grassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba wolnych pól:" />
-                        <Text fx:id="freePlacesCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="60" />
+                        <Text fx:id="freePlacesCounterText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Najpopularniejszy genotyp:" />
-                        <Text fx:id="mostPopularGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+                        <Text fx:id="mostPopularGenText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia energia zwierząt:" />
-                        <Text fx:id="averageAnimalsEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" text="64.56" />
+                        <Text fx:id="averageAnimalsEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia długość życia zwierząt:" />
-                        <Text fx:id="averageAnimalsLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="85" />
+                        <Text fx:id="averageAnimalsLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                   <HBox prefHeight="26.0" prefWidth="247.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia liczba dzieci zwierząt:" />
-                        <Text fx:id="averageAnimalsChildrenText" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+                        <Text fx:id="averageAnimalsChildrenText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
                </children>
@@ -66,7 +64,7 @@
                <children>
                   <Text layoutX="14.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wykres liczby zwierzaków na mapie" />
                </children></AnchorPane>
-            <AnchorPane fx:id="chart11" layoutX="13.0" layoutY="553.0" prefHeight="247.0" prefWidth="249.0">
+            <AnchorPane fx:id="chart2" layoutX="13.0" layoutY="553.0" prefHeight="247.0" prefWidth="249.0">
                <children>
                   <Text layoutX="36.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wykres liczby traw na mapie" />
                </children>
@@ -117,7 +115,7 @@
                         <Text fx:id="watchingAnimalGenomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="5 7 6 3 3 2 0 1" />
                      </children>
                   </HBox>
-                  <HBox fx:id="gameStats1" prefHeight="20.0" prefWidth="219.0">
+                  <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualny gen:" />
                         <Text fx:id="watchingAnimalActualGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="3" />

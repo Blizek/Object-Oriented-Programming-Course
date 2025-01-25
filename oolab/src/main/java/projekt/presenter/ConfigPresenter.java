@@ -31,20 +31,20 @@ import java.util.List;
 
 public class ConfigPresenter {
     @FXML
-    TextField mapHeightInput, mapWidthInput, startGrassAmountInput, eatenGrassEnergyInput, grassGrownAmountInput, startAnimalsAmountInput,
+    private TextField mapHeightInput, mapWidthInput, startGrassAmountInput, eatenGrassEnergyInput, grassGrownAmountInput, startAnimalsAmountInput,
             startAnimalEnergyInput, minEnergyToFullAnimalInput, sexEnergyCostInput, minMutationAmountInput, maxMutationAmountInput,
             animalGenomeLengthInput, gameplaySpeedInput, configNameInput;
 
     @FXML
-    CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox;
+    private CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox;
 
     @FXML
-    Label mapHeightError, mapWidthError, startGrassAmountError, eatenGrassEnergyError, grassGrownAmountError,
+    private Label mapHeightError, mapWidthError, startGrassAmountError, eatenGrassEnergyError, grassGrownAmountError,
             startAnimalsAmountError, startAnimalEnergyError, minEnergyToFullAnimalError, sexEnergyCostError,
             minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError, configNameError;
 
     @FXML
-    Button historyGameLoadButton, startNewGameButton;
+    private Button historyGameLoadButton, startNewGameButton;
 
     private final List<Simulation> simulations = new ArrayList<>();
     private SimulationEngine simulationEngine;

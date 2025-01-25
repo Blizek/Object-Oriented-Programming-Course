@@ -1,5 +1,6 @@
 package projekt.model;
 
+import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 
 import java.util.*;
@@ -14,42 +15,50 @@ public class Statistics {
         return animals.size();
     }
 
-    public static int getAllGrassesCount(List<Grass> grasses){
+    public static int getAllGrassesCount(HashMap<Vector2d, Grass> grasses){
         return grasses.size();
     }
 
-    public static int getAllFreeSpacesCount(EarthMap gameMap){
+    public static int getAllFreeSpacesCount(AbstractMap gameMap){
         Set<Vector2d> keysSet = new HashSet<>(gameMap.getAnimalsMap().keySet());
         keysSet.addAll(gameMap.getGrassesMap().keySet());
         return gameMap.getMapArea() - keysSet.size();
     }
 
-    public static List<List<Integer>> getTopMostPopularGenomes(List<Animal> animals, int topCount){
-        Map<List<Integer>, Integer> genomeCount = new HashMap<>();
-        for(Animal animal : animals){
+    public static List<Integer> getTopMostPopularGenomes(List<Animal> animals, int topCount) {
+        Map<Integer, Integer> geneCount = new HashMap<>();
+        for (Animal animal : animals) {
             List<Integer> genome = animal.getGenome();
-            genomeCount.put(genome, genomeCount.getOrDefault(genome, 0) + 1);
+            for (Integer gene : genome) {
+                geneCount.put(gene, geneCount.getOrDefault(gene, 0) + 1);
+            }
         }
-        return genomeCount.entrySet().stream()
-                .sorted(Map.Entry.<List<Integer>, Integer>comparingByValue().reversed())
-                .limit(topCount)
+
+        List<Map.Entry<Integer, Integer>> sortedGeneCount = geneCount.entrySet().stream()
+                .sorted(Map.Entry.<Integer, Integer>comparingByValue().reversed())
+                .collect(Collectors.toList());
+
+        int thresholdCount = sortedGeneCount.get(topCount - 1).getValue();
+
+        return sortedGeneCount.stream()
+                .filter(entry -> entry.getValue() >= thresholdCount)
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
     public static List<Integer> getMostPopularGenome(List<Animal> animals){
-        return getTopMostPopularGenomes(animals, 1).getFirst();
+        return getTopMostPopularGenomes(animals, 1);
     }
 
     public static float getAverageEnergy(List<Animal> animals){
-        return (float) animals.stream().mapToInt(Animal::getEnergy).sum() / animals.size();
+        return (float) (Math.round(((float) animals.stream().mapToInt(Animal::getEnergy).sum() / animals.size()) * 100.0) / 100.0);
     }
 
     public static float getAverageDaysLived(List<Animal> animals){
-        return (float) animals.stream().mapToInt(Animal::getDaysLived).sum() / animals.size();
+        return (float) (Math.round(((float) animals.stream().mapToInt(Animal::getDaysLived).sum() / animals.size()) * 100.0) / 100.0);
     }
 
     public static float getAverageChildrenCount(List<Animal> animals){
-        return (float) animals.stream().mapToInt(Animal::getChildrenCount).sum() / animals.size();
+        return (float) (Math.round(((float) animals.stream().mapToInt(Animal::getChildrenCount).sum() / animals.size()) * 100.0) / 100.0);
     }
 }

@@ -11,104 +11,41 @@ import projekt.Simulation;
 import projekt.SimulationEngine;
 import projekt.model.*;
 import projekt.model.maps.AbstractMap;
-import javafx.fxml.FXML;
-import javafx.scene.chart.LineChart;
-import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
 import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameMapPresenter implements MapChangeListener {
-    private AbstractMap worldMap;
-    private Vector2d lowerLeft;
-    private Vector2d upperRight;
-    @FXML
-    private Label infoLabel;
-    @FXML
-    private TextField animalsMovesTextField;
     @FXML
     private GridPane mapGrid;
 
     @FXML
-    private Text animalsCounterText;
+    private Text animalsCounterText,  grassCounterText, freePlacesCounterText,  mostPopularGenText, averageAnimalsEnergyText,
+            averageAnimalsLifetimeText, averageAnimalsChildrenText, dayCounterText, watchingAnimalPositionText,
+            watchingAnimalDirection, watchingAnimalGenomeText, watchingAnimalActualGenText, watchingAnimalEnergyText,
+            watchingAnimalEatenGrassCounterText, watchingAnimalChildrenCounterText, watchingAnimalDescendantCounterText,
+            watchingAnimalLifetimeText;
+
+    @FXML
+    ImageView watchingAnimalImage;
 
     @FXML
     private HBox gameStats;
 
     @FXML
-    private Text grassCounterText;
+    private AnchorPane chart1, chart2, messagesLog, gameMapPane, selectedAnimalStats;
 
-    @FXML
-    private Text freePlacesCounterText;
-
-    @FXML
-    private Text mostPopularGenText;
-
-    @FXML
-    private Text averageAnimalsEnergyText;
-
-    @FXML
-    private Text averageAnimalsLifetimeText;
-
-    @FXML
-    private Text averageAnimalsChildrenText;
-
-    @FXML
-    private AnchorPane chart1;
-
-    @FXML
-    private AnchorPane chart11;
-
-    @FXML
-    private AnchorPane messagesLog;
-
-    @FXML
-    private Text dayCounterText;
-
-    @FXML
-    private AnchorPane gameMapPane;
-
-    @FXML
-    private AnchorPane selectedAnimalStats;
-
-    @FXML
-    private ImageView watchingAnimalImage;
-
-    @FXML
-    private Text watchingAnimalPositionText;
-
-    @FXML
-    private Text watchingAnimalDirection;
-
-    @FXML
-    private Text watchingAnimalGenomeText;
-
-    @FXML
-    private HBox gameStats1;
-
-    @FXML
-    private Text watchingAnimalActualGenText;
-
-    @FXML
-    private Text watchingAnimalEnergyText;
-
-    @FXML
-    private Text watchingAnimalEatenGrassCounterText;
-
-    @FXML
-    private Text watchingAnimalChildrenCounterText;
-
-    @FXML
-    private Text watchingAnimalDescendantCounterText;
-
-    @FXML
-    private Text watchingAnimalLifetimeText;
-
-    private double worldElementBoxHeight;
-    private double worldElementBoxWidth;
+    private AbstractMap worldMap;
+    private Vector2d lowerLeft;
+    private Vector2d upperRight;
     private double boxSize;
+    private List<Animal> animalsList;
+    private Simulation simulation;
+    private HashMap<Vector2d, Grass> grassesMap;
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -149,7 +86,7 @@ public class GameMapPresenter implements MapChangeListener {
     private void fillMap() {
         List<WorldElement> elements = worldMap.getElements();
         for (WorldElement element : elements){
-            if(element instanceof Animal || element instanceof Grass){
+            if(element instanceof Animal || worldMap.objectAt(element.getPosition()).getFirst() instanceof Grass){
                 WorldElementBox elementBox = new WorldElementBox(element, boxSize);
                 mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX(), upperRight.getY() - element.getPosition().getY());
                 GridPane.setHalignment(elementBox, HPos.CENTER);
@@ -173,6 +110,7 @@ public class GameMapPresenter implements MapChangeListener {
     public void mapChanged(AbstractMap worldMap) {
         Platform.runLater(() -> {
             drawMap();
+            updateSimulationStatistics();
         });
     }
 
@@ -191,6 +129,8 @@ public class GameMapPresenter implements MapChangeListener {
             this.worldMap = worldMap;
             worldMap.addObserver(this);
 
+            this.simulation = simulation;
+
             Boundary mapBoundary = worldMap.getMapBoundary();
             lowerLeft = mapBoundary.lowerLeft();
             upperRight = mapBoundary.upperRight();
@@ -201,8 +141,8 @@ public class GameMapPresenter implements MapChangeListener {
             double gridWidth = 812;
             double gridHeight = 753;
 
-            worldElementBoxWidth = gridWidth / columnsCounter;
-            worldElementBoxHeight = gridHeight / rowsCounter;
+            double worldElementBoxWidth = gridWidth / columnsCounter;
+            double worldElementBoxHeight = gridHeight / rowsCounter;
             boxSize = Math.min(worldElementBoxHeight, worldElementBoxWidth);
 
             List<Simulation> simulations = new ArrayList<>();
@@ -210,6 +150,7 @@ public class GameMapPresenter implements MapChangeListener {
             SimulationEngine engine = new SimulationEngine(simulations);
             engine.runAsync();
 
+            animalsList = simulation.getAnimalsList();
 
             drawColumns();
             drawRows();
@@ -218,10 +159,24 @@ public class GameMapPresenter implements MapChangeListener {
             // numerateColumnAndRow();
 
             fillMap();
+            updateSimulationStatistics();
 
             System.out.println("System zakończył działanie");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void updateSimulationStatistics() {
+        animalsList = simulation.getAnimalsList();
+        grassesMap = worldMap.getGrassesMap();
+
+        animalsCounterText.setText(Integer.toString(Statistics.getAllAnimalsCount(animalsList)));
+        grassCounterText.setText(Integer.toString(Statistics.getAllGrassesCount(grassesMap)));
+        freePlacesCounterText.setText(Integer.toString(Statistics.getAllFreeSpacesCount(worldMap)));
+        mostPopularGenText.setText(Statistics.getMostPopularGenome(animalsList).stream().map(String::valueOf).collect(Collectors.joining(", ")));
+        averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
+        averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
+        averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
     }
 }

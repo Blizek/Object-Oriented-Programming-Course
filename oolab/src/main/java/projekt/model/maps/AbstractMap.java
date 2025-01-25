@@ -57,7 +57,7 @@ public abstract class AbstractMap {
     }
 
     public int getMapArea() {
-        return topRightCorner.getX() * topRightCorner.getY();
+        return (topRightCorner.getX() + 1) * (topRightCorner.getY() + 1);
     }
 
     public HashMap<Vector2d, Grass> getGrassesMap() {
@@ -70,7 +70,6 @@ public abstract class AbstractMap {
 
     public List<WorldElement> getElements(){
         ArrayList<WorldElement> elements = new ArrayList<>();
-        elements.addAll(grassesMap.values());
         Map<Vector2d, Animal> dominantAnimalsMap = new HashMap<>();
 
         for (Map.Entry<Vector2d, List<Animal>> entry : animalsMap.entrySet()) {
@@ -79,7 +78,9 @@ public abstract class AbstractMap {
             Animal dominantAnimal = setDominantAnimal(animalsAtPosition);
             dominantAnimalsMap.put(position, dominantAnimal);
         }
+
         elements.addAll(dominantAnimalsMap.values());
+        elements.addAll(grassesMap.values());
         return elements;
     }
 

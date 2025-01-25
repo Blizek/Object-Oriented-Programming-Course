@@ -26,7 +26,8 @@ public class Grass implements WorldElement {
 
     @Override
     public String getImageName() {
-        return "grass.png";
+        // wiemy że banany to nie trawa, ale małpki jedzą głównie bananki a nie trawę
+        return "bananas.png";
     }
 
 }
