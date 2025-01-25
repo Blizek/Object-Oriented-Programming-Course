@@ -56,7 +56,7 @@ public class ConfigPresenter {
     private int maxMutationAmount;
     private int animalGenomeLength;
     private int gameplaySpeed;
-
+    private boolean isColdWarGameplay;
     private boolean isSlightCorrection;
 
     private AbstractMap map;
@@ -101,8 +101,6 @@ public class ConfigPresenter {
                         }
                     });
 
-                    // Uruchamianie logiki symulacji
-                    //newSimulation.run();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -290,5 +288,9 @@ public class ConfigPresenter {
         } else {
             System.out.println("Popraw błędy");
         }
+    }
+
+    public void saveToDirectory(){
+
     }
 }

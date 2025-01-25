@@ -122,7 +122,8 @@ public class Simulation implements Runnable {
                     animalsList.add(child);
                 }
 
-                 gameMap.addNewGrasses();
+                gameMap.addNewGrasses();
+                gameMap.listenerObserver();
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());

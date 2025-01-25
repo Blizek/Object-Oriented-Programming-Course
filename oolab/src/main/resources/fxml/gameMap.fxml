@@ -9,7 +9,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane minHeight="821.0" minWidth="1156.0" stylesheets="@../css/gameMapStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projekt.presenter.GameMapPresenter">
@@ -22,43 +21,43 @@
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Łączna liczba zwierząt:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
+                        <Text fx:id="animalsCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="20" />
                      </children>
                   </HBox>
                   <HBox fx:id="gameStats" prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Łączna liczba traw:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="50" />
+                        <Text fx:id="grassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="50" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba wolnych pól:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="60" />
+                        <Text fx:id="freePlacesCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="60" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Najpopularniejszy genotyp:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+                        <Text fx:id="mostPopularGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia energia zwierząt:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="64.56" />
+                        <Text fx:id="averageAnimalsEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" text="64.56" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia długość życia zwierząt:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="85" />
+                        <Text fx:id="averageAnimalsLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="85" />
                      </children>
                   </HBox>
                   <HBox prefHeight="26.0" prefWidth="247.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Średnia liczba dzieci zwierząt:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
+                        <Text fx:id="averageAnimalsChildrenText" strokeType="OUTSIDE" strokeWidth="0.0" text="5" />
                      </children>
                   </HBox>
                </children>
@@ -78,109 +77,13 @@
          <children>
             <AnchorPane fx:id="messagesLog" prefHeight="68.0" prefWidth="812.0">
                <children>
-                  <Text layoutX="28.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzień:" />
-                  <Text layoutX="68.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="851" />
-                  <Text layoutX="222.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Animal changed direction from S to N and moved from (2, 1) to (2, 2) " />
+                  <Text layoutX="360.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzień:" />
+                  <Text fx:id="dayCounterText" layoutX="406.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="851" />
                </children>
             </AnchorPane>
              <AnchorPane fx:id="gameMapPane" layoutY="68.0" prefHeight="753.0" prefWidth="812.0">
                  <children>
-                     <GridPane alignment="CENTER" hgap="5.0" layoutX="10.0" layoutY="10.0" prefHeight="741.0" prefWidth="800.0" vgap="5.0">
-                         <!-- Oznaczenia kolumn -->
-                         <children>
-                             <!-- Komórki siatki -->
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                             <Rectangle fill="#545454" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="2" />
-
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                             <Rectangle fill="#ae8600" height="100.0" width="100.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="3" />
-
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="4" GridPane.rowIndex="4" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="4" />
-
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="4" GridPane.rowIndex="5" />
-                             <Rectangle fill="#555555" height="100.0" width="100.0" GridPane.columnIndex="5" GridPane.rowIndex="5" />
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../img/full-monkey.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="5" GridPane.rowIndex="2">
-                           <image>
-                              <Image url="@../img/full-monkey.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <image>
-                              <Image url="@../img/tired-monkey.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <image>
-                              <Image url="@../img/dead-monkey.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../img/grass.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="4">
-                           <image>
-                              <Image url="@../img/grass.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../img/grass.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <image>
-                              <Image url="@../img/grass.png" />
-                           </image>
-                        </ImageView>
-                        <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                           <image>
-                              <Image url="@../img/grass.png" />
-                           </image>
-                        </ImageView>
-                         </children>
-                     <columnConstraints>
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                        <ColumnConstraints />
-                     </columnConstraints>
-                     <rowConstraints>
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                        <RowConstraints />
-                     </rowConstraints>
+                     <GridPane fx:id="mapGrid" alignment="CENTER" hgap="5.0" layoutX="-2.0" layoutY="-2.0" prefHeight="753.0" prefWidth="812.0" vgap="5.0">
                      </GridPane>
                  </children>
              </AnchorPane>
@@ -189,7 +92,7 @@
       </AnchorPane>
       <AnchorPane fx:id="selectedAnimalStats" layoutX="1086.0" prefHeight="821.0" prefWidth="274.0">
          <children>
-            <ImageView fx:id="animalImage" fitHeight="200.0" fitWidth="200.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="watchingAnimalImage" fitHeight="200.0" fitWidth="200.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../img/full-monkey.png" />
                </image></ImageView>
@@ -199,63 +102,63 @@
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pozycja:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="(2, 2)" />
+                        <Text fx:id="watchingAnimalPositionText" strokeType="OUTSIDE" strokeWidth="0.0" text="(2, 2)" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kierunek:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Północ" />
+                        <Text fx:id="watchingAnimalDirection" strokeType="OUTSIDE" strokeWidth="0.0" text="Północ" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Genom:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5 7 6 3 3 2 0 1" />
+                        <Text fx:id="watchingAnimalGenomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="5 7 6 3 3 2 0 1" />
                      </children>
                   </HBox>
                   <HBox fx:id="gameStats1" prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualny gen:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
+                        <Text fx:id="watchingAnimalActualGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość energii:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2137" />
+                        <Text fx:id="watchingAnimalEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" text="2137" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczb zjedzonych roślin:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="2115" />
+                        <Text fx:id="watchingAnimalEatenGrassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="2115" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba dzieci:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="8" />
+                        <Text fx:id="watchingAnimalChildrenCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="8" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba potomków:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="5743" />
+                        <Text fx:id="watchingAnimalDescendantCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="5743" />
                      </children>
                   </HBox>
                   <HBox prefHeight="26.0" prefWidth="247.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ile dni żyje:" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="739" />
+                        <Text fx:id="watchingAnimalLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="739" />
                      </children>
                   </HBox>
                </children>
             </VBox>
-            <Button layoutX="40.0" layoutY="753.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Zakończ rozgrywkę" />
-            <Button layoutX="40.0" layoutY="706.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Zatrzymaj rozgrywkę" />
+            <Button layoutX="14.0" layoutY="753.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="249.0" text="Zakończ rozgrywkę" />
+            <Button layoutX="14.0" layoutY="705.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Zatrzymaj rozgrywkę" />
             <Button layoutX="14.0" layoutY="658.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Pokaż zwierzaki z dominującym genem" />
-            <Button layoutX="40.0" layoutY="610.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="195.0" text="Pokaż preferowane pola traw" />
+            <Button layoutX="14.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Pokaż preferowane pola traw" />
          </children>
       </AnchorPane>
    </children>

@@ -29,8 +29,8 @@ public class WorldElementBox extends VBox {
         });
 
         ImageView imageView = new ImageView(image);
-        imageView.setFitHeight(20);
-        imageView.setFitWidth(20);
+        imageView.setFitHeight(100);
+        imageView.setFitWidth(100);
 
         Label positionLabel = new Label(element.getPosition().toString());
 

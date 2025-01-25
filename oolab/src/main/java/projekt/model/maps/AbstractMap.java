@@ -16,7 +16,7 @@ public abstract class AbstractMap {
     protected final Boundary mapBoundary;
     protected final Vector2d equatorLowerLeft;
     protected final Vector2d equatorUpperRight;
-
+    protected final List<MapChangeListener> observers = new ArrayList<>();
     protected final int grassGrowthCount;
     protected final int grassEnergy;
 
@@ -32,6 +32,20 @@ public abstract class AbstractMap {
         RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
         for(Vector2d grassPosition : grassRandomPositionGenerator) {
             grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
+        }
+    }
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    public void listenerObserver() {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this);
         }
     }
 
@@ -55,6 +69,7 @@ public abstract class AbstractMap {
         ArrayList<WorldElement> elements = new ArrayList<>();
         elements.addAll(grassesMap.values());
         elements.addAll(animalsMap.values().stream().flatMap(Collection::stream).toList());
+        System.out.println(elements);
         return elements;
     }
 
@@ -98,14 +113,14 @@ public abstract class AbstractMap {
 
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
 
-        if (!previousAnimalDirection.equals(animal.getDirection())) {
-            System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
-        }
-        if (!previousAnimalPosition.equals(animal.getPosition())){
-            System.out.printf("Animal moved from %s to %s%n", previousAnimalPosition, animal.getPosition());
-        }
-        System.out.println("Animal's energy: " + animal.getEnergy());
-        System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
+//        if (!previousAnimalDirection.equals(animal.getDirection())) {
+//            System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
+//        }
+//        if (!previousAnimalPosition.equals(animal.getPosition())){
+//            System.out.printf("Animal moved from %s to %s%n", previousAnimalPosition, animal.getPosition());
+//        }
+//        System.out.println("Animal's energy: " + animal.getEnergy());
+        // System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
     }
 
     protected abstract void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition);
