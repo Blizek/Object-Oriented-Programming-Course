@@ -21,7 +21,7 @@ Text {
 }
 
 /* VBox Styling - Zwiększenie odstępu od góry */
-WorldElementBox {
+VBox {
     -fx-background-color: #23272a;
     -fx-border-color: #4b4f53;
     -fx-border-radius: 10px;

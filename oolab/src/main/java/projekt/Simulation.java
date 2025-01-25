@@ -86,7 +86,6 @@ public class Simulation implements Runnable {
 
                 for (Animal animal : animalsList) {
                     gameMap.move(animal);
-                    Thread.sleep(gameplaySpeed);
                 }
 
                 for (Grass grass : gameMap.getGrassesMap().values()) {
@@ -126,6 +125,8 @@ public class Simulation implements Runnable {
 
                 gameMap.addNewGrasses();
                 gameMap.listenerObserver();
+
+                Thread.sleep(gameplaySpeed);
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());

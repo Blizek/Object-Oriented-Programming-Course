@@ -6,6 +6,7 @@ import javafx.geometry.HPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import projekt.Simulation;
 import projekt.SimulationEngine;
 import projekt.model.*;
@@ -107,6 +108,7 @@ public class GameMapPresenter implements MapChangeListener {
 
     private double worldElementBoxHeight;
     private double worldElementBoxWidth;
+    private double boxSize;
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -115,42 +117,41 @@ public class GameMapPresenter implements MapChangeListener {
     }
 
     private void drawColumns() {
-        for (int x = lowerLeft.getX(); x <= upperRight.getX() + 1; x++) {
-            mapGrid.getColumnConstraints().add(new ColumnConstraints(100));
+        for (int x = lowerLeft.getX(); x <= upperRight.getX(); x++) {
+            mapGrid.getColumnConstraints().add(new ColumnConstraints(boxSize));
         }
     }
 
     private void drawRows() {
-        for (int y = lowerLeft.getY(); y <= upperRight.getY() + 1; y++) {
-            mapGrid.getRowConstraints().add(new RowConstraints(100));
+        for (int y = lowerLeft.getY(); y <= upperRight.getY(); y++) {
+            mapGrid.getRowConstraints().add(new RowConstraints(boxSize));
         }
     }
 
-    private void numerateColumnAndRow() {
-        Label label = new Label("y/x");
-        mapGrid.add(label, 0, 0);
-        GridPane.setHalignment(label, HPos.CENTER);
-
-        for (int x = lowerLeft.getX(); x <= upperRight.getX(); x++) {
-            label = new Label(String.valueOf(x));
-            mapGrid.add(label, x - lowerLeft.getX() + 1, 0);
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
-
-        for (int y = upperRight.getY(); y >= lowerLeft.getY(); y--) {
-            label = new Label(String.valueOf(y));
-            mapGrid.add(label, 0, upperRight.getY() - y + 1);
-            GridPane.setHalignment(label, HPos.CENTER);
-        }
-    }
+//    private void numerateColumnAndRow() {
+//        Label label = new Label("y/x");
+//        mapGrid.add(label, 0, 0);
+//        GridPane.setHalignment(label, HPos.CENTER);
+//
+//        for (int x = lowerLeft.getX(); x <= upperRight.getX(); x++) {
+//            label = new Label(String.valueOf(x));
+//            mapGrid.add(label, x - lowerLeft.getX() + 1, 0);
+//            GridPane.setHalignment(label, HPos.CENTER);
+//        }
+//
+//        for (int y = upperRight.getY(); y >= lowerLeft.getY(); y--) {
+//            label = new Label(String.valueOf(y));
+//            mapGrid.add(label, 0, upperRight.getY() - y + 1);
+//            GridPane.setHalignment(label, HPos.CENTER);
+//        }
+//    }
 
     private void fillMap() {
         List<WorldElement> elements = worldMap.getElements();
         for (WorldElement element : elements){
             if(element instanceof Animal || element instanceof Grass){
-                if (element instanceof Grass) System.out.println("chuj");
-                WorldElementBox elementBox = new WorldElementBox(element, Math.min(worldElementBoxHeight, worldElementBoxWidth));
-                mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX() + 1, upperRight.getY() - element.getPosition().getY() + 1);
+                WorldElementBox elementBox = new WorldElementBox(element, boxSize);
+                mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX(), upperRight.getY() - element.getPosition().getY());
                 GridPane.setHalignment(elementBox, HPos.CENTER);
             }
         }
@@ -162,7 +163,8 @@ public class GameMapPresenter implements MapChangeListener {
         drawColumns();
         drawRows();
 
-        numerateColumnAndRow();
+        setGridCellsColors();
+        // numerateColumnAndRow();
 
         fillMap();
     }
@@ -174,6 +176,16 @@ public class GameMapPresenter implements MapChangeListener {
         });
     }
 
+    private void setGridCellsColors() {
+        for (int i = 0; i < upperRight.getX() + 1; i++) {
+            for (int j = 0; j < upperRight.getY() + 1; j++) {
+                Rectangle rectangle = new Rectangle(boxSize, boxSize);
+                rectangle.setStyle("-fx-fill: #555555");
+                mapGrid.add(rectangle, j, i);
+            }
+        }
+    }
+
     public void startSimulation(Simulation simulation, AbstractMap worldMap) {
         try {
             this.worldMap = worldMap;
@@ -183,26 +195,27 @@ public class GameMapPresenter implements MapChangeListener {
             lowerLeft = mapBoundary.lowerLeft();
             upperRight = mapBoundary.upperRight();
 
-            int columnsCounter = upperRight.getY() + 1;
-            int rowsCounter = upperRight.getX() + 1;
+            int columnsCounter = upperRight.getY() + 2;
+            int rowsCounter = upperRight.getX() + 2;
 
             double gridWidth = 812;
             double gridHeight = 753;
-            double horizontalSpacing = 10;
-            double verticalSpacing = 10;
 
-            worldElementBoxWidth = (gridWidth - (columnsCounter - 1) * horizontalSpacing) / rowsCounter;
-            worldElementBoxHeight = (gridHeight - (rowsCounter - 1) * verticalSpacing) / rowsCounter;
+            worldElementBoxWidth = gridWidth / columnsCounter;
+            worldElementBoxHeight = gridHeight / rowsCounter;
+            boxSize = Math.min(worldElementBoxHeight, worldElementBoxWidth);
 
             List<Simulation> simulations = new ArrayList<>();
             simulations.add(simulation);
             SimulationEngine engine = new SimulationEngine(simulations);
             engine.runAsync();
 
+
             drawColumns();
             drawRows();
 
-            numerateColumnAndRow();
+            setGridCellsColors();
+            // numerateColumnAndRow();
 
             fillMap();
 
@@ -211,5 +224,4 @@ public class GameMapPresenter implements MapChangeListener {
             System.out.println(e.getMessage());
         }
     }
-
 }
