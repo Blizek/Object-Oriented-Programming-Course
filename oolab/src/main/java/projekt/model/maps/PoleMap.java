@@ -1,9 +1,6 @@
 package projekt.model.maps;
 
 import projekt.model.*;
-import projekt.model.random.RandomGrassPositionGenerator;
-
-import java.util.*;
 
 public class PoleMap extends AbstractMap {
     public PoleMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
@@ -11,8 +8,7 @@ public class PoleMap extends AbstractMap {
     }
 
     @Override
-    protected void preMove(Animal animal, Vector2d previousAnimalPosition) {
-        super.preMove(animal, previousAnimalPosition);
+    protected void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition) {
         animal.moveEnergyUpdate(getPoleFatigueMultiplier(previousAnimalPosition));
     }
 

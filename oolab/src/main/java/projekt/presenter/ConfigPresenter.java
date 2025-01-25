@@ -14,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import projekt.Simulation;
 import projekt.SimulationEngine;
+import projekt.model.maps.AbstractMap;
+import projekt.model.maps.EarthMap;
+import projekt.model.maps.PoleMap;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +43,25 @@ public class ConfigPresenter {
     private final List<Simulation> simulations = new ArrayList<>();
     private SimulationEngine simulationEngine;
 
+    private int mapHeight;
+    private int mapWidth;
+    private int startGrassAmount;
+    private int eatenGrassEnergy;
+    private int grassGrownAmount;
+    private int startAnimalsAmount;
+    private int startAnimalEnergy;
+    private int minEnergyToFullAnimal;
+    private int sexEnergyCost;
+    private int minMutationAmount;
+    private int maxMutationAmount;
+    private int animalGenomeLength;
+    private int gameplaySpeed;
+
+    private boolean isSlightCorrection;
+
+    private AbstractMap map;
+
+
     public void initialize() {
         setNumericOnly(mapHeightInput);
         setNumericOnly(mapWidthInput);
@@ -58,19 +80,17 @@ public class ConfigPresenter {
 
     @FXML
     private void startGame() {
+        getInputValues();
         if (checkInputCorrectness()) {
+
             if (coldWarGameplayCheckbox.isSelected()) {
-                System.out.println("Mapa z biegunami");
+                map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             } else {
-                System.out.println("Zwykła mapa");
+                map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             }
 
-            if (geneticChangeGameplayCheckbox.isSelected()) {
-                System.out.println("Dodaj nową mutację");
-            } else {
-                System.out.println("Zwykła mutacja");
-            }
-            System.out.println("Gotowa rozgrywka");
+            isSlightCorrection = geneticChangeGameplayCheckbox.isSelected();
+
             Thread simulationThread = new Thread(() -> {
                 try {
                     Platform.runLater(() -> {
@@ -210,6 +230,22 @@ public class ConfigPresenter {
         gameplaySpeedError.setText("");
     }
 
+    private void getInputValues() {
+        mapHeight = Integer.parseInt(mapHeightInput.getText());
+        mapWidth = Integer.parseInt(mapWidthInput.getText());
+        startGrassAmount = Integer.parseInt(startGrassAmountInput.getText());
+        eatenGrassEnergy = Integer.parseInt(eatenGrassEnergyInput.getText());
+        grassGrownAmount = Integer.parseInt(grassGrownAmountInput.getText());
+        startAnimalsAmount = Integer.parseInt(startAnimalsAmountInput.getText());
+        startAnimalEnergy = Integer.parseInt(startAnimalEnergyInput.getText());
+        minEnergyToFullAnimal = Integer.parseInt(minEnergyToFullAnimalInput.getText());
+        sexEnergyCost = Integer.parseInt(sexEnergyCostInput.getText());
+        minMutationAmount = Integer.parseInt(minMutationAmountInput.getText());
+        maxMutationAmount = Integer.parseInt(maxMutationAmountInput.getText());
+        animalGenomeLength = Integer.parseInt(animalGenomeLengthInput.getText());
+        gameplaySpeed = Integer.parseInt(gameplaySpeedInput.getText());
+    }
+
     private void startSimulationWindow() throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("fxml/gameMap.fxml"));
@@ -218,6 +254,24 @@ public class ConfigPresenter {
         stage.setScene(new Scene(root));
         stage.setTitle("Darwin World");
         stage.getIcons().add(new Image("img/logo.png"));
+        GameMapPresenter presenter = loader.getController();
+
+        Simulation simulation = new Simulation.Builder()
+                .setMap(map)
+                .setEatenGrassEnergy(eatenGrassEnergy)
+                .setGrassGrownAmount(grassGrownAmount)
+                .setStartAnimalsAmount(startAnimalsAmount)
+                .setStartAnimalEnergy(startAnimalEnergy)
+                .setMinEnergyToFullAnimal(minEnergyToFullAnimal)
+                .setSexEnergyCost(sexEnergyCost)
+                .setMinMutationAmount(minMutationAmount)
+                .setMaxMutationAmount(maxMutationAmount)
+                .setAnimalGenomeLength(animalGenomeLength)
+                .setGameplaySpeed(gameplaySpeed)
+                .setSlightCorrection(false)
+                .build();
+
+        presenter.startSimulation(simulation, map);
         stage.show();
     }
 

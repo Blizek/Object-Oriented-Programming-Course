@@ -7,18 +7,12 @@ import java.util.List;
 import java.util.Random;
 
 public class AnimalMakerFullRandom extends AbstractAnimalMaker {
-    public AnimalMakerFullRandom(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost) {
-        super(minMutationCount, maxMutationCount, GenomeCount, startAnimalEnergy, sexEnergyCost);
+    public AnimalMakerFullRandom(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, int minEnergyToFullAnimal) {
+        super(minMutationCount, maxMutationCount, GenomeCount, startAnimalEnergy, sexEnergyCost,minEnergyToFullAnimal);
     }
 
     @Override
-    protected List<Integer> prepareAnimalGenome(Animal mother, Animal father) {
-        List<Integer> childGenome = super.prepareAnimalGenome(mother, father);
-        fullRandom(childGenome);
-        return childGenome;
-    }
-
-    private void fullRandom(List<Integer> childGenome) {
+    protected void modifyGenome(List<Integer> childGenome) {
         Random random = new Random();
         int mutations = random.nextInt(minMutationCount, maxMutationCount + 1);
 

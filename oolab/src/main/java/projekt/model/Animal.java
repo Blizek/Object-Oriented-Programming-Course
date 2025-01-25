@@ -14,14 +14,16 @@ public class Animal implements WorldElement{
     private ArrayList<Animal> children = new ArrayList<>();
     private int descendants = 0;
     private int daysLived = 0;
+    private int minEnergyToFullAnimal;
 
-    public Animal(Vector2d animalPosition, int animalEnergy, List<Integer> genome, Animal mother, Animal father) {
+    public Animal(Vector2d animalPosition, int animalEnergy, List<Integer> genome, Animal mother, Animal father, int minEnergyToFullAnimal) {
         this.animalPosition = animalPosition;
         this.animalEnergy = animalEnergy;
         this.genome = genome;
         this.mother = mother;
         this.father = father;
         this.genomePlace = (int)(Math.random() * genome.size());
+        this.minEnergyToFullAnimal = minEnergyToFullAnimal;
     }
 
     public int getDaysLived() {
@@ -122,5 +124,26 @@ public class Animal implements WorldElement{
             case WEST -> "W";
             case NORTHWEST -> "NW";
         };
+    }
+
+    @Override
+    public String getImageName() {
+        if (animalEnergy > 100 * minEnergyToFullAnimal) {
+            return "god-tier-ultra-saiyan-monkey.png";
+        } else if (animalEnergy > 20 * minEnergyToFullAnimal) {
+            return "ultra-saiyan-monkey.png";
+        } else if (animalEnergy > 10 * minEnergyToFullAnimal) {
+            return "strong-great-monkey.png";
+        } else if (animalEnergy > 5 * minEnergyToFullAnimal) {
+            return "strong-monkey.png";
+        } else if (animalEnergy > minEnergyToFullAnimal) {
+            return "full-monkey.png";
+        } else if (animalEnergy > 0.5 * minEnergyToFullAnimal) {
+            return "little-tired-monkey.png";
+        } else if (animalEnergy > 0) {
+            return "tired-monkey.png";
+        } else {
+            return "dead-monkey.png";
+        }
     }
 }

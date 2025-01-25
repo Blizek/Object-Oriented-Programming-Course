@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="821.0" minWidth="1156.0" stylesheets="@../css/gameMapStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane minHeight="821.0" minWidth="1156.0" stylesheets="@../css/gameMapStyle.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projekt.presenter.GameMapPresenter">
    <children>
       <AnchorPane fx:id="gameStatsPane" prefHeight="821.0" prefWidth="274.0">
          <children>
@@ -130,7 +130,7 @@
                         </ImageView>
                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <image>
-                              <Image url="@../img/tried-monkey.png" />
+                              <Image url="@../img/tired-monkey.png" />
                            </image>
                         </ImageView>
                         <ImageView fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.rowIndex="2">

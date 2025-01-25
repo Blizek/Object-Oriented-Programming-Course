@@ -24,4 +24,9 @@ public class Grass implements WorldElement {
         return grassEnergy;
     }
 
+    @Override
+    public String getImageName() {
+        return "grass.png";
+    }
+
 }

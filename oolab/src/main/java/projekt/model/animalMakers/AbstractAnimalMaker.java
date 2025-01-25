@@ -13,13 +13,15 @@ public abstract class AbstractAnimalMaker {
     protected final int GenomeCount;
     protected final int startAnimalEnergy;
     protected final int sexEnergyCost;
+    protected final int minEnergyToFullAnimal;
 
-    public AbstractAnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost) {
+    public AbstractAnimalMaker(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, int minEnergyToFullAnimal) {
         this.minMutationCount = minMutationCount;
         this.maxMutationCount = maxMutationCount;
         this.GenomeCount = GenomeCount;
         this.startAnimalEnergy = startAnimalEnergy;
         this.sexEnergyCost = sexEnergyCost;
+        this.minEnergyToFullAnimal = minEnergyToFullAnimal;
     }
 
     public Animal makeAnimal(Vector2d position) {
@@ -27,10 +29,10 @@ public abstract class AbstractAnimalMaker {
         for(int i = 0; i < GenomeCount; i++){
             genome.add((int)(Math.random() * 8));
         }
-        return new Animal(position, startAnimalEnergy, genome, null, null);
+        return new Animal(position, startAnimalEnergy, genome, null, null, minEnergyToFullAnimal);
     }
 
-    protected List<Integer> prepareAnimalGenome(Animal mother, Animal father) {
+    public Animal makeAnimalFromParents(Animal mother, Animal father) {
         int combinedEnergy = mother.getEnergy() + father.getEnergy();
 
         List<Integer> motherGenome = mother.getGenome();
@@ -66,22 +68,21 @@ public abstract class AbstractAnimalMaker {
                 childGenome.add(fatherGenome.get(i));
             }
         }
-        return childGenome;
-    }
 
-    public Animal makeAnimalFromParents(Animal mother, Animal father) {
-        List<Integer> childGenome = prepareAnimalGenome(mother, father);
+        modifyGenome(childGenome);
 
         father.loseEnergy(sexEnergyCost);
         mother.loseEnergy(sexEnergyCost);
 
-        Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father);
+        Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father, minEnergyToFullAnimal);
         mother.setChildren(child);
         father.setChildren(child);
         addDescendantCount(father);
         addDescendantCount(mother);
         return child;
     }
+
+    protected abstract void modifyGenome(List<Integer> childGenome);
 
     private void addDescendantCount(Animal animal){
         animal.newDescendant();

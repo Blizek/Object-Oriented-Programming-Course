@@ -38,8 +38,8 @@ public class Simulation implements Runnable {
 
         animalsMap = new HashMap<>();
         if (isSlightCorrection)
-            animalMaker = new AnimalMakerSlightCorrection(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
-        else animalMaker = new AnimalMakerFullRandom(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost);
+            animalMaker = new AnimalMakerSlightCorrection(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
+        else animalMaker = new AnimalMakerFullRandom(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
 
         Boundary mapBoundary = gameMap.getMapBoundary();
         Vector2d topRightCorner = mapBoundary.upperRight();
@@ -91,7 +91,7 @@ public class Simulation implements Runnable {
                     List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
                     if (animalsOnPosition != null) {
                         // Animal chosenAnimal = Collections.max(animalsOnPosition, Comparator.comparingInt(Animal::getEnergy));
-                        Animal chosenAnimal = setAnimalToEat(animalsOnPosition);
+                        Animal chosenAnimal = setDominantAnimal(animalsOnPosition);
                         if (chosenAnimal != null) {
                             chosenAnimal.eat(grass.getEnergy());
                             newEatenGrass.add(grass);
@@ -111,13 +111,15 @@ public class Simulation implements Runnable {
                             filteredAnimals.add(animal);
                         }
                     }
-                    for (int i = 1; i < filteredAnimals.size(); i += 2) {
-                        Animal mother = filteredAnimals.get(i);
-                        Animal father = filteredAnimals.get(i - 1);
-                        Animal child = animalMaker.makeAnimalFromParents(mother, father);
-                        gameMap.place(child);
-                        animalsList.add(child);
+                    if (filteredAnimals.size() < 2) {
+                        continue;
                     }
+                    Animal father = setDominantAnimal(filteredAnimals);
+                    filteredAnimals.remove(father);
+                    Animal mother = setDominantAnimal(filteredAnimals);
+                    Animal child = animalMaker.makeAnimalFromParents(mother, father);
+                    gameMap.place(child);
+                    animalsList.add(child);
                 }
 
                  gameMap.addNewGrasses();
@@ -206,9 +208,9 @@ public class Simulation implements Runnable {
         }
     }
 
-    private Animal setAnimalToEat(List<Animal> animalsToEat) {
-        List<Animal> animalsWithMaxEnergy = getAnimalsWithMaxValue(animalsToEat, Animal::getEnergy);
-        for (Animal animal: animalsToEat) {
+    private Animal setDominantAnimal(List<Animal> animalsOnPosition) {
+        List<Animal> animalsWithMaxEnergy = getAnimalsWithMaxValue(animalsOnPosition, Animal::getEnergy);
+        for (Animal animal: animalsOnPosition) {
             System.out.println(animal.getEnergy());
         }
         if (animalsWithMaxEnergy.size() == 1) {

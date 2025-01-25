@@ -56,7 +56,7 @@ public class World {
         }
 
         try {
-            AbstractMap map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+            AbstractMap map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
 
             Simulation simulation = new Simulation.Builder()
                     .setMap(map)

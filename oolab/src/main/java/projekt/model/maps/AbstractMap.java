@@ -51,6 +51,13 @@ public abstract class AbstractMap {
         return new HashMap<>(animalsMap);
     }
 
+    public List<WorldElement> getElements(){
+        ArrayList<WorldElement> elements = new ArrayList<>();
+        elements.addAll(grassesMap.values());
+        elements.addAll(animalsMap.values().stream().flatMap(Collection::stream).toList());
+        return elements;
+    }
+
     public void place(Animal animal) {
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
     }
@@ -76,16 +83,9 @@ public abstract class AbstractMap {
         }
     }
 
-
     public void move(Animal animal) {
         Vector2d previousAnimalPosition = animal.getPosition();
         Direction previousAnimalDirection = animal.getDirection();
-        preMove(animal, previousAnimalPosition);
-        animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
-        postMove(animal, previousAnimalPosition, previousAnimalDirection);
-    }
-
-    protected void preMove(Animal animal, Vector2d previousAnimalPosition) {
         List<Animal> animalsAtPreviousPosition = animalsMap.get(previousAnimalPosition);
         if (animalsAtPreviousPosition != null) {
             animalsAtPreviousPosition.remove(animal);
@@ -93,11 +93,11 @@ public abstract class AbstractMap {
                 animalsMap.remove(previousAnimalPosition);
             }
         }
-
         animal.move(topRightCorner);
-    }
+        subtractMoveEnergy(animal, previousAnimalPosition);
 
-    protected void postMove(Animal animal, Vector2d previousAnimalPosition, Direction previousAnimalDirection) {
+        animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
+
         if (!previousAnimalDirection.equals(animal.getDirection())) {
             System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
         }
@@ -108,6 +108,7 @@ public abstract class AbstractMap {
         System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
     }
 
+    protected abstract void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition);
 
     public boolean isOccupied(Vector2d position) {
         return objectAt(position) != null;

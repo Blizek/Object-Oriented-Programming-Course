@@ -14,8 +14,7 @@ public class EarthMap extends AbstractMap{
     }
 
     @Override
-    protected void preMove(Animal animal, Vector2d previousAnimalPosition) {
-        super.preMove(animal, previousAnimalPosition);
+    protected void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition) {
         animal.moveEnergyUpdate(1.0f);
     }
 }
