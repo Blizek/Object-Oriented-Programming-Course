@@ -1,5 +1,6 @@
 package projekt.presenter;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -20,49 +22,50 @@ import java.util.List;
 
 public class ConfigPresenter {
     @FXML
-    TextField mapHeight, mapWidth, startGrassAmount, eatenGrassEnergy, grassGrownAmount, startAnimalsAmount, startAnimalEnergy,
-            minEnergyToFullAnimal, sexEnergyCost, minMutationAmount, maxMutationAmount, animalGenomeLength, gameplaySpeed;
+    TextField mapHeightInput, mapWidthInput, startGrassAmountInput, eatenGrassEnergyInput, grassGrownAmountInput, startAnimalsAmountInput,
+            startAnimalEnergyInput, minEnergyToFullAnimalInput, sexEnergyCostInput, minMutationAmountInput, maxMutationAmountInput,
+            animalGenomeLengthInput, gameplaySpeedInput, configNameInput;
 
     @FXML
-    CheckBox coldWarGameplay, geneticChangeGameplay;
+    CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox;
 
     @FXML
     Label mapHeightError, mapWidthError, startGrassAmountError, eatenGrassEnergyError, grassGrownAmountError,
             startAnimalsAmountError, startAnimalEnergyError, minEnergyToFullAnimalError, sexEnergyCostError,
-            minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError;
+            minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError, configNameError;
 
     @FXML
-    Button historyGameLoad, startNewGame;
+    Button historyGameLoadButton, startNewGameButton;
 
     private final List<Simulation> simulations = new ArrayList<>();
     private SimulationEngine simulationEngine;
 
     public void initialize() {
-        setNumericOnly(mapHeight);
-        setNumericOnly(mapWidth);
-        setNumericOnly(startGrassAmount);
-        setNumericOnly(eatenGrassEnergy);
-        setNumericOnly(grassGrownAmount);
-        setNumericOnly(startAnimalsAmount);
-        setNumericOnly(startAnimalEnergy);
-        setNumericOnly(minEnergyToFullAnimal);
-        setNumericOnly(sexEnergyCost);
-        setNumericOnly(minMutationAmount);
-        setNumericOnly(maxMutationAmount);
-        setNumericOnly(animalGenomeLength);
-        setNumericOnly(gameplaySpeed);
+        setNumericOnly(mapHeightInput);
+        setNumericOnly(mapWidthInput);
+        setNumericOnly(startGrassAmountInput);
+        setNumericOnly(eatenGrassEnergyInput);
+        setNumericOnly(grassGrownAmountInput);
+        setNumericOnly(startAnimalsAmountInput);
+        setNumericOnly(startAnimalEnergyInput);
+        setNumericOnly(minEnergyToFullAnimalInput);
+        setNumericOnly(sexEnergyCostInput);
+        setNumericOnly(minMutationAmountInput);
+        setNumericOnly(maxMutationAmountInput);
+        setNumericOnly(animalGenomeLengthInput);
+        setNumericOnly(gameplaySpeedInput);
     }
 
     @FXML
     private void startGame() {
         if (checkInputCorrectness()) {
-            if (coldWarGameplay.isSelected()) {
+            if (coldWarGameplayCheckbox.isSelected()) {
                 System.out.println("Mapa z biegunami");
             } else {
                 System.out.println("Zwykła mapa");
             }
 
-            if (geneticChangeGameplay.isSelected()) {
+            if (geneticChangeGameplayCheckbox.isSelected()) {
                 System.out.println("Dodaj nową mutację");
             } else {
                 System.out.println("Zwykła mutacja");
@@ -70,16 +73,9 @@ public class ConfigPresenter {
             System.out.println("Gotowa rozgrywka");
             Thread simulationThread = new Thread(() -> {
                 try {
-                    javafx.application.Platform.runLater(() -> {
+                    Platform.runLater(() -> {
                         try {
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getClassLoader().getResource("fxml/gameMap.fxml"));
-                            AnchorPane root = loader.load();
-
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(root));
-                            stage.setTitle("Symulacja");
-                            stage.show();
+                            startSimulationWindow();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -112,85 +108,85 @@ public class ConfigPresenter {
         clearAllErrorTexts();
         boolean isDataCorrect = true;
 
-        if (mapHeight.getText().isEmpty()) {
+        if (mapHeightInput.getText().isEmpty()) {
             mapHeightError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(mapHeight.getText()) <= 0) {
+        } else if (Integer.parseInt(mapHeightInput.getText()) <= 0) {
             mapHeightError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (mapWidth.getText().isEmpty()) {
+        if (mapWidthInput.getText().isEmpty()) {
             mapWidthError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(mapWidth.getText()) <= 0) {
+        } else if (Integer.parseInt(mapWidthInput.getText()) <= 0) {
             mapWidthError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (startGrassAmount.getText().isEmpty()) {
+        if (startGrassAmountInput.getText().isEmpty()) {
             startGrassAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (eatenGrassEnergy.getText().isEmpty()) {
+        if (eatenGrassEnergyInput.getText().isEmpty()) {
             eatenGrassEnergyError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (grassGrownAmount.getText().isEmpty()) {
+        if (grassGrownAmountInput.getText().isEmpty()) {
             grassGrownAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (startAnimalsAmount.getText().isEmpty()) {
+        if (startAnimalsAmountInput.getText().isEmpty()) {
             startAnimalsAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(startAnimalsAmount.getText()) <= 0) {
+        } else if (Integer.parseInt(startAnimalsAmountInput.getText()) <= 0) {
             startAnimalsAmountError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (startAnimalEnergy.getText().isEmpty()) {
+        if (startAnimalEnergyInput.getText().isEmpty()) {
             startAnimalEnergyError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(startAnimalEnergy.getText()) <= 0) {
+        } else if (Integer.parseInt(startAnimalEnergyInput.getText()) <= 0) {
             startAnimalEnergyError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (minEnergyToFullAnimal.getText().isEmpty()) {
+        if (minEnergyToFullAnimalInput.getText().isEmpty()) {
             minEnergyToFullAnimalError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(minEnergyToFullAnimal.getText()) <= 0) {
+        } else if (Integer.parseInt(minEnergyToFullAnimalInput.getText()) <= 0) {
             minEnergyToFullAnimalError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (sexEnergyCost.getText().isEmpty()) {
+        if (sexEnergyCostInput.getText().isEmpty()) {
             sexEnergyCostError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
-        } else if (Integer.parseInt(sexEnergyCost.getText()) <= 0) {
+        } else if (Integer.parseInt(sexEnergyCostInput.getText()) <= 0) {
             sexEnergyCostError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
         }
 
-        if (minMutationAmount.getText().isEmpty()) {
+        if (minMutationAmountInput.getText().isEmpty()) {
             minMutationAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (maxMutationAmount.getText().isEmpty()) {
+        if (maxMutationAmountInput.getText().isEmpty()) {
             maxMutationAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (animalGenomeLength.getText().isEmpty()) {
+        if (animalGenomeLengthInput.getText().isEmpty()) {
             animalGenomeLengthError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
 
-        if (gameplaySpeed.getText().isEmpty()) {
+        if (gameplaySpeedInput.getText().isEmpty()) {
             gameplaySpeedError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
         }
@@ -212,5 +208,33 @@ public class ConfigPresenter {
         maxMutationAmountError.setText("");
         animalGenomeLengthError.setText("");
         gameplaySpeedError.setText("");
+    }
+
+    private void startSimulationWindow() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getClassLoader().getResource("fxml/gameMap.fxml"));
+        AnchorPane root = loader.load();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setTitle("Darwin World");
+        stage.getIcons().add(new Image("img/logo.png"));
+        stage.show();
+    }
+
+    @FXML
+    public void saveConfig() {
+        configNameError.setText("");
+        boolean isConfigCorrect = checkInputCorrectness();
+
+        if (configNameInput.getText().isEmpty()) {
+            configNameError.setText("Aby zapisać konfigurację to pole musi być wypełnione");
+            isConfigCorrect = false;
+        }
+
+        if (isConfigCorrect) {
+            System.out.println("Zapisano konfigurację");
+        } else {
+            System.out.println("Popraw błędy");
+        }
     }
 }
