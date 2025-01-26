@@ -17,6 +17,7 @@ public class Simulation implements Runnable {
     private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day
     private final HashMap<Vector2d, Animal> animalsMap;
     private long day = 0;
+    private boolean running = true;
 
     private final AbstractMap gameMap; // map of the game
     private final int grassGrownAmount;
@@ -126,10 +127,26 @@ public class Simulation implements Runnable {
                 gameMap.listenerObserver();
 
                 Thread.sleep(gameplaySpeed);
+                if (!running) {
+                    break;
+                }
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
+        stoppedGame();
+    }
+
+    public void stopGame() {
+        running = false;
+    }
+
+    public void startGame() {
+        run();
+    }
+
+    public void stoppedGame(){
+        System.out.println("Game stopped");
     }
 
     public static class Builder {

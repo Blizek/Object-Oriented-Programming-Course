@@ -84,6 +84,10 @@ public class Animal implements WorldElement{
         return genome;
     }
 
+    public int getActualGenome (){
+        return genome.get(genomePlace);
+    }
+
     public void changeDirection(){
         int directionValue = animalDirection.ordinal();
         int newDirectionValue = (directionValue + genome.get(genomePlace)) % 8;

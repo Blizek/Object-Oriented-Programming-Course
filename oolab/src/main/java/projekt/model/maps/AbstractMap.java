@@ -2,15 +2,12 @@ package projekt.model.maps;
 
 import projekt.model.*;
 import projekt.model.random.RandomGrassPositionGenerator;
-import projekt.model.util.MapVisualizer;
 
-import javax.swing.text.Position;
 import java.util.*;
 
 import static projekt.model.util.AnimalUtils.setDominantAnimal;
 
 public abstract class AbstractMap {
-    protected final MapVisualizer mapVisualizer = new MapVisualizer(this);
     protected final UUID id = UUID.randomUUID();
     protected final HashMap<Vector2d, Grass> grassesMap = new HashMap<>();
     protected final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
@@ -136,22 +133,14 @@ public abstract class AbstractMap {
 
     protected abstract void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition);
 
-    public boolean isOccupied(Vector2d position) {
-        return objectAt(position) != null;
-    }
 
 
-    public List<WorldElement> objectAt(Vector2d position) {
-        List<WorldElement> elementsAtPosition = new ArrayList<>();
+    public WorldElement dominantAnimalAtPosition(Vector2d position) {
         List<Animal> animalsAtPosition = animalsMap.get(position);
         if (animalsAtPosition != null) {
-            elementsAtPosition.addAll(animalsAtPosition);
+            return setDominantAnimal(animalsAtPosition);
         }
-        Grass grassAtPosition = grassesMap.get(position);
-        if (grassAtPosition != null) {
-            elementsAtPosition.add(grassAtPosition);
-        }
-        return elementsAtPosition;
+        return null;
     }
 
     public List<Animal> animalAt(Vector2d position) {

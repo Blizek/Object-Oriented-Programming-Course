@@ -2,10 +2,6 @@ package projekt.model.maps;
 
 
 import projekt.model.*;
-import projekt.model.random.RandomGrassPositionGenerator;
-import projekt.model.util.MapVisualizer;
-
-import java.util.*;
 
 
 public class EarthMap extends AbstractMap{
