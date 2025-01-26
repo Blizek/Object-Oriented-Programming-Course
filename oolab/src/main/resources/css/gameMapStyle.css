@@ -87,3 +87,56 @@ CheckBox {
 CheckBox:selected {
     -fx-mark-color: #5865f2;
 }
+
+/* Ogólne ustawienia wykresu */
+.chart {
+    -fx-background-color: transparent; /* Przezroczyste tło wykresu */
+}
+
+/* Przezroczyste tło obszaru danych */
+.chart-plot-background {
+    -fx-background-color: transparent; /* Przezroczyste tło */
+    -fx-border-color: transparent; /* Usunięcie ramki obszaru danych */
+}
+
+/* Napisy osi (CategoryAxis i NumberAxis) */
+.chart-axis {
+    -fx-tick-label-fill: white; /* Białe etykiety osi */
+    -fx-font-size: 14px; /* Zwiększenie rozmiaru czcionki */
+    -fx-font-weight: bold; /* Pogrubienie tekstu */
+}
+
+.chart-axis .axis-label {
+    /*-fx-text-fill: white; !* Biały tekst dla nazw osi *!*/
+    -fx-font-size: 16px; /* Większy rozmiar czcionki dla nazw osi */
+    -fx-font-weight: bold; /* Pogrubienie nazw osi */
+}
+
+
+/* Styl linii danych */
+.chart-series-line {
+    -fx-stroke: white; /* Biała linia wykresu */
+    -fx-stroke-width: 2px; /* Grubość linii */
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.1, 0, 0); /* Cień dla linii */
+}
+
+/* Punkty na wykresie (chart-symbol) */
+.chart-symbol {
+    -fx-background-color: green, transparent; /* Zielone wypełnienie na przezroczystym tle */
+    -fx-background-radius: 5px; /* Zaokrąglenie punktów */
+    -fx-padding: 3; /* Rozmiar punktów */
+    -fx-border-color: green; /* Obramowanie punktów w kolorze zielonym */
+    -fx-border-width: 1px;
+}
+
+/* Legenda */
+.chart-legend {
+    /*-fx-text-fill: white; !* Biały tekst w legendzie *!*/
+    -fx-background-color: transparent; /* Przezroczyste tło legendy */
+}
+
+.chart-legend-item-symbol {
+    /*-fx-background-color: white; !* Symbol w legendzie biały *!*/
+    -fx-background-radius: 3px;
+}
+

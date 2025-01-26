@@ -3,6 +3,8 @@ package projekt.presenter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -43,6 +45,9 @@ public class GameMapPresenter implements MapChangeListener {
     @FXML
     private Button runStopGameplayButton, showPreferredFieldsButton, showAnimalsWithMostPopularGeneButton, endGameButton;
 
+    @FXML
+    private LineChart<String, Integer> animalsChart, grassesChart;
+
     private AbstractMap worldMap;
     private Vector2d lowerLeft;
     private Vector2d upperRight;
@@ -54,6 +59,8 @@ public class GameMapPresenter implements MapChangeListener {
     private boolean isShowAnimalsWithMostPopularGene = false;
     private Animal watchingAnimal;
     private long watchingAnimalDeadDay;
+    XYChart.Series<String, Integer> animalSeries = new XYChart.Series<>();
+    XYChart.Series<String, Integer> grassesSeries = new XYChart.Series<>();
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -182,10 +189,18 @@ public class GameMapPresenter implements MapChangeListener {
             double worldElementBoxHeight = gridHeight / rowsCounter;
             boxSize = Math.min(worldElementBoxHeight, worldElementBoxWidth);
 
-            List<Simulation> simulations = new ArrayList<>();
-            simulations.add(simulation);
-            SimulationEngine engine = new SimulationEngine(simulations);
-            engine.runAsync();
+            animalsChart.setLegendVisible(false);
+            grassesChart.setLegendVisible(false);
+
+            animalsChart.getData().add(animalSeries);
+            grassesChart.getData().add(grassesSeries);
+//
+//            List<Simulation> simulations = new ArrayList<>();
+//            simulations.add(simulation);
+//            SimulationEngine engine = new SimulationEngine(simulations);
+//            engine.runAsync();
+            Thread thread = new Thread(simulation);
+            thread.start();
 
             animalsList = simulation.getAnimalsList();
 
@@ -217,6 +232,10 @@ public class GameMapPresenter implements MapChangeListener {
         averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
         averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
         averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
+        dayCounterText.setText(Long.toString(simulation.getDay()));
+
+        animalSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllAnimalsCount(animalsList)));
+        grassesSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllGrassesCount(grassesMap)));
     }
 
     public void runOrStopGameplay() throws InterruptedException {
