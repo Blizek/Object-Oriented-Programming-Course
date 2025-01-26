@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import projekt.Simulation;
 import projekt.SimulationEngine;
 import projekt.model.*;
@@ -61,6 +62,7 @@ public class GameMapPresenter implements MapChangeListener {
     private long watchingAnimalDeadDay;
     XYChart.Series<String, Integer> animalSeries = new XYChart.Series<>();
     XYChart.Series<String, Integer> grassesSeries = new XYChart.Series<>();
+    private Thread simulationThread;
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -194,13 +196,10 @@ public class GameMapPresenter implements MapChangeListener {
 
             animalsChart.getData().add(animalSeries);
             grassesChart.getData().add(grassesSeries);
-//
-//            List<Simulation> simulations = new ArrayList<>();
-//            simulations.add(simulation);
-//            SimulationEngine engine = new SimulationEngine(simulations);
-//            engine.runAsync();
-            Thread thread = new Thread(simulation);
-            thread.start();
+
+            simulationThread = new Thread(simulation);
+            simulationThread.setDaemon(true);
+            simulation.startGame(this.simulationThread);
 
             animalsList = simulation.getAnimalsList();
 
@@ -213,6 +212,15 @@ public class GameMapPresenter implements MapChangeListener {
             fillMap();
             updateSimulationStatistics();
 
+            Stage stage = (Stage) endGameButton.getScene().getWindow();
+            stage.setOnCloseRequest(event -> {
+                try {
+                    closeThreadAndWindow(event);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
             System.out.println("System zakończył działanie");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
@@ -223,19 +231,22 @@ public class GameMapPresenter implements MapChangeListener {
         animalsList = simulation.getAnimalsList();
         grassesMap = worldMap.getGrassesMap();
 
-        animalsCounterText.setText(Integer.toString(Statistics.getAllAnimalsCount(animalsList)));
-        grassCounterText.setText(Integer.toString(Statistics.getAllGrassesCount(grassesMap)));
-        freePlacesCounterText.setText(Integer.toString(Statistics.getAllFreeSpacesCount(worldMap)));
-        List<Integer> mostPopularGenome = Statistics.getMostPopularGenome(animalsList);
-        if (mostPopularGenome.isEmpty()) mostPopularGenText.setText("-");
-        else mostPopularGenText.setText(Statistics.getMostPopularGenome(animalsList).stream().map(String::valueOf).collect(Collectors.joining(", ")));
-        averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
-        averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
-        averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
-        dayCounterText.setText(Long.toString(simulation.getDay()));
+        if (!animalsList.isEmpty()) {
+            animalsCounterText.setText(Integer.toString(Statistics.getAllAnimalsCount(animalsList)));
+            grassCounterText.setText(Integer.toString(Statistics.getAllGrassesCount(grassesMap)));
+            freePlacesCounterText.setText(Integer.toString(Statistics.getAllFreeSpacesCount(worldMap)));
+            List<Integer> mostPopularGenome = Statistics.getMostPopularGenome(animalsList);
+            if (mostPopularGenome.isEmpty()) mostPopularGenText.setText("-");
+            else
+                mostPopularGenText.setText(Statistics.getMostPopularGenome(animalsList).stream().map(String::valueOf).collect(Collectors.joining(", ")));
+            averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
+            averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
+            averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
+            dayCounterText.setText(Long.toString(simulation.getDay()));
 
-        animalSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllAnimalsCount(animalsList)));
-        grassesSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllGrassesCount(grassesMap)));
+            animalSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllAnimalsCount(animalsList)));
+            grassesSeries.getData().add(new XYChart.Data<>(Long.toString(simulation.getDay()), Statistics.getAllGrassesCount(grassesMap)));
+        }
     }
 
     public void runOrStopGameplay() throws InterruptedException {
@@ -245,14 +256,15 @@ public class GameMapPresenter implements MapChangeListener {
             runStopGameplayButton.setText("Wznów rozgrywkę");
             showPreferredFieldsButton.setDisable(false);
             showAnimalsWithMostPopularGeneButton.setDisable(false);
-            simulation.stopGame();
+            simulation.stopGame(simulationThread);
         } else {
             runStopGameplayButton.setText("Zatrzymaj rozgrywkę");
             showPreferredFieldsButton.setDisable(true);
             showAnimalsWithMostPopularGeneButton.setDisable(true);
             isShowPreferredFields = false;
             isShowAnimalsWithMostPopularGene = false;
-            simulation.startGame();
+            simulationThread = new Thread(simulation);
+            simulation.startGame(simulationThread);
         }
     }
 
@@ -284,7 +296,8 @@ public class GameMapPresenter implements MapChangeListener {
         fillMap();
     }
 
-    public void endGame() {
+    public void endGame() throws InterruptedException {
+        simulation.killGame(simulationThread);
         Stage stage = (Stage) endGameButton.getScene().getWindow();
         stage.close();
     }
@@ -351,5 +364,10 @@ public class GameMapPresenter implements MapChangeListener {
     private void colorAnimalWithMostPopularGene() {
         List<Vector2d> positionsWithPostPopularGene = simulation.getPositionsWithGenes(Statistics.getMostPopularGenome(animalsList));
         setGridCellsColors(positionsWithPostPopularGene, "8600ee");
+    }
+
+    private void closeThreadAndWindow(WindowEvent event) throws InterruptedException {
+        endGame();
+        event.consume();
     }
 }

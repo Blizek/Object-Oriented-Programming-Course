@@ -146,7 +146,7 @@ public class Animal implements WorldElement{
 
     @Override
     public String getImageName() {
-        if (animalEnergy > 100 * minEnergyToFullAnimal) {
+        if (animalEnergy > 1000 * minEnergyToFullAnimal) {
             return "god-tier-ultra-saiyan-monkey.png";
         } else if (animalEnergy > 20 * minEnergyToFullAnimal) {
             return "ultra-saiyan-monkey.png";

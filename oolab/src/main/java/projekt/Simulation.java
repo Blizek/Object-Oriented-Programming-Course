@@ -70,10 +70,9 @@ public class Simulation implements Runnable {
     public void run(){
 
         try {
-            while (day < 2000) {
+            while (!animalsList.isEmpty()) {
                 if (running) {
                     day++;
-                    System.out.println("New day");
                     for (Animal animal : animalsList) {
                         if (animal.getEnergy() <= 0) {
                             newDeadAnimalsList.add(animal);
@@ -128,21 +127,30 @@ public class Simulation implements Runnable {
                     gameMap.listenerObserver();
 
                     Thread.sleep(gameplaySpeed);
+                } else {
+                    break;
                 }
             }
+            killGame(Thread.currentThread());
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void stopGame() throws InterruptedException {
+    public void stopGame(Thread thread) throws InterruptedException {
         running = false;
         gameMap.listenerObserver();
+        thread.join();
     }
 
-    public void startGame() {
+    public void killGame(Thread thread) {
+        running = false;
+        gameMap.listenerObserver();
+        thread.interrupt();
+    }
+
+    public void startGame(Thread thread) {
         running = true;
-        Thread thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
     }
@@ -151,9 +159,6 @@ public class Simulation implements Runnable {
         return running;
     }
 
-    public void endSimulation(){
-
-    }
 
     public long getDay() {
         return day;

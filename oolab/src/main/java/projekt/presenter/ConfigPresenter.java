@@ -307,8 +307,9 @@ public class ConfigPresenter {
 
     private void getSavedConfigs() {
         savedConfigsVBox.getChildren().clear();
-        String path = "src/main/resources/savedConfigs";
+        String path = "oolab/src/main/resources/savedConfigs";
         File directory = new File(path);
+        System.out.println(directory);
 
         File[] files = directory.listFiles();
 
@@ -364,7 +365,7 @@ public class ConfigPresenter {
     private void uploadSavedConfig(String fileName) {
         Gson gson = new Gson();
         ConfigData configData;
-        try (FileReader reader = new FileReader("src/main/resources/savedConfigs/" + fileName)) {
+        try (FileReader reader = new FileReader("oolab/src/main/resources/savedConfigs/" + fileName)) {
             configData = gson.fromJson(reader, ConfigData.class);
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             throw new RuntimeException(e);

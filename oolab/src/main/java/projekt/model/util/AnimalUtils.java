@@ -10,9 +10,6 @@ import java.util.function.Function;
 public class AnimalUtils {
     public static Animal setDominantAnimal(List<Animal> animalsOnPosition) {
         List<Animal> animalsWithMaxEnergy = getAnimalsWithMaxValue(animalsOnPosition, Animal::getEnergy);
-        for (Animal animal: animalsOnPosition) {
-            System.out.println(animal.getEnergy());
-        }
         if (animalsWithMaxEnergy.size() == 1) {
             return animalsWithMaxEnergy.getFirst();
         }
