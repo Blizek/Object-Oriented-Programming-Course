@@ -115,7 +115,7 @@ public class GameMapPresenter implements MapChangeListener {
 
         setGridCellsColors();
         // numerateColumnAndRow();
-        if (watchingAnimal != null) {
+        if (watchingAnimal != null && watchingAnimalDeadDay == -1) {
             setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
         }
 
@@ -142,7 +142,7 @@ public class GameMapPresenter implements MapChangeListener {
     }
 
     private void setGridCellsColors(Vector2d lowerLeft, Vector2d upperRight) {
-        setGridCellsColors();
+        // setGridCellsColors();
         for (int i = lowerLeft.getX(); i <= upperRight.getX(); i++) {
             for (int j = lowerLeft.getY(); j <= upperRight.getY(); j++) {
                 Rectangle rectangle = new Rectangle(boxSize, boxSize);
@@ -153,7 +153,7 @@ public class GameMapPresenter implements MapChangeListener {
     }
 
     private void setGridCellsColors(List<Vector2d> positions, String hexColor) {
-        setGridCellsColors();
+        // setGridCellsColors();
         for (Vector2d position : positions) {
             Rectangle rectangle = new Rectangle(boxSize, boxSize);
             rectangle.setStyle("-fx-fill: #" + hexColor);
@@ -238,43 +238,31 @@ public class GameMapPresenter implements MapChangeListener {
     }
 
     public void showPreferredFields() {
+        clearGrid();
+        drawColumns();
+        drawRows();
+        setGridCellsColors();
+        if (watchingAnimal != null && watchingAnimalDeadDay == -1) setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+        if (isShowAnimalsWithMostPopularGene) colorAnimalWithMostPopularGene();
         if (!isShowPreferredFields) {
             isShowPreferredFields = true;
-            Boundary equatorBoundary = worldMap.getEquatorBoundary();
-            Vector2d equatorLowerLeft = equatorBoundary.lowerLeft();
-            Vector2d equatorUpperRight = equatorBoundary.upperRight();
-
-            clearGrid();
-            drawColumns();
-            drawRows();
-            if (watchingAnimal != null) {
-                setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
-            }
-            setGridCellsColors(equatorLowerLeft, equatorUpperRight);
-            fillMap();
-        } else {
-            isShowPreferredFields = false;
-            drawMap();
-        }
+            colorPreferredFields();
+        } else isShowPreferredFields = false;
+        fillMap();
     }
 
     public void showAnimalsWithMostPopularGene() {
+        clearGrid();
+        drawColumns();
+        drawRows();
+        setGridCellsColors();
+        if (watchingAnimal != null && watchingAnimalDeadDay == -1) setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+        if (isShowPreferredFields) colorPreferredFields();
         if (!isShowAnimalsWithMostPopularGene) {
             isShowAnimalsWithMostPopularGene = true;
-            List<Vector2d> positionsWithPostPopularGene = simulation.getPositionsWithGenes(Statistics.getMostPopularGenome(animalsList));
-
-            clearGrid();
-            drawColumns();
-            drawRows();
-            if (watchingAnimal != null) {
-                setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
-            }
-            setGridCellsColors(positionsWithPostPopularGene, "8600ee");
-            fillMap();
-        } else {
-            isShowAnimalsWithMostPopularGene = false;
-            drawMap();
-        }
+            colorAnimalWithMostPopularGene();
+        } else isShowAnimalsWithMostPopularGene = false;
+        fillMap();
     }
 
     public void endGame() {
@@ -292,6 +280,9 @@ public class GameMapPresenter implements MapChangeListener {
             clearGrid();
             drawColumns();
             drawRows();
+            setGridCellsColors();
+            if (isShowPreferredFields) colorPreferredFields();
+            if (isShowAnimalsWithMostPopularGene) colorAnimalWithMostPopularGene();
             setGridCellsColors(List.of(position), "f5b600");
             fillMap();
             updateWatchingAnimalStats();
@@ -329,5 +320,17 @@ public class GameMapPresenter implements MapChangeListener {
                 watchingAnimalDeadDayText.setText(Long.toString(watchingAnimalDeadDay));
             }
         }
+    }
+
+    private void colorPreferredFields() {
+        Boundary equatorBoundary = worldMap.getEquatorBoundary();
+        Vector2d equatorLowerLeft = equatorBoundary.lowerLeft();
+        Vector2d equatorUpperRight = equatorBoundary.upperRight();
+        setGridCellsColors(equatorLowerLeft, equatorUpperRight);
+    }
+
+    private void colorAnimalWithMostPopularGene() {
+        List<Vector2d> positionsWithPostPopularGene = simulation.getPositionsWithGenes(Statistics.getMostPopularGenome(animalsList));
+        setGridCellsColors(positionsWithPostPopularGene, "8600ee");
     }
 }
