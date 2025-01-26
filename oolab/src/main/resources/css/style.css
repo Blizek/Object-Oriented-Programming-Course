@@ -44,6 +44,11 @@ ScrollPane .viewport {
     -fx-background-color: #23272a;
 }
 
+#savedConfigsVBox {
+    -fx-border-color: #23272a;
+    -fx-effect: none;
+}
+
 Button {
     -fx-background-color: #4caf50;
     -fx-text-fill: #ffffff;

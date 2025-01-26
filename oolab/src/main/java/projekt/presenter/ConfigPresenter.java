@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 
 import java.io.*;
 
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonSyntaxException;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import projekt.Simulation;
 import projekt.SimulationEngine;
@@ -44,7 +47,10 @@ public class ConfigPresenter {
             minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError, configNameError;
 
     @FXML
-    private Button historyGameLoadButton, startNewGameButton;
+    private Button startNewGameButton;
+
+    @FXML
+    private VBox savedConfigsVBox;
 
     private final List<Simulation> simulations = new ArrayList<>();
     private SimulationEngine simulationEngine;
@@ -296,18 +302,29 @@ public class ConfigPresenter {
             System.out.println("Popraw błędy");
         }
     }
-    public void getSavedConfigs() {
-        File folder = new File("savedConfigs");
-        File[] listOfFiles = folder.listFiles();
-        if (listOfFiles != null) {
-            for (File file : listOfFiles) {
-                System.out.println(file.getName());
+
+    private void getSavedConfigs() {
+        savedConfigsVBox.getChildren().clear();
+        String path = "src/main/resources/savedConfigs";
+        File directory = new File(path);
+
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                String fileName = file.getName();
+                String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+
+                Button button = new Button(fileNameWithoutExtension);
+                button.setMaxWidth(242);
+                button.setOnAction(e -> uploadSavedConfig(fileName));
+                savedConfigsVBox.getChildren().add(button);
             }
         }
     }
 
 
-    public void saveToJson(String filePath) {
+    private void saveToJson(String filePath) {
         getInputValues();
         ConfigData configData = new ConfigData();
         configData.setMapHeight(mapHeight);
@@ -326,9 +343,11 @@ public class ConfigPresenter {
         configData.setColdWarGameplay(isColdWarGameplay);
         configData.setSlightCorrection(isSlightCorrection);
         Gson gson = new Gson();
+
+        String finalFilePath = "src/main/resources/" + filePath;
         try {
             // Create the directory if it doesn't exist
-            File file = new File(filePath);
+            File file = new File(finalFilePath);
             file.getParentFile().mkdirs();
 
             try (FileWriter writer = new FileWriter(file)) {
@@ -338,5 +357,29 @@ public class ConfigPresenter {
             e.printStackTrace();
         }
         getSavedConfigs();
+    }
+
+    private void uploadSavedConfig(String fileName) {
+        Gson gson = new Gson();
+        ConfigData configData;
+        try (FileReader reader = new FileReader("src/main/resources/savedConfigs/" + fileName)) {
+            configData = gson.fromJson(reader, ConfigData.class);
+        } catch (JsonIOException | JsonSyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        mapHeightInput.setText(Integer.toString(configData.getMapHeight()));
+        mapWidthInput.setText(Integer.toString(configData.getMapWidth()));
+        startGrassAmountInput.setText(Integer.toString(configData.getStartGrassAmount()));
+        eatenGrassEnergyInput.setText(Integer.toString(configData.getEatenGrassEnergy()));
+        grassGrownAmountInput.setText(Integer.toString(configData.getGrassGrownAmount()));
+        startAnimalsAmountInput.setText(Integer.toString(configData.getStartAnimalsAmount()));
+        startAnimalEnergyInput.setText(Integer.toString(configData.getStartAnimalEnergy()));
+        minEnergyToFullAnimalInput.setText(Integer.toString(configData.getMinEnergyToFullAnimal()));
+        sexEnergyCostInput.setText(Integer.toString(configData.getSexEnergyCost()));
+        minMutationAmountInput.setText(Integer.toString(configData.getMinMutationAmount()));
+        maxMutationAmountInput.setText(Integer.toString(configData.getMaxMutationAmount()));
+        animalGenomeLengthInput.setText(Integer.toString(configData.getAnimalGenomeLength()));
+        gameplaySpeedInput.setText(Integer.toString(configData.getGameplaySpeed()));
     }
 }

@@ -14,8 +14,10 @@
         <!-- Panel boczny z wczytaniem rozgrywek -->
         <AnchorPane layoutX="25.0" layoutY="26.0" prefHeight="819.0" prefWidth="353.0">
             <children>
-                <ScrollPane layoutX="28.0" layoutY="84.0" prefHeight="652.0" prefWidth="309.0" />
-                <Button fx:id="historyGameLoadButton" layoutX="107.0" layoutY="765.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="117.0" text="Wczytaj" />
+                <ScrollPane layoutX="28.0" layoutY="84.0" prefHeight="703.0" prefWidth="309.0">
+               <content>
+                  <VBox fx:id="savedConfigsVBox" prefHeight="61.0" prefWidth="274.0" />
+               </content></ScrollPane>
                 <Text layoutX="49.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wczytaj zapisaną konfiguracją" textAlignment="CENTER" wrappingWidth="267.9999999999999" />
             </children>
         </AnchorPane>
