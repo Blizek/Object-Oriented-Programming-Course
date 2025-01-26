@@ -72,6 +72,7 @@ public class ConfigPresenter {
     private boolean isSlightCorrection;
 
     private AbstractMap map;
+    private GameMapPresenter presenter;
 
 
     public void initialize() {
@@ -117,6 +118,7 @@ public class ConfigPresenter {
                     e.printStackTrace();
                 }
             });
+            simulationThread.setDaemon(true);
             simulationThread.start();
         } else {
             System.out.println("Niegotowa rozgrywka");

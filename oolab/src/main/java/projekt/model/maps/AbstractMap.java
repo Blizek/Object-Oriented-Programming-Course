@@ -14,6 +14,7 @@ public abstract class AbstractMap {
     protected final Vector2d bottomLeftCorner = new Vector2d(0, 0);
     protected final Vector2d topRightCorner;
     protected final Boundary mapBoundary;
+    protected final Boundary equatorMapBoundary;
     protected final Vector2d equatorLowerLeft;
     protected final Vector2d equatorUpperRight;
     protected final List<MapChangeListener> observers = new ArrayList<>();
@@ -28,6 +29,7 @@ public abstract class AbstractMap {
 
         equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
         equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
+        equatorMapBoundary = new Boundary(equatorLowerLeft, equatorUpperRight);
 
         RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
         for(Vector2d grassPosition : grassRandomPositionGenerator) {
@@ -55,6 +57,10 @@ public abstract class AbstractMap {
 
     public int getMapArea() {
         return (topRightCorner.getX() + 1) * (topRightCorner.getY() + 1);
+    }
+
+    public Boundary getEquatorBoundary() {
+        return equatorMapBoundary;
     }
 
     public HashMap<Vector2d, Grass> getGrassesMap() {
@@ -133,7 +139,18 @@ public abstract class AbstractMap {
 
     protected abstract void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition);
 
-
+    public List<WorldElement> objectAt(Vector2d position) {
+        List<WorldElement> elementsAtPosition = new ArrayList<>();
+        List<Animal> animalsAtPosition = animalsMap.get(position);
+        if (animalsAtPosition != null) {
+            elementsAtPosition.addAll(animalsAtPosition);
+        }
+        Grass grassAtPosition = grassesMap.get(position);
+        if (grassAtPosition != null) {
+            elementsAtPosition.add(grassAtPosition);
+        }
+        return elementsAtPosition;
+    }
 
     public WorldElement dominantAnimalAtPosition(Vector2d position) {
         List<Animal> animalsAtPosition = animalsMap.get(position);

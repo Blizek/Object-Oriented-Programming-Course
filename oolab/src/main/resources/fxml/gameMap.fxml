@@ -153,10 +153,10 @@
                   </HBox>
                </children>
             </VBox>
-            <Button layoutX="14.0" layoutY="753.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="249.0" text="Zakończ rozgrywkę" />
-            <Button layoutX="14.0" layoutY="705.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Zatrzymaj rozgrywkę" />
-            <Button layoutX="14.0" layoutY="658.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Pokaż zwierzaki z dominującym genem" />
-            <Button layoutX="14.0" layoutY="611.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="247.0" text="Pokaż preferowane pola traw" />
+            <Button fx:id="endGameButton" layoutX="14.0" layoutY="753.0" mnemonicParsing="false" onAction="#endGame" prefHeight="26.0" prefWidth="249.0" text="Zakończ rozgrywkę" />
+            <Button fx:id="runStopGameplayButton" layoutX="14.0" layoutY="705.0" mnemonicParsing="false" onAction="#runOrStopGameplay" prefHeight="26.0" prefWidth="247.0" text="Zatrzymaj rozgrywkę" />
+            <Button fx:id="showAnimalsWithMostPopularGeneButton" disable="true" layoutX="14.0" layoutY="658.0" mnemonicParsing="false" onAction="#showAnimalsWithMostPopularGene" prefHeight="26.0" prefWidth="247.0" text="Pokaż zwierzaki z dominującym genem" />
+            <Button fx:id="showPreferredFieldsButton" disable="true" layoutX="14.0" layoutY="611.0" mnemonicParsing="false" onAction="#showPreferredFields" prefHeight="26.0" prefWidth="247.0" text="Pokaż preferowane pola traw" />
          </children>
       </AnchorPane>
    </children>

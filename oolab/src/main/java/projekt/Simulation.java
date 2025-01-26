@@ -70,83 +70,104 @@ public class Simulation implements Runnable {
     public void run(){
 
         try {
-            while (day < 20) {
-                day++;
-                System.out.println("New day");
-                for (Animal animal: animalsList) {
-                    if (animal.getEnergy() <= 0) {
-                        newDeadAnimalsList.add(animal);
-                        gameMap.removeDeadAnimal(animal);
-                    }
-                }
-
-                for (Animal animal: newDeadAnimalsList) {
-                    animalsList.remove(animal);
-                }
-                newDeadAnimalsList.clear();
-
-                for (Animal animal : animalsList) {
-                    gameMap.move(animal);
-                }
-
-                for (Grass grass : gameMap.getGrassesMap().values()) {
-                    List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
-                    if (animalsOnPosition != null) {
-                        Animal chosenAnimal = setDominantAnimal(animalsOnPosition);
-                        if (chosenAnimal != null) {
-                            chosenAnimal.eat(grass.getEnergy());
-                            newEatenGrass.add(grass);
+            while (day < 2000) {
+                if (running) {
+                    day++;
+                    System.out.println("New day");
+                    for (Animal animal : animalsList) {
+                        if (animal.getEnergy() <= 0) {
+                            newDeadAnimalsList.add(animal);
+                            gameMap.removeDeadAnimal(animal);
                         }
                     }
-                }
 
-                for (Grass grass: newEatenGrass) {
-                    gameMap.removeGrass(grass.getPosition());
-                }
-                newEatenGrass.clear();
+                    for (Animal animal : newDeadAnimalsList) {
+                        animalsList.remove(animal);
+                    }
+                    newDeadAnimalsList.clear();
 
-                for (List<Animal> animalsOnPosition: gameMap.getAnimalsMap().values()){
-                    List<Animal> filteredAnimals = new ArrayList<>();
-                    for (Animal animal : animalsOnPosition) {
-                        if (animal.getEnergy() > minEnergyToFullAnimal) {
-                            filteredAnimals.add(animal);
+                    for (Animal animal : animalsList) {
+                        gameMap.move(animal);
+                    }
+
+                    for (Grass grass : gameMap.getGrassesMap().values()) {
+                        List<Animal> animalsOnPosition = gameMap.animalAt(grass.getPosition());
+                        if (animalsOnPosition != null) {
+                            Animal chosenAnimal = setDominantAnimal(animalsOnPosition);
+                            if (chosenAnimal != null) {
+                                chosenAnimal.eat(grass.getEnergy());
+                                newEatenGrass.add(grass);
+                            }
                         }
                     }
-                    if (filteredAnimals.size() < 2) {
-                        continue;
+
+                    for (Grass grass : newEatenGrass) {
+                        gameMap.removeGrass(grass.getPosition());
                     }
-                    Animal father = setDominantAnimal(filteredAnimals);
-                    filteredAnimals.remove(father);
-                    Animal mother = setDominantAnimal(filteredAnimals);
-                    Animal child = animalMaker.makeAnimalFromParents(mother, father);
-                    gameMap.place(child);
-                    animalsList.add(child);
-                }
+                    newEatenGrass.clear();
 
-                gameMap.addNewGrasses();
-                gameMap.listenerObserver();
+                    for (List<Animal> animalsOnPosition : gameMap.getAnimalsMap().values()) {
+                        List<Animal> filteredAnimals = new ArrayList<>();
+                        for (Animal animal : animalsOnPosition) {
+                            if (animal.getEnergy() > minEnergyToFullAnimal) {
+                                filteredAnimals.add(animal);
+                            }
+                        }
+                        if (filteredAnimals.size() < 2) {
+                            continue;
+                        }
+                        Animal father = setDominantAnimal(filteredAnimals);
+                        filteredAnimals.remove(father);
+                        Animal mother = setDominantAnimal(filteredAnimals);
+                        Animal child = animalMaker.makeAnimalFromParents(mother, father);
+                        gameMap.place(child);
+                        animalsList.add(child);
+                    }
 
-                Thread.sleep(gameplaySpeed);
-                if (!running) {
-                    break;
+                    gameMap.addNewGrasses();
+                    gameMap.listenerObserver();
+
+                    Thread.sleep(gameplaySpeed);
                 }
             }
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-        stoppedGame();
     }
 
-    public void stopGame() {
+    public void stopGame() throws InterruptedException {
         running = false;
+        gameMap.listenerObserver();
     }
 
     public void startGame() {
-        run();
+        running = true;
+        Thread thread = new Thread(this);
+        thread.setDaemon(true);
+        thread.start();
     }
 
-    public void stoppedGame(){
-        System.out.println("Game stopped");
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void endSimulation(){
+
+    }
+
+    public List<Vector2d> getPositionsWithGenes(List<Integer> genes) {
+        Set<Vector2d> positions = new HashSet<>();
+        for (Animal animal : animalsList) {
+            List<Integer> genome = animal.getGenome();
+            for (Integer gene : genes) {
+                if (genome.contains(gene)) {
+                    positions.add(animal.getPosition());
+                    break;
+                }
+            }
+        }
+        System.out.println(positions);
+        return new ArrayList<>(positions);
     }
 
     public static class Builder {

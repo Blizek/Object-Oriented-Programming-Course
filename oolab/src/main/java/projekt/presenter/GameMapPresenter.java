@@ -3,10 +3,10 @@ package projekt.presenter;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import projekt.Simulation;
 import projekt.SimulationEngine;
 import projekt.model.*;
@@ -39,6 +39,9 @@ public class GameMapPresenter implements MapChangeListener {
     @FXML
     private AnchorPane chart1, chart2, messagesLog, gameMapPane, selectedAnimalStats;
 
+    @FXML
+    private Button runStopGameplayButton, showPreferredFieldsButton, showAnimalsWithMostPopularGeneButton, endGameButton;
+
     private AbstractMap worldMap;
     private Vector2d lowerLeft;
     private Vector2d upperRight;
@@ -46,6 +49,8 @@ public class GameMapPresenter implements MapChangeListener {
     private List<Animal> animalsList;
     private Simulation simulation;
     private HashMap<Vector2d, Grass> grassesMap;
+    private boolean isShowPreferredFields = false;
+    private boolean isShowAnimalsWithMostPopularGene = false;
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -124,6 +129,26 @@ public class GameMapPresenter implements MapChangeListener {
         }
     }
 
+    private void setGridCellsColors(Vector2d lowerLeft, Vector2d upperRight) {
+        setGridCellsColors();
+        for (int i = lowerLeft.getX(); i <= upperRight.getX(); i++) {
+            for (int j = lowerLeft.getY(); j <= upperRight.getY(); j++) {
+                Rectangle rectangle = new Rectangle(boxSize, boxSize);
+                rectangle.setStyle("-fx-fill: #4caf50");
+                mapGrid.add(rectangle, i, j);
+            }
+        }
+    }
+
+    private void setGridCellsColors(List<Vector2d> positions) {
+        setGridCellsColors();
+        for (Vector2d position : positions) {
+            Rectangle rectangle = new Rectangle(boxSize, boxSize);
+            rectangle.setStyle("-fx-fill: #8600ee");
+            mapGrid.add(rectangle, position.getX() - lowerLeft.getX(), upperRight.getY() - position.getY());
+        }
+    }
+
     public void startSimulation(Simulation simulation, AbstractMap worldMap) {
         try {
             this.worldMap = worldMap;
@@ -178,5 +203,62 @@ public class GameMapPresenter implements MapChangeListener {
         averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
         averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
         averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
+    }
+
+    public void runOrStopGameplay() throws InterruptedException {
+        boolean isRunning = simulation.isRunning();
+
+        if (isRunning) {
+            runStopGameplayButton.setText("Wznów rozgrywkę");
+            showPreferredFieldsButton.setDisable(false);
+            showAnimalsWithMostPopularGeneButton.setDisable(false);
+            simulation.stopGame();
+        } else {
+            runStopGameplayButton.setText("Zatrzymaj rozgrywkę");
+            showPreferredFieldsButton.setDisable(true);
+            showAnimalsWithMostPopularGeneButton.setDisable(true);
+            isShowPreferredFields = false;
+            isShowAnimalsWithMostPopularGene = false;
+            simulation.startGame();
+        }
+    }
+
+    public void showPreferredFields() {
+        if (!isShowPreferredFields) {
+            isShowPreferredFields = true;
+            Boundary equatorBoundary = worldMap.getEquatorBoundary();
+            Vector2d equatorLowerLeft = equatorBoundary.lowerLeft();
+            Vector2d equatorUpperRight = equatorBoundary.upperRight();
+
+            clearGrid();
+            drawColumns();
+            drawRows();
+            setGridCellsColors(equatorLowerLeft, equatorUpperRight);
+            fillMap();
+        } else {
+            isShowPreferredFields = false;
+            drawMap();
+        }
+    }
+
+    public void showAnimalsWithMostPopularGene() {
+        if (!isShowAnimalsWithMostPopularGene) {
+            isShowAnimalsWithMostPopularGene = true;
+            List<Vector2d> positionsWithPostPopularGene = simulation.getPositionsWithGenes(Statistics.getMostPopularGenome(animalsList));
+
+            clearGrid();
+            drawColumns();
+            drawRows();
+            setGridCellsColors(positionsWithPostPopularGene);
+            fillMap();
+        } else {
+            isShowAnimalsWithMostPopularGene = false;
+            drawMap();
+        }
+    }
+
+    public void endGame() {
+        Stage stage = (Stage) endGameButton.getScene().getWindow();
+        stage.close();
     }
 }
