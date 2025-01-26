@@ -2,7 +2,7 @@ package projekt.model;
 
 
 public class Grass implements WorldElement {
-    private Vector2d grassPosition;
+    private final Vector2d grassPosition;
     private final int grassEnergy;
 
     public Grass(Vector2d grassPosition, int grassEnergy) {
@@ -16,11 +16,7 @@ public class Grass implements WorldElement {
     }
 
     @Override
-    public String toString() {
-        return "*";
-    }
-    @Override
-    public int getEnergy(){
+    public int getEnergy() {
         return grassEnergy;
     }
 
@@ -28,6 +24,11 @@ public class Grass implements WorldElement {
     public String getImageName() {
         // wiemy że banany to nie trawa, ale małpki jedzą głównie bananki a nie trawę
         return "bananas.png";
+    }
+
+    @Override
+    public String toString() {
+        return "*";
     }
 
 }

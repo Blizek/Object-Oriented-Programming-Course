@@ -1,20 +1,20 @@
 package projekt.model;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Animal implements WorldElement{
+public class Animal implements WorldElement {
+    private final List<Integer> genome;
+    private final Animal mother;
+    private final Animal father;
+    private final ArrayList<Animal> children = new ArrayList<>();
+    private final int minEnergyToFullAnimal;
     private Vector2d animalPosition;
     private int animalEnergy;
-    private Direction animalDirection = Direction.values()[(int)(Math.random() * 8)];
-    private final List<Integer> genome;
+    private Direction animalDirection = Direction.values()[(int) (Math.random() * 8)];
     private int genomePlace;
-    private Animal mother;
-    private Animal father;
-    private ArrayList<Animal> children = new ArrayList<>();
     private int descendants = 0;
     private int daysLived = 0;
-    private int minEnergyToFullAnimal;
     private int eatingCounter = 0;
 
     public Animal(Vector2d animalPosition, int animalEnergy, List<Integer> genome, Animal mother, Animal father, int minEnergyToFullAnimal) {
@@ -23,7 +23,7 @@ public class Animal implements WorldElement{
         this.genome = genome;
         this.mother = mother;
         this.father = father;
-        this.genomePlace = (int)(Math.random() * genome.size());
+        this.genomePlace = (int) (Math.random() * genome.size());
         this.minEnergyToFullAnimal = minEnergyToFullAnimal;
     }
 
@@ -36,118 +36,15 @@ public class Animal implements WorldElement{
         return animalPosition;
     }
 
-    public void setAnimalPosition(int x, int y) {
-        animalPosition = new Vector2d(x, y);
-    }
-
     @Override
-    public int getEnergy(){
+    public int getEnergy() {
         return animalEnergy;
-    }
-
-    public int getChildrenCount() {
-        return children.size();
-    }
-
-    public void moveEnergyUpdate(float energyLossMultiplier) {
-        this.animalEnergy -= (int) (10*energyLossMultiplier);
-    }
-
-    public Animal getMother(){
-        return mother;
-    }
-
-    public Animal getFather(){
-        return father;
-    }
-
-    public void newDescendant(){
-        descendants += 1;
-    }
-
-    public ArrayList<Animal> getChildren(){
-        return children;
-    }
-
-    public void setChildren(Animal child){
-        children.add(child);
-    }
-
-    public Direction getDirection() {
-        return animalDirection;
-    }
-
-    public void loseEnergy(int energy){
-        animalEnergy -= energy;
-    }
-
-    public List<Integer> getGenome() {
-        return genome;
-    }
-
-    public int getActualGenome (){
-        return genome.get(genomePlace);
-    }
-
-    public List<Integer> getAnimalFullGenome() {
-        return List.copyOf(genome);
-    }
-
-    public int getEatingCounter() {
-        return eatingCounter;
-    }
-
-    public int getDescendants() {
-        return descendants;
-    }
-
-    public void changeDirection(){
-        int directionValue = animalDirection.ordinal();
-        int newDirectionValue = (directionValue + genome.get(genomePlace)) % 8;
-        animalDirection = Direction.values()[newDirectionValue];
-        genomePlace = (genomePlace + 1) % genome.size();
-    }
-
-    public void move(Vector2d topRightCorner){
-        changeDirection();
-        Vector2d newAnimalPosition = animalPosition.add(animalDirection.toUnitVector());
-        if (newAnimalPosition.getY() < 0 || newAnimalPosition.getY() > topRightCorner.getY()){
-            animalDirection = Direction.getOppositeDirection(animalDirection);
-        }
-        else if (newAnimalPosition.getX() < 0) {
-            animalPosition = animalPosition.add(new Vector2d(topRightCorner.getX(), animalDirection.toUnitVector().getY()));
-        }
-        else if (newAnimalPosition.getX() > topRightCorner.getX()) {
-            animalPosition = animalPosition.subtract(new Vector2d(topRightCorner.getX(), -animalDirection.toUnitVector().getY()));
-        } else {
-            animalPosition = newAnimalPosition;
-        }
-        daysLived += 1;
-    }
-
-    public void eat(int energy){
-        eatingCounter++;
-        animalEnergy += energy;
-    }
-
-    @Override
-    public String toString() {
-        return switch (animalDirection) {
-            case NORTH -> "N";
-            case NORTHEAST -> "NE";
-            case EAST -> "E";
-            case SOUTHEAST -> "SE";
-            case SOUTH -> "S";
-            case SOUTHWEST -> "SW";
-            case WEST -> "W";
-            case NORTHWEST -> "NW";
-        };
     }
 
     @Override
     public String getImageName() {
         if (animalEnergy > 1000 * minEnergyToFullAnimal) {
-            return "god-tier-ultra-saiyan-monkey.png";
+            return "god-tier-ultra-saiyan-monkey.png"; // anty-copyright
         } else if (animalEnergy > 20 * minEnergyToFullAnimal) {
             return "ultra-saiyan-monkey.png";
         } else if (animalEnergy > 10 * minEnergyToFullAnimal) {
@@ -164,4 +61,92 @@ public class Animal implements WorldElement{
             return "dead-monkey.png";
         }
     }
+
+    public int getChildrenCount() {
+        return children.size();
+    }
+
+    public Animal getMother() {
+        return mother;
+    }
+
+    public Animal getFather() {
+        return father;
+    }
+
+    public ArrayList<Animal> getChildren() {
+        return children;
+    }
+
+    public void setChildren(Animal child) {
+        children.add(child);
+    }
+
+    public Direction getDirection() {
+        return animalDirection;
+    }
+
+    public List<Integer> getGenome() {
+        return genome;
+    }
+
+    public int getActualGenome() {
+        return genome.get(genomePlace);
+    }
+
+    public List<Integer> getAnimalFullGenome() {
+        return List.copyOf(genome);
+    }
+
+    public int getEatingCounter() {
+        return eatingCounter;
+    }
+
+    public int getDescendants() {
+        return descendants;
+    }
+
+    public void setAnimalPosition(int x, int y) {
+        animalPosition = new Vector2d(x, y);
+    }
+
+    public void moveEnergyUpdate(float energyLossMultiplier) {
+        this.animalEnergy -= (int) (10 * energyLossMultiplier);
+    }
+
+    public void newDescendant() {
+        descendants += 1;
+    }
+
+    public void loseEnergy(int energy) {
+        animalEnergy -= energy;
+    }
+
+    public void move(Vector2d topRightCorner) {
+        changeDirection();
+        Vector2d newAnimalPosition = animalPosition.add(animalDirection.toUnitVector());
+        if (newAnimalPosition.getY() < 0 || newAnimalPosition.getY() > topRightCorner.getY()) {
+            animalDirection = Direction.getOppositeDirection(animalDirection);
+        } else if (newAnimalPosition.getX() < 0) {
+            animalPosition = animalPosition.add(new Vector2d(topRightCorner.getX(), animalDirection.toUnitVector().getY()));
+        } else if (newAnimalPosition.getX() > topRightCorner.getX()) {
+            animalPosition = animalPosition.subtract(new Vector2d(topRightCorner.getX(), -animalDirection.toUnitVector().getY()));
+        } else {
+            animalPosition = newAnimalPosition;
+        }
+        daysLived += 1;
+    }
+
+    public void changeDirection() {
+        int directionValue = animalDirection.ordinal();
+        int newDirectionValue = (directionValue + genome.get(genomePlace)) % 8;
+        animalDirection = Direction.values()[newDirectionValue];
+        genomePlace = (genomePlace + 1) % genome.size();
+    }
+
+    public void eat(int energy) {
+        eatingCounter++;
+        animalEnergy += energy;
+    }
+
 }

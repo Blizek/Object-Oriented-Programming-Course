@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class AnimalMakerFullRandom extends AbstractAnimalMaker {
     public AnimalMakerFullRandom(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, int minEnergyToFullAnimal) {
-        super(minMutationCount, maxMutationCount, GenomeCount, startAnimalEnergy, sexEnergyCost,minEnergyToFullAnimal);
+        super(minMutationCount, maxMutationCount, GenomeCount, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
     }
 
     @Override
@@ -19,7 +19,7 @@ public class AnimalMakerFullRandom extends AbstractAnimalMaker {
         RandomGenomeMutationSelector genesIndexForFullMutations = new RandomGenomeMutationSelector(childGenome.size(), mutations);
 
         int newGene;
-        for (int mutationIndex: genesIndexForFullMutations) {
+        for (int mutationIndex : genesIndexForFullMutations) {
             newGene = random.nextInt(8);
             childGenome.set(mutationIndex, newGene);
         }

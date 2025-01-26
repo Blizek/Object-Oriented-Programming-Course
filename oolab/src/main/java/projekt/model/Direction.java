@@ -18,16 +18,17 @@ public enum Direction {
         this.directionName = directionName;
     }
 
-    public Vector2d toUnitVector() {
-        return unitVector;
-    }
-    public String toString() {
-        return directionName;
-    }
-
     public static Direction getOppositeDirection(Direction startDirection) {
         int directionValue = startDirection.ordinal();
         int newDirectionValue = (directionValue + 4) % 8; // moving 4 next directions gives opposite direction
         return Direction.values()[newDirectionValue];
+    }
+
+    public Vector2d toUnitVector() {
+        return unitVector;
+    }
+
+    public String toString() {
+        return directionName;
     }
 }

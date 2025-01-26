@@ -26,8 +26,8 @@ public abstract class AbstractAnimalMaker {
 
     public Animal makeAnimal(Vector2d position) {
         List<Integer> genome = new ArrayList<>();
-        for(int i = 0; i < GenomeCount; i++){
-            genome.add((int)(Math.random() * 8));
+        for (int i = 0; i < GenomeCount; i++) {
+            genome.add((int) (Math.random() * 8));
         }
         return new Animal(position, startAnimalEnergy, genome, null, null, minEnergyToFullAnimal);
     }
@@ -53,18 +53,18 @@ public abstract class AbstractAnimalMaker {
         Random random = new Random();
         int geneSide = random.nextInt(2);
 
-        if(geneSide == 0){
-            for(int i = 0; i < fatherGenes; i++){
+        if (geneSide == 0) {
+            for (int i = 0; i < fatherGenes; i++) {
                 childGenome.add(fatherGenome.get(i));
             }
-            for(int i = fatherGenes; i < GenomeCount; i++){
+            for (int i = fatherGenes; i < GenomeCount; i++) {
                 childGenome.add(motherGenome.get(i));
             }
-        }else{
-            for(int i = 0; i < motherGenes; i++){
+        } else {
+            for (int i = 0; i < motherGenes; i++) {
                 childGenome.add(motherGenome.get(i));
             }
-            for(int i = motherGenes; i < GenomeCount; i++){
+            for (int i = motherGenes; i < GenomeCount; i++) {
                 childGenome.add(fatherGenome.get(i));
             }
         }
@@ -74,7 +74,7 @@ public abstract class AbstractAnimalMaker {
         father.loseEnergy(sexEnergyCost);
         mother.loseEnergy(sexEnergyCost);
 
-        Animal child = new Animal(mother.getPosition(), sexEnergyCost*2, childGenome, mother, father, minEnergyToFullAnimal);
+        Animal child = new Animal(mother.getPosition(), sexEnergyCost * 2, childGenome, mother, father, minEnergyToFullAnimal);
         mother.setChildren(child);
         father.setChildren(child);
         addDescendantCount(father);
@@ -84,7 +84,7 @@ public abstract class AbstractAnimalMaker {
 
     protected abstract void modifyGenome(List<Integer> childGenome);
 
-    private void addDescendantCount(Animal animal){
+    private void addDescendantCount(Animal animal) {
         animal.newDescendant();
         if (animal.getMother() == null) return; // obviously, if there is no mother, there is no father
         addDescendantCount(animal.getMother());

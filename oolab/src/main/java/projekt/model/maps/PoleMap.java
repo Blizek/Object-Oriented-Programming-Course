@@ -1,6 +1,7 @@
 package projekt.model.maps;
 
-import projekt.model.*;
+import projekt.model.Animal;
+import projekt.model.Vector2d;
 
 public class PoleMap extends AbstractMap {
     public PoleMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {

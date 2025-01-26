@@ -22,13 +22,9 @@ public class Vector2d {
         return y;
     }
 
-    @Override
-    public String toString() {
-        return "(%d, %d)".formatted(x, y);
-    }
-
     /**
      * Method to check if 'other' Vector2d has bigger or equal x and y position than checking object Vector2d
+     *
      * @param other another Vector2d object to compare
      * @return boolean if 'other' Vector2d has bigger or equal x and y position
      */
@@ -38,6 +34,7 @@ public class Vector2d {
 
     /**
      * Method to check if 'other' Vector2d has less or equal x and y position than checking object
+     *
      * @param other another Vector2d object to compare
      * @return boolean if 'other' Vector2d has less or equal x and y position
      */
@@ -47,6 +44,7 @@ public class Vector2d {
 
     /**
      * Method to create new Vector2d object which is a result of summary two vectors
+     *
      * @param other vector which we add to this Vector2d
      * @return new Vector2d object which is summary of this and 'other' Vector2d
      */
@@ -56,6 +54,7 @@ public class Vector2d {
 
     /**
      * Method to create new Vector2d object which is a result of subtraction two vectors
+     *
      * @param other vector which we subtract to this Vector2d
      * @return new Vector2d object which is subtraction of this and 'other' Vector2d
      */
@@ -65,6 +64,7 @@ public class Vector2d {
 
     /**
      * Creating a new Vector2d object that has max x value of two Vectors2d and max y value of two Vectors2d
+     *
      * @param other second Vector2d
      * @return new Vector2d that has max value of x and y from two Vectors2d
      */
@@ -74,6 +74,7 @@ public class Vector2d {
 
     /**
      * Creating a new Vector2d object that has min x value of two Vectors2d and min y value of two Vectors2d
+     *
      * @param other second Vector2d
      * @return new Vector2d that has min value of x and y from two Vectors2d
      */
@@ -83,6 +84,7 @@ public class Vector2d {
 
     /**
      * Creating an opposite Vector2d to this
+     *
      * @return new Vector2d that has both variables opposite to this one
      */
     public Vector2d opposite() {
@@ -96,16 +98,21 @@ public class Vector2d {
 
     /**
      * Checking if an object is equal to checking one
+     *
      * @param other object of class Object (doesn't have to be 'Vector2d' class object
      * @return boolean if two Vectors2d are equal (if the 'other' object isn't Vector2d object return false)
      */
     @Override
-    public boolean equals(Object other){
+    public boolean equals(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof Vector2d))
+        if (!(other instanceof Vector2d otherAsVector2d))
             return false;
-        Vector2d otherAsVector2d = (Vector2d) other;
         return x == otherAsVector2d.x && y == otherAsVector2d.y;
+    }
+
+    @Override
+    public String toString() {
+        return "(%d, %d)".formatted(x, y);
     }
 }

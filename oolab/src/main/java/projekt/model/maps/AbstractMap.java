@@ -8,7 +8,7 @@ import java.util.*;
 import static projekt.model.util.AnimalUtils.setDominantAnimal;
 
 public abstract class AbstractMap {
-    protected final UUID id = UUID.randomUUID();
+    protected final UUID uuid = UUID.randomUUID();
     protected final HashMap<Vector2d, Grass> grassesMap = new HashMap<>();
     protected final Map<Vector2d, List<Animal>> animalsMap = new HashMap<>();
     protected final Vector2d bottomLeftCorner = new Vector2d(0, 0);
@@ -22,33 +22,23 @@ public abstract class AbstractMap {
     protected final int grassEnergy;
 
     public AbstractMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
-        topRightCorner = new Vector2d(width, height);;
+        topRightCorner = new Vector2d(width, height);
         mapBoundary = new Boundary(bottomLeftCorner, topRightCorner);
         this.grassGrowthCount = grassGrowthCount;
         this.grassEnergy = grassEnergy;
 
-        equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() /10));
-        equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() /10));
+        equatorLowerLeft = new Vector2d(0, Math.round((float) topRightCorner.getY() / 2 - (float) topRightCorner.getY() / 10));
+        equatorUpperRight = new Vector2d(topRightCorner.getX(), Math.round((float) topRightCorner.getY() / 2 + (float) topRightCorner.getY() / 10));
         equatorMapBoundary = new Boundary(equatorLowerLeft, equatorUpperRight);
 
         RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, startGrassCount, grassesMap, equatorLowerLeft, equatorUpperRight);
-        for(Vector2d grassPosition : grassRandomPositionGenerator) {
+        for (Vector2d grassPosition : grassRandomPositionGenerator) {
             grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
         }
     }
 
-    public void addObserver(MapChangeListener observer) {
-        observers.add(observer);
-    }
-
-    public void removeObserver(MapChangeListener observer) {
-        observers.remove(observer);
-    }
-
-    public void listenerObserver() {
-        for (MapChangeListener observer : observers) {
-            observer.mapChanged(this);
-        }
+    public UUID getMapUUID() {
+        return uuid;
     }
 
     public Boundary getMapBoundary() {
@@ -71,7 +61,7 @@ public abstract class AbstractMap {
         return new HashMap<>(animalsMap);
     }
 
-    public List<WorldElement> getElements(){
+    public List<WorldElement> getElements() {
         ArrayList<WorldElement> elements = new ArrayList<>();
         Map<Vector2d, Animal> dominantAnimalsMap = new HashMap<>();
 
@@ -87,6 +77,24 @@ public abstract class AbstractMap {
         return elements;
     }
 
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void addObserver(MapChangeListener observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(MapChangeListener observer) {
+        observers.remove(observer);
+    }
+
+    public void listenerObserver() {
+        for (MapChangeListener observer : observers) {
+            observer.mapChanged(this);
+        }
+    }
+
     public void place(Animal animal) {
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
     }
@@ -97,7 +105,7 @@ public abstract class AbstractMap {
 
     public void addNewGrasses() {
         RandomGrassPositionGenerator grassRandomPositionGenerator = new RandomGrassPositionGenerator(topRightCorner, grassGrowthCount, grassesMap, equatorLowerLeft, equatorUpperRight);
-        for(Vector2d grassPosition : grassRandomPositionGenerator) {
+        for (Vector2d grassPosition : grassRandomPositionGenerator) {
             grassesMap.put(grassPosition, new Grass(grassPosition, grassEnergy));
         }
     }
@@ -162,10 +170,5 @@ public abstract class AbstractMap {
 
     public List<Animal> animalAt(Vector2d position) {
         return animalsMap.get(position);
-    }
-
-
-    public UUID getId() {
-        return id;
     }
 }

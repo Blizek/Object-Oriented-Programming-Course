@@ -7,48 +7,41 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import projekt.Simulation;
-import projekt.SimulationEngine;
 import projekt.model.*;
 import projekt.model.maps.AbstractMap;
-import javafx.scene.text.Text;
-import javafx.scene.image.ImageView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class GameMapPresenter implements MapChangeListener {
+    XYChart.Series<String, Integer> animalSeries = new XYChart.Series<>();
+    XYChart.Series<String, Integer> grassesSeries = new XYChart.Series<>();
     @FXML
     private GridPane mapGrid;
-
     @FXML
-    private Text animalsCounterText,  grassCounterText, freePlacesCounterText,  mostPopularGenText, averageAnimalsEnergyText,
+    private Text animalsCounterText, grassCounterText, freePlacesCounterText, mostPopularGenText, averageAnimalsEnergyText,
             averageAnimalsLifetimeText, averageAnimalsChildrenText, dayCounterText, watchingAnimalPositionText,
             watchingAnimalDirection, watchingAnimalGenomeText, watchingAnimalActualGenText, watchingAnimalEnergyText,
             watchingAnimalEatenGrassCounterText, watchingAnimalChildrenCounterText, watchingAnimalDescendantCounterText,
             watchingAnimalLifetimeText, watchingAnimalDeadDayText;
-
     @FXML
     private ImageView watchingAnimalImage;
-
     @FXML
     private HBox gameStats;
-
     @FXML
     private AnchorPane chart1, chart2, messagesLog, gameMapPane, selectedAnimalStats;
-
     @FXML
     private Button runStopGameplayButton, showPreferredFieldsButton, showAnimalsWithMostPopularGeneButton, endGameButton;
-
     @FXML
     private LineChart<String, Integer> animalsChart, grassesChart;
-
     private AbstractMap worldMap;
     private Vector2d lowerLeft;
     private Vector2d upperRight;
@@ -60,8 +53,6 @@ public class GameMapPresenter implements MapChangeListener {
     private boolean isShowAnimalsWithMostPopularGene = false;
     private Animal watchingAnimal;
     private long watchingAnimalDeadDay;
-    XYChart.Series<String, Integer> animalSeries = new XYChart.Series<>();
-    XYChart.Series<String, Integer> grassesSeries = new XYChart.Series<>();
     private Thread simulationThread;
 
     private void clearGrid() {
@@ -102,8 +93,8 @@ public class GameMapPresenter implements MapChangeListener {
 
     private void fillMap() {
         List<WorldElement> elements = worldMap.getElements();
-        for (WorldElement element : elements){
-            if(element instanceof Animal || worldMap.objectAt(element.getPosition()).getFirst() instanceof Grass){
+        for (WorldElement element : elements) {
+            if (element instanceof Animal || worldMap.objectAt(element.getPosition()).getFirst() instanceof Grass) {
                 WorldElementBox elementBox = new WorldElementBox(element, boxSize);
                 if (element instanceof Animal) {
                     if (element != worldMap.dominantAnimalAtPosition(new Vector2d(element.getPosition().getX(), element.getPosition().getY())))
@@ -220,8 +211,6 @@ public class GameMapPresenter implements MapChangeListener {
                     throw new RuntimeException(e);
                 }
             });
-
-            System.out.println("System zakończył działanie");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
@@ -273,7 +262,8 @@ public class GameMapPresenter implements MapChangeListener {
         drawColumns();
         drawRows();
         setGridCellsColors();
-        if (watchingAnimal != null && watchingAnimalDeadDay == -1) setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+        if (watchingAnimal != null && watchingAnimalDeadDay == -1)
+            setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
         if (isShowAnimalsWithMostPopularGene) colorAnimalWithMostPopularGene();
         if (!isShowPreferredFields) {
             isShowPreferredFields = true;
@@ -287,7 +277,8 @@ public class GameMapPresenter implements MapChangeListener {
         drawColumns();
         drawRows();
         setGridCellsColors();
-        if (watchingAnimal != null && watchingAnimalDeadDay == -1) setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+        if (watchingAnimal != null && watchingAnimalDeadDay == -1)
+            setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
         if (isShowPreferredFields) colorPreferredFields();
         if (!isShowAnimalsWithMostPopularGene) {
             isShowAnimalsWithMostPopularGene = true;

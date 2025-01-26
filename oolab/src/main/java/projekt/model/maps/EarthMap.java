@@ -1,10 +1,11 @@
 package projekt.model.maps;
 
 
-import projekt.model.*;
+import projekt.model.Animal;
+import projekt.model.Vector2d;
 
 
-public class EarthMap extends AbstractMap{
+public class EarthMap extends AbstractMap {
     public EarthMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
         super(width, height, startGrassCount, grassGrowthCount, grassEnergy);
     }

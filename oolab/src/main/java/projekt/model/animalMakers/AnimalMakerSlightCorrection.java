@@ -5,7 +5,7 @@ import projekt.model.Animal;
 import java.util.List;
 import java.util.Random;
 
-public class AnimalMakerSlightCorrection extends AbstractAnimalMaker{
+public class AnimalMakerSlightCorrection extends AbstractAnimalMaker {
     public AnimalMakerSlightCorrection(int minMutationCount, int maxMutationCount, int GenomeCount, int startAnimalEnergy, int sexEnergyCost, int minEnergyToFullAnimal) {
         super(minMutationCount, maxMutationCount, GenomeCount, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
     }

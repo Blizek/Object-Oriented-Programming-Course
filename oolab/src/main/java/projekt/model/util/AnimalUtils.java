@@ -24,6 +24,7 @@ public class AnimalUtils {
         Random random = new Random();
         return animalsWithMaxChildren.get(random.nextInt(animalsWithMaxChildren.size()));
     }
+
     private static List<Animal> getAnimalsWithMaxValue(List<Animal> animals, Function<Animal, Integer> getter) {
         int maxAnimalValue = getter.apply(animals.getFirst());
         List<Animal> animalsWithMaxValue = new ArrayList<>();

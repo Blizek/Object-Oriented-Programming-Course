@@ -5,9 +5,12 @@ import projekt.model.animalMakers.AbstractAnimalMaker;
 import projekt.model.animalMakers.AnimalMakerFullRandom;
 import projekt.model.animalMakers.AnimalMakerSlightCorrection;
 import projekt.model.maps.AbstractMap;
-import projekt.model.util.AnimalUtils;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
-import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static projekt.model.util.AnimalUtils.setDominantAnimal;
 
@@ -16,14 +19,14 @@ public class Simulation implements Runnable {
     private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all dead that day animals
     private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day
     private final HashMap<Vector2d, Animal> animalsMap;
-    private long day = 0;
-    private boolean running = true;
-
     private final AbstractMap gameMap; // map of the game
     private final int grassGrownAmount;
     private final int minEnergyToFullAnimal;
     private final AbstractAnimalMaker animalMaker;
     private final int gameplaySpeed;
+    private final boolean isLogged;
+    private long day = 0;
+    private boolean running = true;
 
     private Simulation(Builder builder) {
         gameMap = builder.map;
@@ -38,11 +41,13 @@ public class Simulation implements Runnable {
         int animalGenomeLength = builder.animalGenomeLength;
         boolean isSlightCorrection = builder.isSlightCorrection;
         gameplaySpeed = builder.gameplaySpeed;
+        isLogged = builder.isLogged;
 
         animalsMap = new HashMap<>();
         if (isSlightCorrection)
             animalMaker = new AnimalMakerSlightCorrection(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
-        else animalMaker = new AnimalMakerFullRandom(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
+        else
+            animalMaker = new AnimalMakerFullRandom(minMutationAmount, maxMutationAmount, animalGenomeLength, startAnimalEnergy, sexEnergyCost, minEnergyToFullAnimal);
 
         Boundary mapBoundary = gameMap.getMapBoundary();
         Vector2d topRightCorner = mapBoundary.upperRight();
@@ -63,11 +68,19 @@ public class Simulation implements Runnable {
         return List.copyOf(animalsList);
     }
 
+    public boolean isRunning() {
+        return running;
+    }
+
+    public long getDay() {
+        return day;
+    }
+
     /**
      * Method to run simulation for every animal on list
      */
     @Override
-    public void run(){
+    public void run() {
 
         try {
             while (!animalsList.isEmpty()) {
@@ -125,22 +138,42 @@ public class Simulation implements Runnable {
 
                     gameMap.addNewGrasses();
                     gameMap.listenerObserver();
-
+                    writeToLog();
                     Thread.sleep(gameplaySpeed);
                 } else {
                     break;
                 }
             }
+
             killGame(Thread.currentThread());
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void stopGame(Thread thread) throws InterruptedException {
-        running = false;
-        gameMap.listenerObserver();
-        thread.join();
+    public void writeToLog() {
+        if (isLogged) {
+            String fileName = "oolab/src/main/resources/savedLogs/simulation_statistics_" + gameMap.getMapUUID() + ".csv";
+            File file = new File(fileName);
+            boolean fileExists = file.exists() && file.length() > 0;
+
+            try (FileWriter writer = new FileWriter(fileName, true)) {
+                if (!fileExists) {
+                    writer.append("Day,Animals,Grasses,FreeSpaces,MostPopularGenome,AverageEnergy,AverageLifetime,AverageChildren\n");
+                }
+                writer.append(day + ",");
+                writer.append(Statistics.getAllAnimalsCount(animalsList) + ",");
+                writer.append(Statistics.getAllGrassesCount(gameMap.getGrassesMap()) + ",");
+                writer.append(Statistics.getAllFreeSpacesCount(gameMap) + ",");
+                List<Integer> mostPopularGenome = Statistics.getMostPopularGenome(animalsList);
+                writer.append(mostPopularGenome.isEmpty() ? "-" : mostPopularGenome.stream().map(String::valueOf).collect(Collectors.joining(" ")) + ",");
+                writer.append(Statistics.getAverageEnergy(animalsList) + ",");
+                writer.append(Statistics.getAverageDaysLived(animalsList) + ",");
+                writer.append(Statistics.getAverageChildrenCount(animalsList) + "\n");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void killGame(Thread thread) {
@@ -149,19 +182,16 @@ public class Simulation implements Runnable {
         thread.interrupt();
     }
 
+    public void stopGame(Thread thread) throws InterruptedException {
+        running = false;
+        gameMap.listenerObserver();
+        thread.join();
+    }
+
     public void startGame(Thread thread) {
         running = true;
         thread.setDaemon(true);
         thread.start();
-    }
-
-    public boolean isRunning() {
-        return running;
-    }
-
-
-    public long getDay() {
-        return day;
     }
 
     public List<Vector2d> getPositionsWithGenes(List<Integer> genes) {
@@ -191,6 +221,7 @@ public class Simulation implements Runnable {
         private int animalGenomeLength;
         private boolean isSlightCorrection;
         private int gameplaySpeed;
+        private boolean isLogged;
 
         public Builder setMap(AbstractMap map) {
             this.map = map;
@@ -229,6 +260,11 @@ public class Simulation implements Runnable {
 
         public Builder setMinMutationAmount(int minMutationAmount) {
             this.minMutationAmount = minMutationAmount;
+            return this;
+        }
+
+        public Builder setIsLogged(boolean isLogged) {
+            this.isLogged = isLogged;
             return this;
         }
 

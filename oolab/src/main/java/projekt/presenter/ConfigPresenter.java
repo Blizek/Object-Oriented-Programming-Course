@@ -1,9 +1,6 @@
 package projekt.presenter;
 
 import com.google.gson.Gson;
-
-import java.io.*;
-
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import javafx.application.Platform;
@@ -26,6 +23,8 @@ import projekt.model.maps.EarthMap;
 import projekt.model.maps.PoleMap;
 import projekt.model.util.ConfigData;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,26 +32,21 @@ import java.util.List;
 
 
 public class ConfigPresenter {
+    private final List<Simulation> simulations = new ArrayList<>();
     @FXML
     private TextField mapHeightInput, mapWidthInput, startGrassAmountInput, eatenGrassEnergyInput, grassGrownAmountInput, startAnimalsAmountInput,
             startAnimalEnergyInput, minEnergyToFullAnimalInput, sexEnergyCostInput, minMutationAmountInput, maxMutationAmountInput,
             animalGenomeLengthInput, gameplaySpeedInput, configNameInput;
-
     @FXML
     private CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox;
-
     @FXML
     private Label mapHeightError, mapWidthError, startGrassAmountError, eatenGrassEnergyError, grassGrownAmountError,
             startAnimalsAmountError, startAnimalEnergyError, minEnergyToFullAnimalError, sexEnergyCostError,
             minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError, configNameError;
-
     @FXML
     private Button startNewGameButton;
-
     @FXML
     private VBox savedConfigsVBox;
-
-    private final List<Simulation> simulations = new ArrayList<>();
     private SimulationEngine simulationEngine;
 
     private int mapHeight;
@@ -92,11 +86,68 @@ public class ConfigPresenter {
         getSavedConfigs();
     }
 
+    private void setNumericOnly(TextField textField) {
+        textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            String character = event.getCharacter();
+
+            if (!character.matches("[0-9]")) {
+                event.consume();
+            }
+        });
+    }
+
+    private void getSavedConfigs() {
+        savedConfigsVBox.getChildren().clear();
+        String path = "oolab/src/main/resources/savedConfigs";
+        File directory = new File(path);
+        System.out.println(directory);
+
+        File[] files = directory.listFiles();
+
+        if (files != null) {
+            for (File file : files) {
+                String fileName = file.getName();
+                String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+
+                Button button = new Button(fileNameWithoutExtension);
+                button.setMaxWidth(242);
+                button.setOnAction(e -> uploadSavedConfig(fileName));
+                savedConfigsVBox.getChildren().add(button);
+            }
+        }
+    }
+
+    private void uploadSavedConfig(String fileName) {
+        Gson gson = new Gson();
+        ConfigData configData;
+        try (FileReader reader = new FileReader("oolab/src/main/resources/savedConfigs/" + fileName)) {
+            configData = gson.fromJson(reader, ConfigData.class);
+        } catch (JsonIOException | JsonSyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        mapHeightInput.setText(Integer.toString(configData.getMapHeight()));
+        mapWidthInput.setText(Integer.toString(configData.getMapWidth()));
+        startGrassAmountInput.setText(Integer.toString(configData.getStartGrassAmount()));
+        eatenGrassEnergyInput.setText(Integer.toString(configData.getEatenGrassEnergy()));
+        grassGrownAmountInput.setText(Integer.toString(configData.getGrassGrownAmount()));
+        startAnimalsAmountInput.setText(Integer.toString(configData.getStartAnimalsAmount()));
+        startAnimalEnergyInput.setText(Integer.toString(configData.getStartAnimalEnergy()));
+        minEnergyToFullAnimalInput.setText(Integer.toString(configData.getMinEnergyToFullAnimal()));
+        sexEnergyCostInput.setText(Integer.toString(configData.getSexEnergyCost()));
+        minMutationAmountInput.setText(Integer.toString(configData.getMinMutationAmount()));
+        maxMutationAmountInput.setText(Integer.toString(configData.getMaxMutationAmount()));
+        animalGenomeLengthInput.setText(Integer.toString(configData.getAnimalGenomeLength()));
+        gameplaySpeedInput.setText(Integer.toString(configData.getGameplaySpeed()));
+        coldWarGameplayCheckbox.setSelected(configData.isColdWarGameplay());
+        geneticChangeGameplayCheckbox.setSelected(configData.isSlightCorrection());
+    }
+
     @FXML
     private void startGame() {
-        getInputValues();
-        if (checkInputCorrectness()) {
 
+        if (checkInputCorrectness()) {
+            getInputValues();
             if (isColdWarGameplay) {
                 map = new PoleMap(mapWidth - 1, mapHeight - 1, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             } else {
@@ -123,16 +174,6 @@ public class ConfigPresenter {
         } else {
             System.out.println("Niegotowa rozgrywka");
         }
-    }
-
-    private void setNumericOnly(TextField textField) {
-        textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
-            String character = event.getCharacter();
-
-            if (!character.matches("[0-9]")) {
-                event.consume();
-            }
-        });
     }
 
     private boolean checkInputCorrectness() {
@@ -225,22 +266,6 @@ public class ConfigPresenter {
         return isDataCorrect;
     }
 
-    private void clearAllErrorTexts() {
-        mapHeightError.setText("");
-        mapWidthError.setText("");
-        startGrassAmountError.setText("");
-        eatenGrassEnergyError.setText("");
-        grassGrownAmountError.setText("");
-        startAnimalsAmountError.setText("");
-        startAnimalEnergyError.setText("");
-        minEnergyToFullAnimalError.setText("");
-        sexEnergyCostError.setText("");
-        minMutationAmountError.setText("");
-        maxMutationAmountError.setText("");
-        animalGenomeLengthError.setText("");
-        gameplaySpeedError.setText("");
-    }
-
     private void getInputValues() {
         mapHeight = Integer.parseInt(mapHeightInput.getText());
         mapWidth = Integer.parseInt(mapWidthInput.getText());
@@ -282,10 +307,27 @@ public class ConfigPresenter {
                 .setAnimalGenomeLength(animalGenomeLength)
                 .setGameplaySpeed(gameplaySpeed)
                 .setSlightCorrection(isSlightCorrection)
+                .setIsLogged(true)
                 .build();
 
         presenter.startSimulation(simulation, map);
         stage.show();
+    }
+
+    private void clearAllErrorTexts() {
+        mapHeightError.setText("");
+        mapWidthError.setText("");
+        startGrassAmountError.setText("");
+        eatenGrassEnergyError.setText("");
+        grassGrownAmountError.setText("");
+        startAnimalsAmountError.setText("");
+        startAnimalEnergyError.setText("");
+        minEnergyToFullAnimalError.setText("");
+        sexEnergyCostError.setText("");
+        minMutationAmountError.setText("");
+        maxMutationAmountError.setText("");
+        animalGenomeLengthError.setText("");
+        gameplaySpeedError.setText("");
     }
 
     @FXML
@@ -304,28 +346,6 @@ public class ConfigPresenter {
             System.out.println("Popraw błędy");
         }
     }
-
-    private void getSavedConfigs() {
-        savedConfigsVBox.getChildren().clear();
-        String path = "oolab/src/main/resources/savedConfigs";
-        File directory = new File(path);
-        System.out.println(directory);
-
-        File[] files = directory.listFiles();
-
-        if (files != null) {
-            for (File file : files) {
-                String fileName = file.getName();
-                String fileNameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
-
-                Button button = new Button(fileNameWithoutExtension);
-                button.setMaxWidth(242);
-                button.setOnAction(e -> uploadSavedConfig(fileName));
-                savedConfigsVBox.getChildren().add(button);
-            }
-        }
-    }
-
 
     private void saveToJson(String filePath) {
         getInputValues();
@@ -360,31 +380,5 @@ public class ConfigPresenter {
             e.printStackTrace();
         }
         getSavedConfigs();
-    }
-
-    private void uploadSavedConfig(String fileName) {
-        Gson gson = new Gson();
-        ConfigData configData;
-        try (FileReader reader = new FileReader("oolab/src/main/resources/savedConfigs/" + fileName)) {
-            configData = gson.fromJson(reader, ConfigData.class);
-        } catch (JsonIOException | JsonSyntaxException | IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        mapHeightInput.setText(Integer.toString(configData.getMapHeight()));
-        mapWidthInput.setText(Integer.toString(configData.getMapWidth()));
-        startGrassAmountInput.setText(Integer.toString(configData.getStartGrassAmount()));
-        eatenGrassEnergyInput.setText(Integer.toString(configData.getEatenGrassEnergy()));
-        grassGrownAmountInput.setText(Integer.toString(configData.getGrassGrownAmount()));
-        startAnimalsAmountInput.setText(Integer.toString(configData.getStartAnimalsAmount()));
-        startAnimalEnergyInput.setText(Integer.toString(configData.getStartAnimalEnergy()));
-        minEnergyToFullAnimalInput.setText(Integer.toString(configData.getMinEnergyToFullAnimal()));
-        sexEnergyCostInput.setText(Integer.toString(configData.getSexEnergyCost()));
-        minMutationAmountInput.setText(Integer.toString(configData.getMinMutationAmount()));
-        maxMutationAmountInput.setText(Integer.toString(configData.getMaxMutationAmount()));
-        animalGenomeLengthInput.setText(Integer.toString(configData.getAnimalGenomeLength()));
-        gameplaySpeedInput.setText(Integer.toString(configData.getGameplaySpeed()));
-        coldWarGameplayCheckbox.setSelected(configData.isColdWarGameplay());
-        geneticChangeGameplayCheckbox.setSelected(configData.isSlightCorrection());
     }
 }
