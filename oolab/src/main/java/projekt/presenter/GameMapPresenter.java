@@ -31,7 +31,7 @@ public class GameMapPresenter implements MapChangeListener {
             averageAnimalsLifetimeText, averageAnimalsChildrenText, dayCounterText, watchingAnimalPositionText,
             watchingAnimalDirection, watchingAnimalGenomeText, watchingAnimalActualGenText, watchingAnimalEnergyText,
             watchingAnimalEatenGrassCounterText, watchingAnimalChildrenCounterText, watchingAnimalDescendantCounterText,
-            watchingAnimalLifetimeText, watchingAnimalDeadDayText;
+            watchingAnimalLifetimeText, watchingAnimalDeadDayText, mapIdText;
     @FXML
     private ImageView watchingAnimalImage;
     @FXML
@@ -187,6 +187,8 @@ public class GameMapPresenter implements MapChangeListener {
 
             animalsChart.getData().add(animalSeries);
             grassesChart.getData().add(grassesSeries);
+
+            mapIdText.setText(worldMap.getUuid().toString());
 
             simulationThread = new Thread(simulation);
             simulationThread.setDaemon(true);

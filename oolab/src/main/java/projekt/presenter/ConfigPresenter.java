@@ -38,7 +38,7 @@ public class ConfigPresenter {
             startAnimalEnergyInput, minEnergyToFullAnimalInput, sexEnergyCostInput, minMutationAmountInput, maxMutationAmountInput,
             animalGenomeLengthInput, gameplaySpeedInput, configNameInput;
     @FXML
-    private CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox;
+    private CheckBox coldWarGameplayCheckbox, geneticChangeGameplayCheckbox, saveLogsCSVCheckbox;
     @FXML
     private Label mapHeightError, mapWidthError, startGrassAmountError, eatenGrassEnergyError, grassGrownAmountError,
             startAnimalsAmountError, startAnimalEnergyError, minEnergyToFullAnimalError, sexEnergyCostError,
@@ -64,6 +64,7 @@ public class ConfigPresenter {
     private int gameplaySpeed;
     private boolean isColdWarGameplay;
     private boolean isSlightCorrection;
+    private boolean isSaveLogs;
 
     private AbstractMap map;
     private GameMapPresenter presenter;
@@ -98,7 +99,7 @@ public class ConfigPresenter {
 
     private void getSavedConfigs() {
         savedConfigsVBox.getChildren().clear();
-        String path = "oolab/src/main/resources/savedConfigs";
+        String path = "src/main/resources/savedConfigs";
         File directory = new File(path);
         System.out.println(directory);
 
@@ -120,7 +121,7 @@ public class ConfigPresenter {
     private void uploadSavedConfig(String fileName) {
         Gson gson = new Gson();
         ConfigData configData;
-        try (FileReader reader = new FileReader("oolab/src/main/resources/savedConfigs/" + fileName)) {
+        try (FileReader reader = new FileReader("src/main/resources/savedConfigs/" + fileName)) {
             configData = gson.fromJson(reader, ConfigData.class);
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             throw new RuntimeException(e);
@@ -141,6 +142,7 @@ public class ConfigPresenter {
         gameplaySpeedInput.setText(Integer.toString(configData.getGameplaySpeed()));
         coldWarGameplayCheckbox.setSelected(configData.isColdWarGameplay());
         geneticChangeGameplayCheckbox.setSelected(configData.isSlightCorrection());
+        saveLogsCSVCheckbox.setSelected(configData.isSaveLogs());
     }
 
     @FXML
@@ -282,6 +284,7 @@ public class ConfigPresenter {
         gameplaySpeed = Integer.parseInt(gameplaySpeedInput.getText());
         isColdWarGameplay = coldWarGameplayCheckbox.isSelected();
         isSlightCorrection = geneticChangeGameplayCheckbox.isSelected();
+        isSaveLogs = saveLogsCSVCheckbox.isSelected();
     }
 
     private void startSimulationWindow() throws IOException {
@@ -307,7 +310,7 @@ public class ConfigPresenter {
                 .setAnimalGenomeLength(animalGenomeLength)
                 .setGameplaySpeed(gameplaySpeed)
                 .setSlightCorrection(isSlightCorrection)
-                .setIsLogged(true)
+                .setIsLogged(isSaveLogs)
                 .build();
 
         presenter.startSimulation(simulation, map);
@@ -365,6 +368,7 @@ public class ConfigPresenter {
         configData.setGameplaySpeed(gameplaySpeed);
         configData.setColdWarGameplay(isColdWarGameplay);
         configData.setSlightCorrection(isSlightCorrection);
+        configData.setSaveLogs(isSaveLogs);
         Gson gson = new Gson();
 
         String finalFilePath = "src/main/resources/" + filePath;

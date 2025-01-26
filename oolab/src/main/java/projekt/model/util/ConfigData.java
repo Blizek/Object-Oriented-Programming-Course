@@ -16,6 +16,7 @@ public class ConfigData {
     private int gameplaySpeed;
     private boolean isColdWarGameplay;
     private boolean isSlightCorrection;
+    private boolean isSaveLogs;
 
     public int getMapHeight() {
         return mapHeight;
@@ -135,5 +136,13 @@ public class ConfigData {
 
     public void setSlightCorrection(boolean slightCorrection) {
         isSlightCorrection = slightCorrection;
+    }
+
+    public boolean isSaveLogs() {
+        return isSaveLogs;
+    }
+
+    public void setSaveLogs(boolean saveLogs) {
+        isSaveLogs = saveLogs;
     }
 }

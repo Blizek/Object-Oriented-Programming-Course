@@ -91,8 +91,9 @@
         <AnchorPane layoutX="406.0" layoutY="579.0" prefHeight="200.0" prefWidth="859.0">
             <children>
                 <Text layoutX="347.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warianty rozgrywki" />
-                <CheckBox fx:id="coldWarGameplayCheckbox" layoutX="203.0" layoutY="71.0" mnemonicParsing="false" text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)" />
-                <CheckBox fx:id="geneticChangeGameplayCheckbox" layoutX="174.0" layoutY="127.0" mnemonicParsing="false" text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)" />
+                <CheckBox fx:id="coldWarGameplayCheckbox" layoutX="25.0" layoutY="71.0" mnemonicParsing="false" text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)" />
+                <CheckBox fx:id="geneticChangeGameplayCheckbox" layoutX="25.0" layoutY="127.0" mnemonicParsing="false" text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)" />
+            <CheckBox fx:id="saveLogsCSVCheckbox" layoutX="567.0" layoutY="71.0" mnemonicParsing="false" text="Zapisz logi rozgrywki do pliku CSV" />
             </children>
         </AnchorPane>
       <Button fx:id="saveConfigButton" layoutX="720.0" layoutY="807.0" mnemonicParsing="false" onAction="#saveConfig" prefHeight="40.0" prefWidth="222.0" text="Zapisz konfigurację" />

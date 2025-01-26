@@ -99,8 +99,10 @@
          <children>
             <AnchorPane fx:id="messagesLog" prefHeight="68.0" prefWidth="812.0">
                <children>
-                  <Text layoutX="360.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzień:" />
-                  <Text fx:id="dayCounterText" layoutX="406.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text layoutX="62.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzień:" />
+                  <Text fx:id="dayCounterText" layoutX="108.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                  <Text layoutX="421.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Id mapy:" />
+                  <Text fx:id="mapIdText" layoutX="482.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </AnchorPane>
              <AnchorPane fx:id="gameMapPane" layoutY="68.0" prefHeight="753.0" prefWidth="812.0">
