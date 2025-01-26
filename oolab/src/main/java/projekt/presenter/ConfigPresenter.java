@@ -383,5 +383,7 @@ public class ConfigPresenter {
         maxMutationAmountInput.setText(Integer.toString(configData.getMaxMutationAmount()));
         animalGenomeLengthInput.setText(Integer.toString(configData.getAnimalGenomeLength()));
         gameplaySpeedInput.setText(Integer.toString(configData.getGameplaySpeed()));
+        coldWarGameplayCheckbox.setSelected(configData.isColdWarGameplay());
+        geneticChangeGameplayCheckbox.setSelected(configData.isSlightCorrection());
     }
 }

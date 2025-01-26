@@ -90,9 +90,9 @@
       </AnchorPane>
       <AnchorPane fx:id="selectedAnimalStats" layoutX="1086.0" prefHeight="821.0" prefWidth="274.0">
          <children>
-            <ImageView fx:id="watchingAnimalImage" fitHeight="200.0" fitWidth="200.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="watchingAnimalImage" fitHeight="160.0" fitWidth="160.0" layoutX="57.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../img/full-monkey.png" />
+                  <Image url="@../img/question-mark.png" />
                </image></ImageView>
             <Text layoutX="70.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Obserwowany zwierzak" />
             <VBox layoutX="13.0" layoutY="245.0" prefHeight="328.0" prefWidth="249.0">
@@ -100,55 +100,61 @@
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pozycja:" />
-                        <Text fx:id="watchingAnimalPositionText" strokeType="OUTSIDE" strokeWidth="0.0" text="(2, 2)" />
+                        <Text fx:id="watchingAnimalPositionText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Kierunek:" />
-                        <Text fx:id="watchingAnimalDirection" strokeType="OUTSIDE" strokeWidth="0.0" text="Północ" />
+                        <Text fx:id="watchingAnimalDirection" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Genom:" />
-                        <Text fx:id="watchingAnimalGenomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="5 7 6 3 3 2 0 1" />
+                        <Text fx:id="watchingAnimalGenomeText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Aktualny gen:" />
-                        <Text fx:id="watchingAnimalActualGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="3" />
+                        <Text fx:id="watchingAnimalActualGenText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ilość energii:" />
-                        <Text fx:id="watchingAnimalEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" text="2137" />
+                        <Text fx:id="watchingAnimalEnergyText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczb zjedzonych roślin:" />
-                        <Text fx:id="watchingAnimalEatenGrassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="2115" />
+                        <Text fx:id="watchingAnimalEatenGrassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba dzieci:" />
-                        <Text fx:id="watchingAnimalChildrenCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="8" />
+                        <Text fx:id="watchingAnimalChildrenCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Liczba potomków:" />
-                        <Text fx:id="watchingAnimalDescendantCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="5743" />
+                        <Text fx:id="watchingAnimalDescendantCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                   <HBox prefHeight="26.0" prefWidth="247.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ile dni żyje:" />
-                        <Text fx:id="watchingAnimalLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="739" />
+                        <Text fx:id="watchingAnimalLifetimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
+                     </children>
+                  </HBox>
+                  <HBox prefHeight="26.0" prefWidth="247.0">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Którego dnia zmarło:" />
+                        <Text fx:id="watchingAnimalDeadDayText" strokeType="OUTSIDE" strokeWidth="0.0" text="-" />
                      </children>
                   </HBox>
                </children>

@@ -155,6 +155,10 @@ public class Simulation implements Runnable {
 
     }
 
+    public long getDay() {
+        return day;
+    }
+
     public List<Vector2d> getPositionsWithGenes(List<Integer> genes) {
         Set<Vector2d> positions = new HashSet<>();
         for (Animal animal : animalsList) {
@@ -166,7 +170,6 @@ public class Simulation implements Runnable {
                 }
             }
         }
-        System.out.println(positions);
         return new ArrayList<>(positions);
     }
 

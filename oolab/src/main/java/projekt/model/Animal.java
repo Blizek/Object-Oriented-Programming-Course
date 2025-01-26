@@ -15,6 +15,7 @@ public class Animal implements WorldElement{
     private int descendants = 0;
     private int daysLived = 0;
     private int minEnergyToFullAnimal;
+    private int eatingCounter = 0;
 
     public Animal(Vector2d animalPosition, int animalEnergy, List<Integer> genome, Animal mother, Animal father, int minEnergyToFullAnimal) {
         this.animalPosition = animalPosition;
@@ -88,6 +89,18 @@ public class Animal implements WorldElement{
         return genome.get(genomePlace);
     }
 
+    public List<Integer> getAnimalFullGenome() {
+        return List.copyOf(genome);
+    }
+
+    public int getEatingCounter() {
+        return eatingCounter;
+    }
+
+    public int getDescendants() {
+        return descendants;
+    }
+
     public void changeDirection(){
         int directionValue = animalDirection.ordinal();
         int newDirectionValue = (directionValue + genome.get(genomePlace)) % 8;
@@ -113,6 +126,7 @@ public class Animal implements WorldElement{
     }
 
     public void eat(int energy){
+        eatingCounter++;
         animalEnergy += energy;
     }
 

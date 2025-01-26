@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -28,10 +29,10 @@ public class GameMapPresenter implements MapChangeListener {
             averageAnimalsLifetimeText, averageAnimalsChildrenText, dayCounterText, watchingAnimalPositionText,
             watchingAnimalDirection, watchingAnimalGenomeText, watchingAnimalActualGenText, watchingAnimalEnergyText,
             watchingAnimalEatenGrassCounterText, watchingAnimalChildrenCounterText, watchingAnimalDescendantCounterText,
-            watchingAnimalLifetimeText;
+            watchingAnimalLifetimeText, watchingAnimalDeadDayText;
 
     @FXML
-    ImageView watchingAnimalImage;
+    private ImageView watchingAnimalImage;
 
     @FXML
     private HBox gameStats;
@@ -51,6 +52,8 @@ public class GameMapPresenter implements MapChangeListener {
     private HashMap<Vector2d, Grass> grassesMap;
     private boolean isShowPreferredFields = false;
     private boolean isShowAnimalsWithMostPopularGene = false;
+    private Animal watchingAnimal;
+    private long watchingAnimalDeadDay;
 
     private void clearGrid() {
         mapGrid.getChildren().retainAll(mapGrid.getChildren().getFirst());
@@ -93,6 +96,11 @@ public class GameMapPresenter implements MapChangeListener {
         for (WorldElement element : elements){
             if(element instanceof Animal || worldMap.objectAt(element.getPosition()).getFirst() instanceof Grass){
                 WorldElementBox elementBox = new WorldElementBox(element, boxSize);
+                if (element instanceof Animal) {
+                    if (element != worldMap.dominantAnimalAtPosition(new Vector2d(element.getPosition().getX(), element.getPosition().getY())))
+                        continue;
+                    elementBox.setOnMouseClicked(event -> watchAnimalStats(new Vector2d(element.getPosition().getX(), element.getPosition().getY())));
+                }
                 mapGrid.add(elementBox, element.getPosition().getX() - lowerLeft.getX(), upperRight.getY() - element.getPosition().getY());
                 GridPane.setHalignment(elementBox, HPos.CENTER);
             }
@@ -107,6 +115,9 @@ public class GameMapPresenter implements MapChangeListener {
 
         setGridCellsColors();
         // numerateColumnAndRow();
+        if (watchingAnimal != null) {
+            setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+        }
 
         fillMap();
     }
@@ -116,6 +127,7 @@ public class GameMapPresenter implements MapChangeListener {
         Platform.runLater(() -> {
             drawMap();
             updateSimulationStatistics();
+            updateWatchingAnimalStats();
         });
     }
 
@@ -140,11 +152,11 @@ public class GameMapPresenter implements MapChangeListener {
         }
     }
 
-    private void setGridCellsColors(List<Vector2d> positions) {
+    private void setGridCellsColors(List<Vector2d> positions, String hexColor) {
         setGridCellsColors();
         for (Vector2d position : positions) {
             Rectangle rectangle = new Rectangle(boxSize, boxSize);
-            rectangle.setStyle("-fx-fill: #8600ee");
+            rectangle.setStyle("-fx-fill: #" + hexColor);
             mapGrid.add(rectangle, position.getX() - lowerLeft.getX(), upperRight.getY() - position.getY());
         }
     }
@@ -199,7 +211,9 @@ public class GameMapPresenter implements MapChangeListener {
         animalsCounterText.setText(Integer.toString(Statistics.getAllAnimalsCount(animalsList)));
         grassCounterText.setText(Integer.toString(Statistics.getAllGrassesCount(grassesMap)));
         freePlacesCounterText.setText(Integer.toString(Statistics.getAllFreeSpacesCount(worldMap)));
-        mostPopularGenText.setText(Statistics.getMostPopularGenome(animalsList).stream().map(String::valueOf).collect(Collectors.joining(", ")));
+        List<Integer> mostPopularGenome = Statistics.getMostPopularGenome(animalsList);
+        if (mostPopularGenome.isEmpty()) mostPopularGenText.setText("-");
+        else mostPopularGenText.setText(Statistics.getMostPopularGenome(animalsList).stream().map(String::valueOf).collect(Collectors.joining(", ")));
         averageAnimalsEnergyText.setText(Float.toString(Statistics.getAverageEnergy(animalsList)));
         averageAnimalsLifetimeText.setText(Float.toString(Statistics.getAverageDaysLived(animalsList)));
         averageAnimalsChildrenText.setText(Float.toString(Statistics.getAverageChildrenCount(animalsList)));
@@ -233,6 +247,9 @@ public class GameMapPresenter implements MapChangeListener {
             clearGrid();
             drawColumns();
             drawRows();
+            if (watchingAnimal != null) {
+                setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+            }
             setGridCellsColors(equatorLowerLeft, equatorUpperRight);
             fillMap();
         } else {
@@ -249,7 +266,10 @@ public class GameMapPresenter implements MapChangeListener {
             clearGrid();
             drawColumns();
             drawRows();
-            setGridCellsColors(positionsWithPostPopularGene);
+            if (watchingAnimal != null) {
+                setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
+            }
+            setGridCellsColors(positionsWithPostPopularGene, "8600ee");
             fillMap();
         } else {
             isShowAnimalsWithMostPopularGene = false;
@@ -260,5 +280,54 @@ public class GameMapPresenter implements MapChangeListener {
     public void endGame() {
         Stage stage = (Stage) endGameButton.getScene().getWindow();
         stage.close();
+    }
+
+    private void watchAnimalStats(Vector2d position) {
+        boolean isRunning = simulation.isRunning();
+
+        if (!isRunning) {
+            watchingAnimal = (Animal) worldMap.dominantAnimalAtPosition(position);
+            watchingAnimalDeadDay = -1; // oznacza że jeszcze żyje
+
+            clearGrid();
+            drawColumns();
+            drawRows();
+            setGridCellsColors(List.of(position), "f5b600");
+            fillMap();
+            updateWatchingAnimalStats();
+        }
+    }
+
+    private void updateWatchingAnimalStats() {
+        if (watchingAnimal == null) {
+            watchingAnimalImage.setImage(new Image("img/question-mark.png"));
+            watchingAnimalPositionText.setText("-");
+            watchingAnimalDirection.setText("-");
+            watchingAnimalGenomeText.setText("-");
+            watchingAnimalActualGenText.setText("-");
+            watchingAnimalEnergyText.setText("-");
+            watchingAnimalEatenGrassCounterText.setText("-");
+            watchingAnimalChildrenCounterText.setText("-");
+            watchingAnimalDescendantCounterText.setText("-");
+            watchingAnimalLifetimeText.setText("-");
+            watchingAnimalDeadDayText.setText("-");
+        } else {
+            watchingAnimalImage.setImage(new Image("img/" + watchingAnimal.getImageName()));
+            watchingAnimalPositionText.setText(watchingAnimal.getPosition().toString());
+            watchingAnimalDirection.setText(watchingAnimal.getDirection().toString());
+            watchingAnimalGenomeText.setText(watchingAnimal.getAnimalFullGenome().stream().map(String::valueOf).collect(Collectors.joining(" ")));
+            watchingAnimalActualGenText.setText(Integer.toString(watchingAnimal.getActualGenome()));
+            watchingAnimalEnergyText.setText(Integer.toString(watchingAnimal.getEnergy()));
+            watchingAnimalEatenGrassCounterText.setText(Integer.toString(watchingAnimal.getEatingCounter()));
+            watchingAnimalChildrenCounterText.setText(Integer.toString(watchingAnimal.getChildrenCount()));
+            watchingAnimalDescendantCounterText.setText(Integer.toString(watchingAnimal.getDescendants()));
+            watchingAnimalLifetimeText.setText(Integer.toString(watchingAnimal.getDaysLived()));
+            if (watchingAnimal.getEnergy() > 0) {
+                watchingAnimalDeadDayText.setText("-");
+            } else if (watchingAnimal.getEnergy() <= 0 && watchingAnimalDeadDay == -1) {
+                watchingAnimalDeadDay = simulation.getDay();
+                watchingAnimalDeadDayText.setText(Long.toString(watchingAnimalDeadDay));
+            }
+        }
     }
 }
