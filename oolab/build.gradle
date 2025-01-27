@@ -14,7 +14,7 @@ group = 'org.example'
 version = '1.0-SNAPSHOT'
 
 application {
-  getMainClass().set('agh.ics.oop.World')
+  getMainClass().set('projekt.App')
 }
 
 repositories {
