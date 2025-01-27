@@ -233,15 +233,24 @@ public class ConfigPresenter {
         } else if (Integer.parseInt(sexEnergyCostInput.getText()) <= 0) {
             sexEnergyCostError.setText("To pole musi mieć wartość dodanią");
             isDataCorrect = false;
+        } else if (Integer.parseInt(sexEnergyCostInput.getText()) > Integer.parseInt(minEnergyToFullAnimalInput.getText())) {
+            sexEnergyCostError.setText("Podaj liczbę mniejszą niż min energia do rozmnażania");
+            isDataCorrect = false;
         }
 
         if (minMutationAmountInput.getText().isEmpty()) {
             minMutationAmountError.setText("To pole musi być wypełnione");
             isDataCorrect = false;
+        } else if (Integer.parseInt(minMutationAmountInput.getText()) > Integer.parseInt(maxMutationAmountInput.getText())) {
+            minMutationAmountError.setText("Podaj liczbę mniejszą niż max mutacja");
+            isDataCorrect = false;
         }
 
         if (maxMutationAmountInput.getText().isEmpty()) {
             maxMutationAmountError.setText("To pole musi być wypełnione");
+            isDataCorrect = false;
+        } else if (Integer.parseInt(maxMutationAmountInput.getText()) > Integer.parseInt(animalGenomeLengthInput.getText())) {
+            maxMutationAmountError.setText("Podaj liczbę mniejszą niż liczba genów");
             isDataCorrect = false;
         }
 

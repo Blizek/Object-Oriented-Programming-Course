@@ -62,7 +62,7 @@
 
         <!-- VBox 3: Parametry mutacji -->
         <VBox layoutX="997.0" layoutY="86.0" prefHeight="426.0" prefWidth="268.0" spacing="10">
-            <Label text="Energia rodziców na potomka:" />
+            <Label text="Tracona energia rodziców na potomka" />
             <TextField fx:id="sexEnergyCostInput" />
             <Label fx:id="sexEnergyCostError" style="-fx-text-fill: red;" />
 
