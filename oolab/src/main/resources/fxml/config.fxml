@@ -84,7 +84,7 @@
         </VBox>
 
         <!-- Przycisk startu rozgrywki -->
-        <Button fx:id="startNewGameButton" layoutX="1043.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zacznij rozgrywkę" />
+        <Button layoutX="1043.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zacznij rozgrywkę" />
 
         <Text layoutX="738.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Konfiguruj rozgrywkę" />
 

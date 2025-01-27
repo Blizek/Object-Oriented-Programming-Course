@@ -35,10 +35,6 @@ public class GameMapPresenter implements MapChangeListener {
     @FXML
     private ImageView watchingAnimalImage;
     @FXML
-    private HBox gameStats;
-    @FXML
-    private AnchorPane chart1, chart2, messagesLog, gameMapPane, selectedAnimalStats;
-    @FXML
     private Button runStopGameplayButton, showPreferredFieldsButton, showAnimalsWithMostPopularGeneButton, endGameButton;
     @FXML
     private LineChart<String, Integer> animalsChart, grassesChart;
@@ -73,24 +69,6 @@ public class GameMapPresenter implements MapChangeListener {
         }
     }
 
-//    private void numerateColumnAndRow() {
-//        Label label = new Label("y/x");
-//        mapGrid.add(label, 0, 0);
-//        GridPane.setHalignment(label, HPos.CENTER);
-//
-//        for (int x = lowerLeft.getX(); x <= upperRight.getX(); x++) {
-//            label = new Label(String.valueOf(x));
-//            mapGrid.add(label, x - lowerLeft.getX() + 1, 0);
-//            GridPane.setHalignment(label, HPos.CENTER);
-//        }
-//
-//        for (int y = upperRight.getY(); y >= lowerLeft.getY(); y--) {
-//            label = new Label(String.valueOf(y));
-//            mapGrid.add(label, 0, upperRight.getY() - y + 1);
-//            GridPane.setHalignment(label, HPos.CENTER);
-//        }
-//    }
-
     private void fillMap() {
         List<WorldElement> elements = worldMap.getElements();
         for (WorldElement element : elements) {
@@ -114,7 +92,6 @@ public class GameMapPresenter implements MapChangeListener {
         drawRows();
 
         setGridCellsColors();
-        // numerateColumnAndRow();
         if (watchingAnimal != null && watchingAnimalDeadDay == -1) {
             setGridCellsColors(List.of(watchingAnimal.getPosition()), "f5b600");
         }
@@ -136,13 +113,12 @@ public class GameMapPresenter implements MapChangeListener {
             for (int j = 0; j < upperRight.getY() + 1; j++) {
                 Rectangle rectangle = new Rectangle(boxSize, boxSize);
                 rectangle.setStyle("-fx-fill: #555555");
-                mapGrid.add(rectangle, j, i);
+                mapGrid.add(rectangle, i, j);
             }
         }
     }
 
     private void setGridCellsColors(Vector2d lowerLeft, Vector2d upperRight) {
-        // setGridCellsColors();
         for (int i = lowerLeft.getX(); i <= upperRight.getX(); i++) {
             for (int j = lowerLeft.getY(); j <= upperRight.getY(); j++) {
                 Rectangle rectangle = new Rectangle(boxSize, boxSize);
@@ -153,7 +129,6 @@ public class GameMapPresenter implements MapChangeListener {
     }
 
     private void setGridCellsColors(List<Vector2d> positions, String hexColor) {
-        // setGridCellsColors();
         for (Vector2d position : positions) {
             Rectangle rectangle = new Rectangle(boxSize, boxSize);
             rectangle.setStyle("-fx-fill: #" + hexColor);
@@ -200,7 +175,6 @@ public class GameMapPresenter implements MapChangeListener {
             drawRows();
 
             setGridCellsColors();
-            // numerateColumnAndRow();
 
             fillMap();
             updateSimulationStatistics();
@@ -299,7 +273,7 @@ public class GameMapPresenter implements MapChangeListener {
         boolean isRunning = simulation.isRunning();
 
         if (!isRunning) {
-            watchingAnimal = (Animal) worldMap.dominantAnimalAtPosition(position);
+            watchingAnimal = worldMap.dominantAnimalAtPosition(position);
             watchingAnimalDeadDay = -1; // oznacza że jeszcze żyje
 
             clearGrid();

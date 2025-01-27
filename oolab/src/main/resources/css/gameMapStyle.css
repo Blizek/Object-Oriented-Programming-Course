@@ -1,49 +1,43 @@
-/* General AnchorPane */
 AnchorPane {
     -fx-background-color: #23272a;
     -fx-border-color: #4b4f53;
     -fx-border-radius: 10px;
-    -fx-padding: 0; /* Usunięcie odstępów wewnętrznych */
+    -fx-padding: 0;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 2);
 }
 
-/* Text Styling */
 Text {
     -fx-font-family: 'Arial', sans-serif;
     -fx-font-size: 14px;
     -fx-fill: #ffffff;
-    -fx-font-weight: normal; /* Normalny tekst */
+    -fx-font-weight: normal;
 }
 
-/* Teksty w gameStats */
 #gameStats Text {
-    -fx-font-weight: normal; /* Normalna czcionka */
+    -fx-font-weight: normal;
 }
 
-/* VBox Styling - Zwiększenie odstępu od góry */
 VBox {
     -fx-background-color: #23272a;
     -fx-border-color: #4b4f53;
     -fx-border-radius: 10px;
-    -fx-padding: 10 0 0 0; /* Dodanie odstępu od góry */
-    -fx-spacing: 10; /* Większe odstępy między wierszami */
+    -fx-padding: 10 0 0 0;
+    -fx-spacing: 10;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0.1, 0, 2);
 }
 
-/* HBox Styling */
+
 HBox {
-    -fx-spacing: 10; /* Większe odstępy między elementami w HBox */
-    -fx-padding: 0 0 0 5; /* Odsunięcie całego HBox od lewej krawędzi i od góry */
-    -fx-alignment: center-left; /* Wyrównanie do lewej strony */
+    -fx-spacing: 10;
+    -fx-padding: 0 0 0 5;
+    -fx-alignment: center-left;
 }
 
-/* Pierwszy tekst w każdym HBox - Specyficzne odsunięcie */
 HBox Text:first-child {
-    -fx-translate-x: 10; /* Dodatkowe przesunięcie pierwszego tekstu od lewej strony */
+    -fx-translate-x: 10;
 }
 
 
-/* Button Styling */
 Button {
     -fx-background-color: #4caf50;
     -fx-text-fill: #ffffff;
@@ -64,7 +58,7 @@ Button:focused {
     -fx-background-color: #4caf50;
 }
 
-/* ScrollPane Styling */
+
 ScrollPane {
     -fx-background-color: #23272a;
     -fx-border-color: #4b4f53;
@@ -76,7 +70,7 @@ ScrollPane .viewport {
     -fx-background-color: #23272a;
 }
 
-/* Checkbox Styling */
+
 CheckBox {
     -fx-font-family: 'Arial', sans-serif;
     -fx-font-size: 12px;
@@ -88,55 +82,46 @@ CheckBox:selected {
     -fx-mark-color: #5865f2;
 }
 
-/* Ogólne ustawienia wykresu */
 .chart {
-    -fx-background-color: transparent; /* Przezroczyste tło wykresu */
+    -fx-background-color: transparent;
 }
 
-/* Przezroczyste tło obszaru danych */
 .chart-plot-background {
-    -fx-background-color: transparent; /* Przezroczyste tło */
-    -fx-border-color: transparent; /* Usunięcie ramki obszaru danych */
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
 }
 
-/* Napisy osi (CategoryAxis i NumberAxis) */
 .chart-axis {
-    -fx-tick-label-fill: white; /* Białe etykiety osi */
-    -fx-font-size: 14px; /* Zwiększenie rozmiaru czcionki */
-    -fx-font-weight: bold; /* Pogrubienie tekstu */
+    -fx-tick-label-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
 }
 
 .chart-axis .axis-label {
-    /*-fx-text-fill: white; !* Biały tekst dla nazw osi *!*/
-    -fx-font-size: 16px; /* Większy rozmiar czcionki dla nazw osi */
-    -fx-font-weight: bold; /* Pogrubienie nazw osi */
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
 }
 
 
-/* Styl linii danych */
 .chart-series-line {
-    -fx-stroke: white; /* Biała linia wykresu */
-    -fx-stroke-width: 2px; /* Grubość linii */
-    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.1, 0, 0); /* Cień dla linii */
+    -fx-stroke: white;
+    -fx-stroke-width: 2px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 255, 255, 0.5), 10, 0.1, 0, 0);
 }
 
-/* Punkty na wykresie (chart-symbol) */
 .chart-symbol {
-    -fx-background-color: green, transparent; /* Zielone wypełnienie na przezroczystym tle */
-    -fx-background-radius: 5px; /* Zaokrąglenie punktów */
-    -fx-padding: 3; /* Rozmiar punktów */
-    -fx-border-color: green; /* Obramowanie punktów w kolorze zielonym */
+    -fx-background-color: green, transparent;
+    -fx-background-radius: 5px;
+    -fx-padding: 3;
+    -fx-border-color: green;
     -fx-border-width: 1px;
 }
 
-/* Legenda */
 .chart-legend {
-    /*-fx-text-fill: white; !* Biały tekst w legendzie *!*/
-    -fx-background-color: transparent; /* Przezroczyste tło legendy */
+    -fx-background-color: transparent;
 }
 
 .chart-legend-item-symbol {
-    /*-fx-background-color: white; !* Symbol w legendzie biały *!*/
     -fx-background-radius: 3px;
 }
 

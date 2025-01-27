@@ -33,6 +33,5 @@ public class WorldElementBox extends VBox {
 
         this.getChildren().addAll(imageView);
         this.setAlignment(Pos.CENTER);
-
     }
 }

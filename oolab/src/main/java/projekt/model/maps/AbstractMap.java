@@ -122,7 +122,6 @@ public abstract class AbstractMap {
 
     public void move(Animal animal) {
         Vector2d previousAnimalPosition = animal.getPosition();
-        Direction previousAnimalDirection = animal.getDirection();
         List<Animal> animalsAtPreviousPosition = animalsMap.get(previousAnimalPosition);
         if (animalsAtPreviousPosition != null) {
             animalsAtPreviousPosition.remove(animal);
@@ -134,15 +133,6 @@ public abstract class AbstractMap {
         subtractMoveEnergy(animal, previousAnimalPosition);
 
         animalsMap.computeIfAbsent(animal.getPosition(), k -> new ArrayList<>()).add(animal);
-
-//        if (!previousAnimalDirection.equals(animal.getDirection())) {
-//            System.out.printf("Animal changed direction from %s to %s%n", previousAnimalDirection, animal.getDirection());
-//        }
-//        if (!previousAnimalPosition.equals(animal.getPosition())){
-//            System.out.printf("Animal moved from %s to %s%n", previousAnimalPosition, animal.getPosition());
-//        }
-//        System.out.println("Animal's energy: " + animal.getEnergy());
-        // System.out.println(mapVisualizer.draw(bottomLeftCorner, topRightCorner));
     }
 
     protected abstract void subtractMoveEnergy(Animal animal, Vector2d previousAnimalPosition);

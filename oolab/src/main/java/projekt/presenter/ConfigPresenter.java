@@ -17,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import projekt.Simulation;
-import projekt.SimulationEngine;
 import projekt.model.maps.AbstractMap;
 import projekt.model.maps.EarthMap;
 import projekt.model.maps.PoleMap;
@@ -27,12 +26,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ConfigPresenter {
-    private final List<Simulation> simulations = new ArrayList<>();
     @FXML
     private TextField mapHeightInput, mapWidthInput, startGrassAmountInput, eatenGrassEnergyInput, grassGrownAmountInput, startAnimalsAmountInput,
             startAnimalEnergyInput, minEnergyToFullAnimalInput, sexEnergyCostInput, minMutationAmountInput, maxMutationAmountInput,
@@ -44,10 +40,7 @@ public class ConfigPresenter {
             startAnimalsAmountError, startAnimalEnergyError, minEnergyToFullAnimalError, sexEnergyCostError,
             minMutationAmountError, maxMutationAmountError, animalGenomeLengthError, gameplaySpeedError, configNameError;
     @FXML
-    private Button startNewGameButton;
-    @FXML
     private VBox savedConfigsVBox;
-    private SimulationEngine simulationEngine;
 
     private int mapHeight;
     private int mapWidth;
@@ -67,7 +60,6 @@ public class ConfigPresenter {
     private boolean isSaveLogs;
 
     private AbstractMap map;
-    private GameMapPresenter presenter;
 
 
     public void initialize() {
@@ -99,7 +91,7 @@ public class ConfigPresenter {
 
     private void getSavedConfigs() {
         savedConfigsVBox.getChildren().clear();
-        String path = "src/main/resources/savedConfigs";
+        String path = "oolab/src/main/resources/savedConfigs";
         File directory = new File(path);
         System.out.println(directory);
 
@@ -121,7 +113,7 @@ public class ConfigPresenter {
     private void uploadSavedConfig(String fileName) {
         Gson gson = new Gson();
         ConfigData configData;
-        try (FileReader reader = new FileReader("src/main/resources/savedConfigs/" + fileName)) {
+        try (FileReader reader = new FileReader("oolab/src/main/resources/savedConfigs/" + fileName)) {
             configData = gson.fromJson(reader, ConfigData.class);
         } catch (JsonIOException | JsonSyntaxException | IOException e) {
             throw new RuntimeException(e);
@@ -173,8 +165,6 @@ public class ConfigPresenter {
             });
             simulationThread.setDaemon(true);
             simulationThread.start();
-        } else {
-            System.out.println("Niegotowa rozgrywka");
         }
     }
 
@@ -369,7 +359,7 @@ public class ConfigPresenter {
         configData.setSaveLogs(isSaveLogs);
         Gson gson = new Gson();
 
-        String finalFilePath = "src/main/resources/" + filePath;
+        String finalFilePath = "oolab/src/main/resources/" + filePath;
         try {
             // Create the directory if it doesn't exist
             File file = new File(finalFilePath);

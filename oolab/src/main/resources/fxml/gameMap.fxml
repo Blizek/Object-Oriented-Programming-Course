@@ -26,7 +26,7 @@
                         <Text fx:id="animalsCounterText" strokeType="OUTSIDE" strokeWidth="0.0" />
                      </children>
                   </HBox>
-                  <HBox fx:id="gameStats" prefHeight="20.0" prefWidth="219.0">
+                  <HBox prefHeight="20.0" prefWidth="219.0">
                      <children>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Łączna liczba traw:" />
                         <Text fx:id="grassCounterText" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -64,7 +64,7 @@
                   </HBox>
                </children>
             </VBox>
-            <AnchorPane fx:id="chart1" layoutX="11.0" layoutY="290.0" prefHeight="247.0" prefWidth="249.0">
+            <AnchorPane layoutX="11.0" layoutY="290.0" prefHeight="247.0" prefWidth="249.0">
                <children>
                   <LineChart fx:id="animalsChart" layoutX="-2.0" prefHeight="231.0" prefWidth="250.0">
                     <xAxis>
@@ -76,7 +76,7 @@
                   </LineChart>
                   <Text layoutX="11.0" layoutY="240.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wykres liczby zwierzaków na mapie" />
                </children></AnchorPane>
-            <AnchorPane fx:id="chart2" layoutX="13.0" layoutY="553.0" prefHeight="247.0" prefWidth="249.0">
+            <AnchorPane layoutX="13.0" layoutY="553.0" prefHeight="247.0" prefWidth="249.0">
                <children>
                   <LineChart fx:id="grassesChart" prefHeight="231.0" prefWidth="250.0">
                     <xAxis>
@@ -97,7 +97,7 @@
       </AnchorPane>
       <AnchorPane layoutX="274.0" prefHeight="821.0" prefWidth="812.0">
          <children>
-            <AnchorPane fx:id="messagesLog" prefHeight="68.0" prefWidth="812.0">
+            <AnchorPane prefHeight="68.0" prefWidth="812.0">
                <children>
                   <Text layoutX="62.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dzień:" />
                   <Text fx:id="dayCounterText" layoutX="108.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" />
@@ -105,7 +105,7 @@
                   <Text fx:id="mapIdText" layoutX="482.0" layoutY="39.0" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </AnchorPane>
-             <AnchorPane fx:id="gameMapPane" layoutY="68.0" prefHeight="753.0" prefWidth="812.0">
+             <AnchorPane layoutY="68.0" prefHeight="753.0" prefWidth="812.0">
                  <children>
                      <GridPane fx:id="mapGrid" alignment="CENTER" hgap="5.0" prefHeight="753.0" prefWidth="812.0" vgap="5.0">
                      </GridPane>
@@ -114,7 +114,7 @@
 
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="selectedAnimalStats" layoutX="1086.0" prefHeight="821.0" prefWidth="274.0">
+      <AnchorPane layoutX="1086.0" prefHeight="821.0" prefWidth="274.0">
          <children>
             <ImageView fx:id="watchingAnimalImage" fitHeight="160.0" fitWidth="160.0" layoutX="57.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true">
                <image>

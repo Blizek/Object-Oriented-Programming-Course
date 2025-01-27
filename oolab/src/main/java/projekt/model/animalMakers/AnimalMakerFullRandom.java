@@ -1,6 +1,5 @@
 package projekt.model.animalMakers;
 
-import projekt.model.Animal;
 import projekt.model.random.RandomGenomeMutationSelector;
 
 import java.util.List;

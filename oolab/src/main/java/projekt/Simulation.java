@@ -153,7 +153,7 @@ public class Simulation implements Runnable {
 
     public void writeToLog() {
         if (isLogged) {
-            String fileName = "src/main/resources/savedLogs/simulation_statistics_" + gameMap.getMapUUID() + ".csv";
+            String fileName = "oolab/src/main/resources/savedLogs/simulation_statistics_" + gameMap.getMapUUID() + ".csv";
             File file = new File(fileName);
             boolean fileExists = file.exists() && file.length() > 0;
 

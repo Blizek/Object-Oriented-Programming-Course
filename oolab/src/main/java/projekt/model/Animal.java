@@ -106,10 +106,6 @@ public class Animal implements WorldElement {
         return descendants;
     }
 
-    public void setAnimalPosition(int x, int y) {
-        animalPosition = new Vector2d(x, y);
-    }
-
     public void moveEnergyUpdate(float energyLossMultiplier) {
         this.animalEnergy -= (int) (10 * energyLossMultiplier);
     }

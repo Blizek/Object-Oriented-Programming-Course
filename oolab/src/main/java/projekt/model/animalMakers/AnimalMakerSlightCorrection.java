@@ -1,7 +1,5 @@
 package projekt.model.animalMakers;
 
-import projekt.model.Animal;
-
 import java.util.List;
 import java.util.Random;
 
