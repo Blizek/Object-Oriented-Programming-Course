@@ -149,4 +149,7 @@ public class Animal implements WorldElement {
         animalEnergy += energy;
     }
 
+    public void setDirection(Direction direction) {
+        this.animalDirection = direction;
+    }
 }

@@ -151,9 +151,9 @@ public class ConfigPresenter {
         if (checkInputCorrectness()) {
             getInputValues();
             if (isColdWarGameplay) {
-                map = new PoleMap(mapWidth - 1, mapHeight - 1, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+                map = new PoleMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             } else {
-                map = new EarthMap(mapWidth - 1, mapHeight - 1, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
+                map = new EarthMap(mapWidth, mapHeight, startGrassAmount, grassGrownAmount, eatenGrassEnergy);
             }
 
             Thread simulationThread = new Thread(() -> {
@@ -345,8 +345,6 @@ public class ConfigPresenter {
 
         if (isConfigCorrect) {
             saveToJson("savedConfigs/" + configNameInput.getText() + ".json");
-        } else {
-            System.out.println("Popraw błędy");
         }
     }
 

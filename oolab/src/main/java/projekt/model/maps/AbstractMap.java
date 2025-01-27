@@ -22,7 +22,7 @@ public abstract class AbstractMap {
     protected final int grassEnergy;
 
     public AbstractMap(int width, int height, int startGrassCount, int grassGrowthCount, int grassEnergy) {
-        topRightCorner = new Vector2d(width, height);
+        topRightCorner = new Vector2d(width - 1, height - 1);
         mapBoundary = new Boundary(bottomLeftCorner, topRightCorner);
         this.grassGrowthCount = grassGrowthCount;
         this.grassEnergy = grassEnergy;
@@ -160,7 +160,7 @@ public abstract class AbstractMap {
         return elementsAtPosition;
     }
 
-    public WorldElement dominantAnimalAtPosition(Vector2d position) {
+    public Animal dominantAnimalAtPosition(Vector2d position) {
         List<Animal> animalsAtPosition = animalsMap.get(position);
         if (animalsAtPosition != null) {
             return setDominantAnimal(animalsAtPosition);
