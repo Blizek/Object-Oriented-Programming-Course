@@ -10,7 +10,7 @@ public class AnimalMakerSlightCorrection extends AbstractAnimalMaker {
 
     @Override
     protected void modifyGenome(List<Integer> childGenome) {
-        Random random = new Random();
+        Random random = new Random(); // nowy obiekt co wywołanie?
         int isNewGene; // if we change gene or not
         int isOneDownOrUp; // if the gene changes one up or one down
         for (int i = 0; i < childGenome.size(); i++) {

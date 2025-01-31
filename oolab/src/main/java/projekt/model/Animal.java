@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Animal implements WorldElement {
-    private final List<Integer> genome;
+    private final List<Integer> genome; // nie przydałaby się na to osobna klasa?
     private final Animal mother;
     private final Animal father;
     private final ArrayList<Animal> children = new ArrayList<>();
@@ -87,7 +87,7 @@ public class Animal implements WorldElement {
     }
 
     public List<Integer> getGenome() {
-        return genome;
+        return genome; // dehermetyzacja
     }
 
     public int getActualGenome() {
@@ -145,7 +145,7 @@ public class Animal implements WorldElement {
         animalEnergy += energy;
     }
 
-    public void setDirection(Direction direction) {
+    public void setDirection(Direction direction) { // publiczny setter?
         this.animalDirection = direction;
     }
 }

@@ -144,10 +144,10 @@ class Vector2dTest {
 
     /**
      * Test to check if Vector2d.opposite works properly (test covers:
-     *  - both x and y are positive
-     *  - both x and y are negative
-     *  - x and y have different signs
-     *  - x or y is zero)
+     * - both x and y are positive
+     * - both x and y are negative
+     * - x and y have different signs
+     * - x or y is zero)
      */
     @Test
     void isOppositeVectorRight() {

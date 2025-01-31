@@ -1,1 +1,18 @@
-{"mapHeight":5,"mapWidth":5,"startGrassAmount":10,"eatenGrassEnergy":30,"grassGrownAmount":5,"startAnimalsAmount":6,"startAnimalEnergy":50,"minEnergyToFullAnimal":20,"sexEnergyCost":10,"minMutationAmount":0,"maxMutationAmount":8,"animalGenomeLength":8,"gameplaySpeed":3000,"isColdWarGameplay":false,"isSlightCorrection":false, "isSaveLogs": true}
+{
+  "mapHeight": 5,
+  "mapWidth": 5,
+  "startGrassAmount": 10,
+  "eatenGrassEnergy": 30,
+  "grassGrownAmount": 5,
+  "startAnimalsAmount": 6,
+  "startAnimalEnergy": 50,
+  "minEnergyToFullAnimal": 20,
+  "sexEnergyCost": 10,
+  "minMutationAmount": 0,
+  "maxMutationAmount": 8,
+  "animalGenomeLength": 8,
+  "gameplaySpeed": 3000,
+  "isColdWarGameplay": false,
+  "isSlightCorrection": false,
+  "isSaveLogs": true
+}

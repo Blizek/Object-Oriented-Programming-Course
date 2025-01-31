@@ -14,7 +14,7 @@ public abstract class AbstractMap {
     protected final Vector2d bottomLeftCorner = new Vector2d(0, 0);
     protected final Vector2d topRightCorner;
     protected final Boundary mapBoundary;
-    protected final Boundary equatorMapBoundary;
+    protected final Boundary equatorMapBoundary; // map?
     protected final Vector2d equatorLowerLeft;
     protected final Vector2d equatorUpperRight;
     protected final List<MapChangeListener> observers = new ArrayList<>();
@@ -89,7 +89,7 @@ public abstract class AbstractMap {
         observers.remove(observer);
     }
 
-    public void listenerObserver() {
+    public void listenerObserver() { // ? listener i observer to to samo; public?
         for (MapChangeListener observer : observers) {
             observer.mapChanged(this);
         }

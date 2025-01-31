@@ -9,96 +9,104 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane minHeight="895.0" minWidth="1292.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projekt.presenter.ConfigPresenter">
+<AnchorPane minHeight="895.0" minWidth="1292.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="projekt.presenter.ConfigPresenter">
     <children>
         <!-- Panel boczny z wczytaniem rozgrywek -->
         <AnchorPane layoutX="25.0" layoutY="26.0" prefHeight="819.0" prefWidth="353.0">
             <children>
                 <ScrollPane layoutX="28.0" layoutY="84.0" prefHeight="703.0" prefWidth="309.0">
-               <content>
-                  <VBox fx:id="savedConfigsVBox" prefHeight="61.0" prefWidth="274.0" />
-               </content></ScrollPane>
-                <Text layoutX="49.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Wczytaj zapisaną konfiguracją" textAlignment="CENTER" wrappingWidth="267.9999999999999" />
+                    <content>
+                        <VBox fx:id="savedConfigsVBox" prefHeight="61.0" prefWidth="274.0"/>
+                    </content>
+                </ScrollPane>
+                <Text layoutX="49.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0"
+                      text="Wczytaj zapisaną konfiguracją" textAlignment="CENTER" wrappingWidth="267.9999999999999"/>
             </children>
         </AnchorPane>
 
         <!-- VBox 1: Podstawowe parametry mapy -->
         <VBox layoutX="406.0" layoutY="86.0" prefHeight="472.0" prefWidth="268.0" spacing="10">
-            <Label text="Wysokość mapy:" />
-            <TextField fx:id="mapHeightInput" />
-            <Label fx:id="mapHeightError" style="-fx-text-fill: red;" />
+            <Label text="Wysokość mapy:"/>
+            <TextField fx:id="mapHeightInput"/>
+            <Label fx:id="mapHeightError" style="-fx-text-fill: red;"/>
 
-            <Label text="Szerokość mapy:" />
-            <TextField fx:id="mapWidthInput" />
-            <Label fx:id="mapWidthError" style="-fx-text-fill: red;" />
+            <Label text="Szerokość mapy:"/>
+            <TextField fx:id="mapWidthInput"/>
+            <Label fx:id="mapWidthError" style="-fx-text-fill: red;"/>
 
-            <Label text="Startowa liczba roślin:" />
-            <TextField fx:id="startGrassAmountInput" />
-            <Label fx:id="startGrassAmountError" style="-fx-text-fill: red;" />
+            <Label text="Startowa liczba roślin:"/>
+            <TextField fx:id="startGrassAmountInput"/>
+            <Label fx:id="startGrassAmountError" style="-fx-text-fill: red;"/>
 
-            <Label text="Energia za zjedzenie jednej rośliny:" />
-            <TextField fx:id="eatenGrassEnergyInput" />
-            <Label fx:id="eatenGrassEnergyError" style="-fx-text-fill: red;" />
+            <Label text="Energia za zjedzenie jednej rośliny:"/>
+            <TextField fx:id="eatenGrassEnergyInput"/>
+            <Label fx:id="eatenGrassEnergyError" style="-fx-text-fill: red;"/>
         </VBox>
 
         <!-- VBox 2: Parametry wzrostu roślin i energii zwierzaków -->
         <VBox layoutX="697.0" layoutY="86.0" prefHeight="472.0" prefWidth="268.0" spacing="10">
-            <Label text="Dzienna ilość nowych roślin:" />
-            <TextField fx:id="grassGrownAmountInput" />
-            <Label fx:id="grassGrownAmountError" style="-fx-text-fill: red;" />
+            <Label text="Dzienna ilość nowych roślin:"/>
+            <TextField fx:id="grassGrownAmountInput"/>
+            <Label fx:id="grassGrownAmountError" style="-fx-text-fill: red;"/>
 
-            <Label text="Startowa liczba zwierzaków:" />
-            <TextField fx:id="startAnimalsAmountInput" />
-            <Label fx:id="startAnimalsAmountError" style="-fx-text-fill: red;" />
+            <Label text="Startowa liczba zwierzaków:"/>
+            <TextField fx:id="startAnimalsAmountInput"/>
+            <Label fx:id="startAnimalsAmountError" style="-fx-text-fill: red;"/>
 
-            <Label text="Startowa energia zwierzaków:" />
-            <TextField fx:id="startAnimalEnergyInput" />
-            <Label fx:id="startAnimalEnergyError" style="-fx-text-fill: red;" />
+            <Label text="Startowa energia zwierzaków:"/>
+            <TextField fx:id="startAnimalEnergyInput"/>
+            <Label fx:id="startAnimalEnergyError" style="-fx-text-fill: red;"/>
 
-            <Label text="Minimalna energia do rozmnażania:" />
-            <TextField fx:id="minEnergyToFullAnimalInput" />
-            <Label fx:id="minEnergyToFullAnimalError" style="-fx-text-fill: red;" />
+            <Label text="Minimalna energia do rozmnażania:"/>
+            <TextField fx:id="minEnergyToFullAnimalInput"/>
+            <Label fx:id="minEnergyToFullAnimalError" style="-fx-text-fill: red;"/>
         </VBox>
 
         <!-- VBox 3: Parametry mutacji -->
         <VBox layoutX="997.0" layoutY="86.0" prefHeight="426.0" prefWidth="268.0" spacing="10">
-            <Label text="Tracona energia rodziców na potomka" />
-            <TextField fx:id="sexEnergyCostInput" />
-            <Label fx:id="sexEnergyCostError" style="-fx-text-fill: red;" />
+            <Label text="Tracona energia rodziców na potomka"/>
+            <TextField fx:id="sexEnergyCostInput"/>
+            <Label fx:id="sexEnergyCostError" style="-fx-text-fill: red;"/>
 
-            <Label text="Minimalna liczba mutacji:" />
-            <TextField fx:id="minMutationAmountInput" />
-            <Label fx:id="minMutationAmountError" style="-fx-text-fill: red;" />
+            <Label text="Minimalna liczba mutacji:"/>
+            <TextField fx:id="minMutationAmountInput"/>
+            <Label fx:id="minMutationAmountError" style="-fx-text-fill: red;"/>
 
-            <Label text="Maksymalna liczba mutacji:" />
-            <TextField fx:id="maxMutationAmountInput" />
-            <Label fx:id="maxMutationAmountError" style="-fx-text-fill: red;" />
+            <Label text="Maksymalna liczba mutacji:"/>
+            <TextField fx:id="maxMutationAmountInput"/>
+            <Label fx:id="maxMutationAmountError" style="-fx-text-fill: red;"/>
 
-            <Label text="Długość genomu zwierzaków:" />
-            <TextField fx:id="animalGenomeLengthInput" />
-            <Label fx:id="animalGenomeLengthError" style="-fx-text-fill: red;" />
+            <Label text="Długość genomu zwierzaków:"/>
+            <TextField fx:id="animalGenomeLengthInput"/>
+            <Label fx:id="animalGenomeLengthError" style="-fx-text-fill: red;"/>
 
-            <Label text="Szybkość rozgrywki (ms):" />
-            <TextField fx:id="gameplaySpeedInput" />
-            <Label fx:id="gameplaySpeedError" style="-fx-text-fill: red;" />
+            <Label text="Szybkość rozgrywki (ms):"/>
+            <TextField fx:id="gameplaySpeedInput"/>
+            <Label fx:id="gameplaySpeedError" style="-fx-text-fill: red;"/>
         </VBox>
 
         <!-- Przycisk startu rozgrywki -->
-        <Button layoutX="1043.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="222.0" text="Zacznij rozgrywkę" />
+        <Button layoutX="1043.0" layoutY="807.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0"
+                prefWidth="222.0" text="Zacznij rozgrywkę"/>
 
-        <Text layoutX="738.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Konfiguruj rozgrywkę" />
+        <Text layoutX="738.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Konfiguruj rozgrywkę"/>
 
         <AnchorPane layoutX="406.0" layoutY="579.0" prefHeight="200.0" prefWidth="859.0">
             <children>
-                <Text layoutX="347.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warianty rozgrywki" />
-                <CheckBox fx:id="coldWarGameplayCheckbox" layoutX="25.0" layoutY="71.0" mnemonicParsing="false" text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)" />
-                <CheckBox fx:id="geneticChangeGameplayCheckbox" layoutX="25.0" layoutY="127.0" mnemonicParsing="false" text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)" />
-            <CheckBox fx:id="saveLogsCSVCheckbox" layoutX="567.0" layoutY="71.0" mnemonicParsing="false" text="Zapisz logi rozgrywki do pliku CSV" />
+                <Text layoutX="347.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Warianty rozgrywki"/>
+                <CheckBox fx:id="coldWarGameplayCheckbox" layoutX="25.0" layoutY="71.0" mnemonicParsing="false"
+                          text="Zimna wojna (im bliżej biegunów tym więcej energii tracą zwierzaki)"/>
+                <CheckBox fx:id="geneticChangeGameplayCheckbox" layoutX="25.0" layoutY="127.0" mnemonicParsing="false"
+                          text="Genetyczna zmiana (losowa zmiana każdego genu o jeden w górę lub w dół)"/>
+                <CheckBox fx:id="saveLogsCSVCheckbox" layoutX="567.0" layoutY="71.0" mnemonicParsing="false"
+                          text="Zapisz logi rozgrywki do pliku CSV"/>
             </children>
         </AnchorPane>
-      <Button fx:id="saveConfigButton" layoutX="720.0" layoutY="807.0" mnemonicParsing="false" onAction="#saveConfig" prefHeight="40.0" prefWidth="222.0" text="Zapisz konfigurację" />
-      <TextField fx:id="configNameInput" layoutX="406.0" layoutY="819.0" prefHeight="28.0" prefWidth="236.0" />
-      <Label layoutX="406.0" layoutY="791.0" text="Nazwa rozgrywki:" />
-      <Label fx:id="configNameError" layoutX="406.0" layoutY="855.0" style="-fx-text-fill: red;" />
+        <Button fx:id="saveConfigButton" layoutX="720.0" layoutY="807.0" mnemonicParsing="false" onAction="#saveConfig"
+                prefHeight="40.0" prefWidth="222.0" text="Zapisz konfigurację"/>
+        <TextField fx:id="configNameInput" layoutX="406.0" layoutY="819.0" prefHeight="28.0" prefWidth="236.0"/>
+        <Label layoutX="406.0" layoutY="791.0" text="Nazwa rozgrywki:"/>
+        <Label fx:id="configNameError" layoutX="406.0" layoutY="855.0" style="-fx-text-fill: red;"/>
     </children>
 </AnchorPane>

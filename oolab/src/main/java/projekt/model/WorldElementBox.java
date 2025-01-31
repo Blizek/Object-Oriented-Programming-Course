@@ -1,4 +1,4 @@
-package projekt.model;
+package projekt.model; // czy to element modelu?
 
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;

@@ -159,7 +159,7 @@ public class ConfigPresenter {
                     });
 
 
-                } catch (Exception e) {
+                } catch (Exception e) { // catch co?
                     e.printStackTrace();
                 }
             });
@@ -265,7 +265,7 @@ public class ConfigPresenter {
         }
 
         return isDataCorrect;
-    }
+    } // ta metoda jest przerośnięta
 
     private void getInputValues() {
         mapHeight = Integer.parseInt(mapHeightInput.getText());

@@ -14,7 +14,7 @@ public class ConfigData {
     private int maxMutationAmount;
     private int animalGenomeLength;
     private int gameplaySpeed;
-    private boolean isColdWarGameplay;
+    private boolean isColdWarGameplay; // dowcipne nazwy cieszą dość krótko, później się człowiek zastanawia co to jest
     private boolean isSlightCorrection;
     private boolean isSaveLogs;
 

@@ -5,7 +5,7 @@ import java.util.*;
 public class RandomGenomeMutationSelector implements Iterable<Integer> {
     private final int genomeToMutateAmount;
     private final List<Integer> notMutatedGenomes = new ArrayList<>();
-    private final Random random = new Random();
+    private final Random random = new Random(); // static?
 
     public RandomGenomeMutationSelector(int genomeLength, int genomeToMutateAmount) {
         this.genomeToMutateAmount = genomeToMutateAmount;
@@ -18,6 +18,7 @@ public class RandomGenomeMutationSelector implements Iterable<Integer> {
     public Iterator<Integer> iterator() {
         return new Iterator<Integer>() {
             private int currentMutatedCounter = 0;
+
             @Override
             public boolean hasNext() {
                 return currentMutatedCounter < genomeToMutateAmount;

@@ -18,7 +18,7 @@ class AbstractMapTest {
     void testPlaceAnimal() {
         // given
         AbstractMap map = new EarthMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),50, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 50, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
 
         // when
         map.place(animal);
@@ -43,7 +43,7 @@ class AbstractMapTest {
     void testRemoveAnimal() {
         // given
         AbstractMap map = new EarthMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),0, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 0, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
         map.place(animal);
 
         // when
@@ -73,7 +73,7 @@ class AbstractMapTest {
     void testMoveAnimal() {
         // given
         AbstractMap map = new EarthMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),0, List.of(0, 0, 0, 0, 0), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 0, List.of(0, 0, 0, 0, 0), null, null, 10);
         map.place(animal);
 
         // when
@@ -96,7 +96,7 @@ class AbstractMapTest {
     void testGetAnimals() {
         // given
         AbstractMap map = new EarthMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),0, List.of(0, 0, 0, 0, 0), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 0, List.of(0, 0, 0, 0, 0), null, null, 10);
 
         // when
         map.place(animal);
@@ -144,9 +144,9 @@ class AbstractMapTest {
     void testMovingRightOutOfBounds() {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
-        Animal animal1 = new Animal(new Vector2d(9, 4),0, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(new Vector2d(9, 4),0, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(new Vector2d(9, 4),0, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(new Vector2d(9, 4), 0, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(new Vector2d(9, 4), 0, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(new Vector2d(9, 4), 0, List.of(0), null, null, 10);
         animal1.setDirection(Direction.EAST);
         animal2.setDirection(Direction.NORTHEAST);
         animal3.setDirection(Direction.SOUTHEAST);
@@ -172,9 +172,9 @@ class AbstractMapTest {
     void testMovingLeftOutOfBounds() {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
-        Animal animal1 = new Animal(new Vector2d(0, 4),0, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(new Vector2d(0, 4),0, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(new Vector2d(0, 4),0, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(new Vector2d(0, 4), 0, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(new Vector2d(0, 4), 0, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(new Vector2d(0, 4), 0, List.of(0), null, null, 10);
         animal1.setDirection(Direction.WEST);
         animal2.setDirection(Direction.NORTHWEST);
         animal3.setDirection(Direction.SOUTHWEST);
@@ -200,9 +200,9 @@ class AbstractMapTest {
     void testMovingUpOutOfBounds() {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
-        Animal animal1 = new Animal(new Vector2d(4, 9),0, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(new Vector2d(4, 9),0, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(new Vector2d(4, 9),0, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(new Vector2d(4, 9), 0, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(new Vector2d(4, 9), 0, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(new Vector2d(4, 9), 0, List.of(0), null, null, 10);
         animal1.setDirection(Direction.NORTH);
         animal2.setDirection(Direction.NORTHEAST);
         animal3.setDirection(Direction.NORTHWEST);
@@ -228,9 +228,9 @@ class AbstractMapTest {
     void testMovingDownOutOfBounds() {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
-        Animal animal1 = new Animal(new Vector2d(4, 0),0, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(new Vector2d(4, 0),0, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(new Vector2d(4, 0),0, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(new Vector2d(4, 0), 0, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(new Vector2d(4, 0), 0, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(new Vector2d(4, 0), 0, List.of(0), null, null, 10);
         animal1.setDirection(Direction.SOUTH);
         animal2.setDirection(Direction.SOUTHWEST);
         animal3.setDirection(Direction.SOUTHEAST);
@@ -257,9 +257,9 @@ class AbstractMapTest {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
         Vector2d position = new Vector2d(5, 5);
-        Animal animal1 = new Animal(position,10, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(position,20, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(position,30, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(position, 10, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(position, 20, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(position, 30, List.of(0), null, null, 10);
         map.place(animal1);
         map.place(animal2);
         map.place(animal3);
@@ -273,9 +273,9 @@ class AbstractMapTest {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
         Vector2d position = new Vector2d(5, 5);
-        Animal animal1 = new Animal(position,10, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(position,10, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(position,10, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(position, 10, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(position, 10, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(position, 10, List.of(0), null, null, 10);
         map.place(animal1);
         map.place(animal2);
         map.place(animal3);
@@ -293,9 +293,9 @@ class AbstractMapTest {
         // given
         AbstractMap map = new EarthMap(10, 10, 15, 2, 5);
         Vector2d position = new Vector2d(5, 5);
-        Animal animal1 = new Animal(position,10, List.of(0), null, null, 10);
-        Animal animal2 = new Animal(position,10, List.of(0), null, null, 10);
-        Animal animal3 = new Animal(position,10, List.of(0), null, null, 10);
+        Animal animal1 = new Animal(position, 10, List.of(0), null, null, 10);
+        Animal animal2 = new Animal(position, 10, List.of(0), null, null, 10);
+        Animal animal3 = new Animal(position, 10, List.of(0), null, null, 10);
         map.place(animal1);
         map.place(animal2);
         map.place(animal3);

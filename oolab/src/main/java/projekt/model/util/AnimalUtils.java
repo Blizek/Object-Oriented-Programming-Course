@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class AnimalUtils {
-    public static Animal setDominantAnimal(List<Animal> animalsOnPosition) {
+    public static Animal setDominantAnimal(List<Animal> animalsOnPosition) { // metoda zwraca zwierzę, więc się nazywa set...?
         List<Animal> animalsWithMaxEnergy = getAnimalsWithMaxValue(animalsOnPosition, Animal::getEnergy);
         if (animalsWithMaxEnergy.size() == 1) {
             return animalsWithMaxEnergy.getFirst();
@@ -21,7 +21,7 @@ public class AnimalUtils {
         if (animalsWithMaxChildren.size() == 1) {
             return animalsWithMaxChildren.getFirst();
         }
-        Random random = new Random();
+        Random random = new Random(); // nowy obiekt co wywołanie?
         return animalsWithMaxChildren.get(random.nextInt(animalsWithMaxChildren.size()));
     }
 

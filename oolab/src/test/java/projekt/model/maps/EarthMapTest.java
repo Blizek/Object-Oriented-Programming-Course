@@ -13,7 +13,7 @@ class EarthMapTest {
     void testIfTakesOnly10Energy() {
         // given
         AbstractMap map = new EarthMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),0, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 0, List.of(0, 1, 2, 3, 4, 5, 6, 7), null, null, 10);
         int startEnergy = animal.getEnergy();
         map.place(animal);
 

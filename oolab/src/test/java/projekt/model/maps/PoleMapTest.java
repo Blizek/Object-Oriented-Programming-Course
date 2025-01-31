@@ -14,7 +14,7 @@ class PoleMapTest {
     void checkIfAnimalLoseMoreEnergyNearPole() {
         // given
         AbstractMap map = new PoleMap(10, 10, 5, 2, 5);
-        Animal animal = new Animal(new Vector2d(2, 3),0, List.of(0), null, null, 10);
+        Animal animal = new Animal(new Vector2d(2, 3), 0, List.of(0), null, null, 10);
         int startEnergy = animal.getEnergy();
         map.place(animal);
         animal.setDirection(Direction.SOUTH);

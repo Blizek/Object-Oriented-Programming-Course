@@ -1,6 +1,6 @@
-package projekt;
+package projekt; // pakiet powinien mieć postać odwróconej nazwy domenowej
 
-import projekt.model.*;
+import projekt.model.*; // import co?
 import projekt.model.animalMakers.AbstractAnimalMaker;
 import projekt.model.animalMakers.AnimalMakerFullRandom;
 import projekt.model.animalMakers.AnimalMakerSlightCorrection;
@@ -16,8 +16,8 @@ import static projekt.model.util.AnimalUtils.setDominantAnimal;
 
 public class Simulation implements Runnable {
     private final List<Animal> animalsList = new ArrayList<>(); // list of all animals
-    private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all dead that day animals
-    private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day
+    private final List<Animal> newDeadAnimalsList = new ArrayList<>(); // list of all dead that day animals // czy to musi być atrybut?
+    private final List<Grass> newEatenGrass = new ArrayList<>(); // list of all eaten grasses that day // jw.
     private final HashMap<Vector2d, Animal> animalsMap;
     private final AbstractMap gameMap; // map of the game
     private final int grassGrownAmount;
@@ -139,7 +139,7 @@ public class Simulation implements Runnable {
                     gameMap.addNewGrasses();
                     gameMap.listenerObserver();
                     writeToLog();
-                    Thread.sleep(gameplaySpeed);
+                    Thread.sleep(gameplaySpeed); // czyli im większa prędkość tym dłużej śpimy, czyli tym mniejsza prędkość?
                 } else {
                     break;
                 }
@@ -149,9 +149,9 @@ public class Simulation implements Runnable {
         } catch (InterruptedException e) {
             System.out.println(e.getMessage());
         }
-    }
+    } // ta metoda jest przerośnięta
 
-    public void writeToLog() {
+    public void writeToLog() { // czy to zadanie dla symulacji?
         if (isLogged) {
             String fileName = "oolab/src/main/resources/savedLogs/simulation_statistics_" + gameMap.getMapUUID() + ".csv";
             File file = new File(fileName);
@@ -171,7 +171,7 @@ public class Simulation implements Runnable {
                 writer.append(Statistics.getAverageDaysLived(animalsList) + ",");
                 writer.append(Statistics.getAverageChildrenCount(animalsList) + "\n");
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(); // czy to dobry wybór?
             }
         }
     }

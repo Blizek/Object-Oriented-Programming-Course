@@ -50,7 +50,7 @@ public abstract class AbstractAnimalMaker {
         motherGenes = (int) (motherPercent * GenomeCount);
 
 
-        Random random = new Random();
+        Random random = new Random(); // nowy obiekt co wywołanie?
         int geneSide = random.nextInt(2);
 
         if (geneSide == 0) {
