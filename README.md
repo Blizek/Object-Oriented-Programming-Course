@@ -75,6 +75,11 @@ While paused, you can also:
 
 ![image](https://github.com/user-attachments/assets/0c1a6b75-9b27-479f-ae43-cf2820968b29)
 
+## Grade
+We received **27/32 points** for this project. Our teacher awarded us **16/16 for functionality** and **11/16 for code quality**.
+
+All of our teacher’s comments can be found on the **[projekt_komentarz](https://github.com/Blizek/Object-Oriented-Programming-Course/tree/projekt_komentarz)** branch.
+
 ## Technical Requirements
 - **Java 21**
 
