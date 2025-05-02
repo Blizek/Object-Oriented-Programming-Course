@@ -25,7 +25,7 @@ Each lab session was implemented on a separate branch. Below is a list of all br
 You can find the final project on the [projekt branch](https://github.com/Blizek/Object-Oriented-Programming-Course/tree/projekt).  
 During **lab0**, we completed [Git exercises](https://gitexercises.fracz.com/) — [here is my report (in Polish)](https://github.com/Blizek/Object-Oriented-Programming-Course/blob/main/Raport%20zadania%20git%20B%C5%82a%C5%BCej%20Naziemiec.pdf) covering 21 out of 23 exercises.
 
-## Grading
+## Grade
 Throughout the course, I earned **99.4/100 points**, including lab work, project, and additional bonus sessions.
 
 Each lab was submitted as a pull request. You can find them in the **Pull requests > Closed** section — each one corresponds to an individual lab.  
