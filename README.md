@@ -5,6 +5,8 @@
 A project for the Object-Oriented Programming course at AGH University of Krakow that simulates the lives of monkeys and their environment.  
 The simulation features customizable parameters, graphical visualization of the ecosystem, and real-time statistics for both the environment and individual animals.
 
+Full project description you can find [here](https://github.com/Soamid/obiektowe-lab/blob/master/proj/Readme.md)
+
 ## About
 
 This project simulates the challenging lives of monkeys living on a rectangular map, trying to survive by searching for food.  
