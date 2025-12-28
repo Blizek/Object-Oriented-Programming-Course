@@ -3,7 +3,7 @@
 ## Overview
 This repository contains laboratory and project code created during the Object-Oriented Programming (OOP) course at AGH University of Krakow, Faculty of Computer Science (Winter semester 2024/2025).  
 During the lab sessions, I developed an application from scratch that simulates the lives of animals on a map.  
-As part of the project, together with [Dawid Żak](https://github.com/depebul), we implemented an app called **Darwin World**.  
+As part of the project, together with [Dawid Żak](https://github.com/dazakdev), we implemented an app called **Darwin World**.  
 You can find more about the project in the [projekt branch](https://github.com/Blizek/Object-Oriented-Programming-Course/tree/projekt).
 
 ## Branches
