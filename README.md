@@ -85,4 +85,4 @@ All of our teacher’s comments can be found on the **[projekt_komentarz](https:
 
 ## Authors
 - **[Błażej Naziemiec](https://github.com/Blizek)**
-- **[Dawid Żak](https://github.com/depebul)**
+- **[Dawid Żak](https://github.com/dazakdev)**
